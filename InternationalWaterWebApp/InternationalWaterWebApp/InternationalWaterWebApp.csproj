@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InternationalWaterWebApp.Library\InternationalWaterWebApp.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ErrorLogs\" />
+    <Folder Include="wwwroot\IrrigationFile\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Common\AdvisorAddEdit.cshtml" />
+    <None Include="Views\Common\AdvisorPlans.cshtml" />
+    <None Include="Views\Common\Advisors.cshtml" />
+    <None Include="Views\Common\ChangePassword.cshtml" />
+    <None Include="Views\Common\FinancialDetailsEdit.cshtml" />
+    <None Include="Views\Common\ImproveyourFieldStewardshipRating.cshtml" />
+    <None Include="Views\Common\InterpretingEnvironmentalOutcomes.cshtml" />
+    <None Include="Views\Common\Interpretingyourfinancialresults.cshtml" />
+    <None Include="Views\Common\MyFieldEdit.cshtml" />
+    <None Include="Views\Common\MyFieldsDetails.cshtml" />
+    <None Include="Views\Common\Privacy.cshtml" />
+    <None Include="Views\Common\Producers.cshtml" />
+    <None Include="Views\Common\ProducersAddEdit.cshtml" />
+    <None Include="Views\Common\ResetPassword.cshtml" />
+    <None Include="Views\Common\Resources.cshtml" />
+    <None Include="Views\Common\SplashPage.cshtml" />
+    <None Include="Views\Common\StewardshipIndicesOverview.cshtml" />
+    <None Include="Views\Common\UnderstandingtheFSRCalculation.cshtml" />
+    <None Include="Views\Common\Whatdoesanadvisordo.cshtml" />
+    <None Include="Views\Common\YourFieldPlans.cshtml" />
+    <None Include="Views\Common\_FinancialDetails.cshtml" />
+    <None Include="Views\Common\_Print.cshtml" />
+    <None Include="Views\Common\_ZoneYearPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Npgsql" Version="7.0.1" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4lib_4bootstrap_4dist_4css_4bootstrap-reboot_1css_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

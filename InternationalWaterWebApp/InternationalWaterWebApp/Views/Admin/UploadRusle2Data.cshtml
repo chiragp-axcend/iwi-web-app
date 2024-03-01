@@ -1,0 +1,137 @@
+﻿@using InternationalWaterWebApp.Library.Common
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Submit RUSLE 2 Field Data";
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Submit RUSLE 2 Field Data</h2>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+                    {
+                        <div class="alert alert-success mt-3" role="alert">
+                            @TempData["Success"]
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Danger"])))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @TempData["Danger"]
+                            <span id="ExcelUploadError"></span>
+                        </div>
+                    }
+                    <div class="freportcard">
+                        <span class="mt-1"> Step 1 : Upload Excel Template for RUSLE 2</span>
+                        @using (Html.BeginForm(FormMethod.Post, new { @id = "UploadRusle2Data", enctype = "multipart/form-data", @class = "mt-3" }))
+                        {
+                            @Html.Hidden("hdn_FieldIds")
+                            <div class="align-items-center col-md-12 row">
+                                <div class="col-md-3">
+                                    <input type="file" name="file" accept=".xls,.xlsx" class="form-control" />
+                                </div>
+                               @* <div class="col-md-1">
+                                    <button type="button" class="border-2 btn bg-green form-control" id="AdminUploadRusle2data">
+                                        Go
+                                    </button>
+                                </div>*@
+                                <div class="col-md-2">
+                                    <button type="button" class="border-2 btn bg-green form-control" id="AdminbulkUploadRusle2data">
+                                       Go
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="excelUploadError" style="display: none;"><span class="Complsry">* &nbsp;</span>Please select a valid Excel file</span>
+                        }
+                    </div>
+                    <div class="freportcard mt-4 m-0 row" style="display: none;" id="onprocess">
+                        <div class="col-md-5 d-flex mt-3">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only"></span>
+                            </div>
+                            <h5 class="ms-3">Kindly wait a moment as we proceed to update the field data.</h5>
+                        </div>
+                    </div>
+                    <div class="freportcard mt-4 m-0 row" style="display: none;" id="offprocess">
+                        <div class="col-md-5 d-flex">
+                            <h4><i class="bi bi-check-circle" style=""></i></h4>
+                            <h5 class="ms-2" id="sucessmessage">
+                                
+                            </h5>
+                        </div>
+                        <div class="bordrBtn col-md-10 mt-2">
+                            <button type="button" class="btn btn-danger border-2" onclick="func_GetRusle2Results();">
+                                Get RUSLE 2 Results
+                            </button>
+                        </div>
+                        <br />
+                        <br />
+                        <div id="PreviewRusle2TableModel">
+                            <table id="PreviewRusle2Table" class="col-lg-12 mt-2 table table-responsive table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Zones</th>
+                                    <th>Year</th>
+                                    <th>Option</th>
+                                    <th>Crop</th>
+                                    <th>Tillage</th>
+                                        <th>Field Sed Delivery Ratio</th>
+                                        <th>Field Total P Delivery Ratio</th>
+                                        <th>Sediment Mass Leaving (tons/acre/year)</th>
+                                        <th>NET C Factor</th>
+                                        <th>CLIMATE_PTR</th>
+                                        <th>SOIL_PTR</th>
+                                        <th>MAN_BASE_PTR</th>
+                                        <th>slope_percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table rows will be populated here -->
+                            </tbody>
+                        </table>
+                        </div>
+                        @*<table class="mt-5 table table-responsive table-striped" id="ExportDataTable">
+                        <thead>
+                        <tr>
+                        <th>FieldID</th>
+                        <th>ProducerID</th>
+                        <th>M_Zone_ID</th>
+                        <th>Farmed</th>
+                        <th>YieldClass</th>
+                        <th>PerContrib</th>
+                        <th>Year</th>
+                        <th>Option ID</th>
+                        <th>CropType</th>
+                        <th>Tillage</th>
+                        <th>Acres</th>
+                        <th>Contrib_ac</th>
+                        <th>NonCont_ac</th>
+                        <th>R2_Manage</th>
+                        <th>CMZ</th>
+                        <th>MUKEY</th>
+                        <th>Soil_MUNAME</th>
+                        <th>HydrologicSoilGroup</th>
+                        <th>County_Name</th>
+                        <th>SlopePercent</th>
+                        <th>Field Sediment Delivery Ratio</th>
+                        <th>Field TP Delivery Ratio</th>
+                        <th>TP Mass leaving Landscape in lbs/yr</th>
+                        <th>Sediment Mass leaving landscape in ton/ac/yr</th>
+                        <th>Sediment Priority Resource Point Delivery Ratio </th>
+                        <th>Sediment Priority Resource Point Delivery Ratio</th>
+                        </tr>
+                        </thead>
+                        <tbody id="ExportRusle2Table">
+                        </tbody>
+                        </table>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,91 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@model Producers
+@{
+    ViewData["Title"] = "Manage Field Location Data";
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Field Location Data</h2>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+                    {
+                        <div class="alert alert-success mt-3" role="alert">
+                            @TempData["Success"]
+                        </div>
+                    }
+                    @*@using (Html.BeginForm("ManageFieldLocationData", "Admin", new { @class = "form-horizontal my-form-class", AutoPostBack = "true" }))*@
+                    @using (Html.BeginForm("ManageFieldLocationData", "Admin", FormMethod.Post, new { @class = "form-horizontal my-form-class", enctype = "multipart/form-data", AutoPostBack = "true" }))
+                    {
+                        <div class="freportcard">
+                            @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Danger"])))
+                            {
+                                <div class="alert alert-danger mt-3" role="alert">
+                                    @TempData["Danger"]
+                                </div>
+                            }
+                            <span class="mt-1"> Select Field to update</span>
+                            <div class="col-md-12 mt-3 row">
+                                <div class="col-md-3">
+                                    <span>Producer</span>
+                                    @Html.DropDownListFor(x => x.ProducerId,
+                                new SelectList(ViewBag.Producer, "Value", "Text"),"Select Producer",
+                                new { @id = "ProducerOnChnage", @class = "form-select",onchange= "func_GetFieldsFromProducer()" })
+                                </div>
+                                <div class="col-md-3">
+                                    <span>Field</span>
+                                    @Html.DropDownListFor(x => x.Field_Id, new SelectList(Enumerable.Empty<SelectListItem>()),  new { @id = "ProducerFields", @class = "form-select"})
+                                    <span id="Fieldlocatinn_fieldError">Field Is required</span>
+                                </div>
+                                <div class="col-md-1">
+                                    <span>&nbsp;</span>
+                                    <button type="button" class="border-2 btn bg-green form-control" id="ManageFieldLocationDataGoBtn">
+                                        Go
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="freportcard mt-4" id="div_LocationData" style="display: none">
+                            <div class="col-md-12 row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="FieldLocationOverview">Field Location Overview</label>
+                                        <textarea class="form-control" id="FieldLocationOverview" name="FieldLocationOverview" rows="7"></textarea>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label for="FieldLocationMzOverview">Management Zones Overview</label>
+                                        <textarea class="form-control" id="FieldLocationMzOverview" name="MzOverview" rows="7"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="FielsLocationImagUploadBtn">Field Location Image</label>
+                                        <div class="col-12">
+                                            <div class="col-9">
+                                                <input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" class="form-control" id="FielsLocationImagUploadBtn" />
+                                            </div>
+                                            <p><a href="javascript:;" class="w-auto" id="FielsLocationImagCancleBtn"><i class="bi bi-trash-fill"></i> Delete Image</a></p>
+                                            @* Preview image *@
+                                            <div>
+                                                <img id="imgPreview" width="100%" />
+                                                @*get image name hidden field *@
+                                                <input type="hidden" id="imgValueLocation" name="previewImageName" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn bg-green">Save Field Information</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

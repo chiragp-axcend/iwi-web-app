@@ -1,0 +1,217 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using System.Text.RegularExpressions;
+@model List<Zone>
+
+@{
+    ViewData["Title"] = @ViewBag.FieldName + ": Edit Financial Details";
+    int count = 0; int countTop = 0; string active = string.Empty; int fielOptionTab = 0; int countZoneName = 0; int countyear = 0; string FieldOptioIdName = string.Empty;
+
+}
+
+<section id="financial_detail_edit" class="FinancialDetails">
+    <div class="container-fluid">
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+             aria-label="breadcrumb">
+            <ol class="breadcrumb mt-4 mb-2">
+                <li class="breadcrumb-item"><a href="/Admin/Landing">Home</a></li>
+                <li class="breadcrumb-item"><a href="/Admin/MyFields">My Fields</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0);" onclick="history.go(-1);">Current Operation Details</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Financial Details</li>
+            </ol>
+        </nav>
+        @*<div class="innerPgeHeading mb-4">
+        <h3>@ViewBag.FieldName</h3>
+        </div>*@
+        <div class="container-fluid">
+            @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+            {
+                <div class="alert alert-success mt-3" role="alert">
+                    @TempData["Success"]
+                </div>
+            }
+            @*@if (Model != null && Model.Count > 0)
+            {*@
+            <h3 style="margin-top:15px;margin-bottom:25px;">@ViewBag.FieldName</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="javascript:void(0);" onclick="history.go(-1);" class="underline"><i class="bi bi-chevron-double-left"></i>Current Operation Details</a>
+                </div>
+                <div class="col-md-8">
+                     <div class="float-end">
+                        <input type="button" class="btn bg-green" value="Save All Data" onclick="func_SaveAllFinancialDataBtn()">
+                    </div>
+                    @using (Html.BeginForm("FinancialDetailsEdit", "Common", FormMethod.Post, new { @class = "float-end float-end me-3", action = $"FinancialDetailsEdit?aplyoptioncalc=true", id = "financialCalcOptionDataForm" }))
+                    {
+                        @Html.Hidden("id", ViewBag.FieldId, new { })
+                        @Html.Hidden("name", ViewBag.FieldName, new { })
+                        <input type="hidden" id="aplyoptioncalc" name="aplyoptioncalc" value="true">
+                        <input type="button" class="btn bg-green" value="Pre-populate Option Data" id="financialCalcOptionDataForm">
+                    }
+                </div>
+            </div>
+            <div class="FinancialDetails GreyBG mt-3" id="finaceDetls">
+                <div class="row g-0">
+                    <ul class="lefttab nav nav-pills" style="border-bottom: 5px solid #073d1b;">
+                        <div class="leftTab">
+                            <ul class="nav nav-pills ul-tab-ops" id="pills-tab" role="tablist">
+                                @foreach (var uniqueFieldOptionId in Model.Select(x => x.FieldOptionId).Distinct().OrderBy(x => x))
+                                {
+                                    FieldOptioIdName = ViewBag.Fieldoption_id_Name[uniqueFieldOptionId];
+
+                                    if (count == 0)
+                                        active = "active";
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link @active" id="pills-FieldOptionTab-@(uniqueFieldOptionId)-tab" data-bs-toggle="pill"
+                                           data-bs-target="#pills-FieldOptionTab-@(uniqueFieldOptionId)" role="tab" aria-controls="pills-FieldOptionTab-@(uniqueFieldOptionId)"
+                                           aria-selected="true" style="cursor:pointer">@FieldOptioIdName</a>
+                                    </li>
+                                    count++;
+                                    active = string.Empty;
+                                }
+                            </ul>
+                        </div>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        @{
+                            count = 0;
+                        }
+                        @foreach (var uniqueFieldOptionId in Model.Select(x => x.FieldOptionId).Distinct().OrderBy(x => x))
+                        {
+                            countTop = 0;
+                            if (count == 0)
+                            { active = "active"; }
+                            <div class="tab-pane fade show @active" id="pills-FieldOptionTab-@(uniqueFieldOptionId)" role="tabpanel"
+                                 aria-labelledby="pills-FieldOptionTab-@(uniqueFieldOptionId)-tab">
+                                @* <span>Option Contecnt-@(uniqueFieldOptionId)</span> *@
+                                @* tab content Start *@
+                                <div class="col-md-12 row">
+                                    <div class="col-md-2 leftTab p-0">
+                                        <ul class="nav nav-pills flex-column ul-tab-zones" id="pills-tab" role="tablist">
+                                            @{
+                                                countZoneName = 0;
+                                            }
+                                            @foreach (var zone in Model.Where(x => x.FieldOptionId == uniqueFieldOptionId))
+                                            {
+                                                string sanitizedZoneName = Regex.Replace(zone.ZoneName, "[^a-zA-Z0-9]", "0");
+                                                if (countZoneName == 0)
+                                                    active = "active";
+                                                <li class="nav-item" role="presentation">
+                                                    <a class="nav-link @active" id="pills-@sanitizedZoneName.Replace(" ", string.Empty)@(zone.ZoneId)-@(zone.FieldOptionId)-tab" data-bs-toggle="pill"
+                                                       data-bs-target="#pills-@sanitizedZoneName.Replace(" ", string.Empty)@(zone.ZoneId)-@(zone.FieldOptionId)" role="tab" aria-controls="pills-@sanitizedZoneName.Replace(" ", string.Empty)@(zone.ZoneId)-@(zone.FieldOptionId)"
+                                                       aria-selected="true" style="cursor:pointer">@zone.ZoneName</a>
+                                                </li>
+                                                countZoneName++;
+                                                active = string.Empty;
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-10 p-0">
+                                        <div class="tab-content" id="pills-tabContent">
+                                            @foreach (var zone in Model.Where(x => x.FieldOptionId == uniqueFieldOptionId))
+                                            {
+                                                countyear = 0;
+                                                string sanitizedZoneNameZyd = Regex.Replace(zone.ZoneName, "[^a-zA-Z0-9]", "0");
+
+                                                if (countTop == 0)
+                                                    active = "active";
+                                                <div class="tab-pane fade show @active LitGrenBG" id="pills-@sanitizedZoneNameZyd.Replace(" ", string.Empty)@(zone.ZoneId)-@(zone.FieldOptionId)" role="tabpanel"
+                                                     aria-labelledby="pills-@sanitizedZoneNameZyd.Replace(" ", string.Empty)@(zone.ZoneId)-@(zone.FieldOptionId)-tab">
+                                                    <ul class="nav nav-pills ul-tab-years" id="pills-tab" role="tablist">
+                                                        @foreach (var year in zone.ZoneYearDetails)
+                                                        {
+                                                            if (countyear == 0)
+                                                                active = "active";
+                                                            <li class="nav-item" role="presentation">
+                                                                <a href="#zone@(zone.ZoneId)-year@(year.Year)" class="nav-link @active" id="pills-@(zone.ZoneId)-year@(year.Year)-zydid@(year.ZydId)-tab"
+                                                                   data-bs-toggle="pill" data-bs-target="#pills-@(zone.ZoneId)-year@(year.Year)-zydid@(year.ZydId)" type="button"
+                                                                   role="tab" aria-controls="pills-@(zone.ZoneId)-year@(year.Year)-zydid@(year.ZydId)"
+                                                                   aria-selected="true">
+                                                                    @year.Year
+                                                                </a>
+                                                            </li>
+                                                            countyear++;
+                                                            active = string.Empty;
+                                                        }
+                                                    </ul>
+                                                    @*indivaisul partila view call by year/zone*@
+                                                    <div class="tab-content BGWhite" id="pills-tabContent">
+                                                        @{
+                                                            count = 0;
+                                                        }
+                                                        @foreach (var year in zone.ZoneYearDetails)
+                                                        {
+                                                            year.Field_Name = @ViewBag.FieldName;
+                                                            if (count == 0)
+                                                                active = "active";
+                                                            <div class="tab-pane fade show @active" id="pills-@(zone.ZoneId)-year@(year.Year)-zydid@(year.ZydId)" role="tabpanel" aria-labelledby="pills-@(zone.ZoneId)-year@(year.Year)-zydid@(year.ZydId)-tab">
+                                                                @Html.Partial("_ZoneYearPartial", year)
+                                                            </div>
+                                                            count++;
+                                                            active = string.Empty;
+                                                        }
+                                                    </div>
+                                                </div>
+                                                countTop++;
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                @* tab content END *@
+
+                            </div>
+                            count++;
+                            active = string.Empty;
+                        }
+                    </div>
+                </div>
+            </div>
+            @* }
+            else
+            {
+            <div>The financial data for the field-related zone is not available.</div>
+            }*@
+        </div>
+    </div>
+</section>
+@*
+<div class="container">
+    <h4 class="mb-3">@ViewBag.FieldName: Edit Financial Details</h4>
+    @if (Model != null && Model.Count > 0)
+    {
+        <div id="zone-tabs">
+            <ul>
+                @foreach (var zone in Model)
+                {
+                    <li><a href="#zone@(zone.ZoneId)">@zone.ZoneName</a></li>
+                    // #zone201
+                }
+            </ul>
+            @foreach (var zone in Model)
+            {
+                <div id="zone@(zone.ZoneId)" class="innertabs">
+                    <ul>
+                        @foreach (var year in zone.ZoneYearDetails)
+                        {
+                            <li><a href="#zone@(zone.ZoneId)-year@(year.Year)">@year.Year</a></li>
+                            // #zone201-year2001
+                        }
+                    </ul>
+                    @foreach (var year in zone.ZoneYearDetails)
+                    {
+                        <div id="zone@(zone.ZoneId)-year@(year.Year)">
+                            <!-- Display zone details here -->co
+                            <button id="copyButton-@(zone.ZoneId)-@(year.Year)" class="copyButton1" onclick="copyFunction(this)">Copy to all similar zones</button>
+                            @Html.Partial("_ZoneYearPartial", year)
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div>@CommonMethods.GetEnumDescription(InternationalWaterWebApp.Library.ViewModel.ValidationMessages.NoDataFound)</div>
+    }
+</div>
+
+*@

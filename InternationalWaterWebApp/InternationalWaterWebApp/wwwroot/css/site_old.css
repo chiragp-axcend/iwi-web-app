@@ -1,0 +1,110 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.mt-1 {
+    margin-top: 10px;
+}
+
+.mt-2 {
+    margin-top: 10px;
+}
+
+/* tab strip starts */
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/* tab strip ends */
+
+
+/*---administrator maga menu start---*/
+
+.dropdown-hover:hover > .dropdown-menu {
+    display: inline-block;
+}
+
+.dropdown-hover > .dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+/*--administrator maga menu end---*/
+
+
+
+/*MyFieldsDetails Financial Results square start*/
+
+.square {
+    width: 290px;
+    height: 94px;
+    margin: 4px;
+    border: 1px solid black;
+    float: left;
+    text-align: center;
+    background-color: #fff;
+}
+
+h1 {
+    margin-top: 10px; 
+}
+
+table tr {
+    padding: 5px;
+}
+
+/*MyFieldsDetails Financial Results square end*/
+
+.small-6-col {
+    width: 50%;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+

@@ -1,0 +1,200 @@
+﻿@using InternationalWaterWebApp.Library.Common;
+@{
+    ViewData["Title"] = "My Farm Details Page";
+    List<string> grades = ViewBag.Grades;
+    if (grades == null)
+    {
+        grades = new List<string> { "-", "-", "-", "-", "-", "-" };
+    }
+    EncryptDecryptData enc = new EncryptDecryptData();
+    //FSR data
+    var fsr = ViewBag.FSR as double?;
+    var roundedFsr = fsr.HasValue ? Math.Round(fsr.Value, 2) : 0;
+}
+<section class="MyFieldsDetails">
+    <div class="container-fluid">
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+             aria-label="breadcrumb">
+            <ol class="breadcrumb mt-4 mb-2">
+                <li class="breadcrumb-item"><a href="/Admin/Landing">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Producer" asp-action="Landing">Farms</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Farm Details</li>
+            </ol>
+        </nav>
+        <div class="col-md-12 m-0 mb-2 row">
+        </div>
+        <div class="innerPgeHeading mb-4 d-flex justify-content-between row">
+            <h3 class="col-md-6">@ViewBag.FarmName</h3>
+            @using (Html.BeginForm("MyFarmDetails", "Producer", FormMethod.Post, new { @class = "col-md-6" }))
+            {
+                @Html.Hidden("id", ViewBag.FieldId, new { })
+                @Html.Hidden("name", ViewBag.FarmName, new { })
+                <div class="inline-dropdowns d-flex justify-content-space-between align-items-center">
+                    <span class="w-30">Operations Year:</span>
+                    @Html.DropDownList("DropdownFrom", (IEnumerable<SelectListItem>)ViewBag.Dropdownfrom, new { @class = "form-select w-30", onchange = "this.form.submit();", AutoPostBack = "true" })
+                    <span>to</span>
+                    @Html.DropDownList("DropdownTo", (IEnumerable<SelectListItem>)ViewBag.Dropdownto, new { @class = "form-select w-30", onchange = "this.form.submit();", AutoPostBack = "true" })
+                </div>
+            }
+        </div>
+        <div class="border-3 border-top">
+            <div class="active d-flex fade mt-2 show tab-pane" id="" role="tabpanel" aria-labelledby="pills-MyFarms-tab">
+                @{
+                    var Frsdata = new string[] { "rating_soil", "rating_water", "rating_nutrient", "rating_surface", "rating_fertilizer", "Overall" };
+                    var FrsDataText = new string[] { "Soil Management", "Water Management", "Nutrient Retention -P", "Surface Water Quality Risk", "Fertilizer Management", "Overall" };
+                }
+                <div class="col-md-6">
+                    <div class="rating ">
+                        <div class="row  g-5 ">
+                            <div class="col-md-8 ">
+                                <h2>Farm Stewardship Field Rating</h2>
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="ratingnumber">
+                                    <span>@(roundedFsr == 0 ? "N/A" : roundedFsr)</span>
+                                    @*<a href="#">View History</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ffreportcard">
+                        <table class="table  table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Farm Report Card</th>
+                                    <th class="text-center">
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="The Letter grades are derived from select stewardship indices reflecting your actual operation. Click on the report card category to view these indices.">
+                                            <i class="bi bi-info-circle h4" style="pointer-events: none;"
+                                               data-toggle="tooltip"
+                                               data-bs-placement="right"
+                                               title="">
+                                            </i>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @for (int i = 0; i < Frsdata.Length; i++)
+                                {
+                                    <tr>
+                                        <td class="w-100">@FrsDataText[i]</td>
+                                        <td>@grades[i]</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="mt-5">
+            <h4>Fields</h4>
+            <p>The stewardship rating and environmental outcomes for each field reflect the results for each management zone, adjusted for the size of the management zone.</p>
+            <div class="overflow-auto">
+                <table class="table table-borderless table-responsive table-striped" style="margin-bottom:20px!important;">
+
+                    <tr>
+
+                        @*<th>Edit</th>*@
+                        <th>ID</th>
+                        <th>Fields</th>
+                        <th>Farm</th>
+                        <th>Acres</th>
+                        <th>
+                            % Soil Retained <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="% Soil retained is the percentage of soil sheet and rill erosion, trapped before leaving the field, for the contributing drainage area.">
+                                <i class="bi bi-info-circle-fill" style="pointer-events: none;"
+                                   data-toggle="tooltip"
+                                   data-bs-placement="right"
+                                   title="">
+                                </i>
+                            </span>
+                        </th>
+                        <th>
+                            % Total P Retained <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="% Total p retained is the percentage of total phosphorus mobilized from the soil, trapped before leaving the field, for the contributing drainage area.">
+                                <i class="bi bi-info-circle-fill" style="pointer-events: none;"
+                                   data-toggle="tooltip"
+                                   data-bs-placement="right"
+                                   title="">
+                                </i>
+                            </span>
+                        </th>
+                        <th>
+                            % Precipitation Retained <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="% Precipitation retained is the percentage of precipitation falling on and irrigation water applied to the  field, intercepted by vegetation, infiltrating into the soil, and stored by the soil.">
+                                <i class="bi bi-info-circle-fill" style="pointer-events: none;"
+                                   data-toggle="tooltip"
+                                   data-bs-placement="right"
+                                   title="">
+                                </i>
+                            </span>
+                        </th>
+                        <th>Stewardship rating</th>
+                        <th>Plans</th>
+                        <th>Field Score</th>
+                        <th>Avg Net Return</th>
+                        <th>Avg Production Cost</th>
+                    </tr>
+
+                    <tbody>
+                        @{
+                            int rowCount1 = Math.Min(ViewBag.Field?.Tables[0]?.Rows?.Count ?? 0, ViewBag.Field3?.Tables[0]?.Rows?.Count ?? 0);
+                        }
+                        @if (rowCount1 > 0)
+                        {
+                            for (int i = 0; i < rowCount1; i++)
+                            {
+                                var fieldId = ViewBag.Field?.Tables[0]?.Rows[i]["field_id"];
+                                var field3Id = ViewBag.Field3?.Tables[0]?.Rows[i]["field_id"];
+
+                                if (fieldId != null && field3Id != null && fieldId.Equals(field3Id))
+                                {
+                                    <tr>
+                                        @* <td>
+                            <a asp-controller="Common" asp-action="MyFieldEdit" asp-route-id="@enc.Encryptdata(Convert.ToString(Convert.ToString(fieldId)))" asp-route-name="@fieldId"><i class="bi bi-pencil-square f-26"></i></a>
+                            </td>*@
+                                        <td>  @(ViewBag.Field?.Tables[0]?.Rows[i]["field_id"] ?? "")</td>
+                                        <td>
+                                            <a asp-controller="Common" asp-action="MyFieldsDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(Convert.ToString(fieldId)))" asp-route-name="@(ViewBag.Field?.Tables[0]?.Rows[i]["name"] ?? "")">@(ViewBag.Field?.Tables[0]?.Rows[i]["name"] ?? "")</a>
+
+                                        </td>
+                                        <td>  @(ViewBag.Field?.Tables[0]?.Rows[i]["farm_name"] ?? "")</td>
+                                        <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["acres"] ?? "")</td>
+                                        <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["soil_retained_perc"] ?? "")</td>
+                                        <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["totalp_retained_perc"] ?? "") </td>
+                                        <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["precip_retained_perc"] ?? "") </td>
+
+                                        <td>
+                                            @{
+                                                var fsrValue = ViewBag.Field3?.Tables[0]?.Rows[i]["fsr"];
+                                                var ratingFsrValue = ViewBag.Field3?.Tables[0]?.Rows[i]["rating_fsr"];
+
+                                                var result = !Convert.IsDBNull(fsrValue)
+                                                ? (ratingFsrValue?.ToString() == "-" ? "N/A" : fsrValue?.ToString()) ?? "-"
+                                                : "-";
+                                            }
+                                            @result
+                                        </td>
+                                        <td>  @(ViewBag.Field?.Tables[0]?.Rows[i]["plans"] ?? "")</td>
+                                        <td>@(!Convert.IsDBNull(ViewBag.Field3?.Tables[0]?.Rows[i]["rating_fsr"]) ? (ViewBag.Field3.Tables[0].Rows[i]["rating_fsr"]) : "-") </td>
+                                        <td>@(ViewBag.Field?.Tables[0]?.Rows[i]["net_return"] ?? "")</td>
+                                        <td>@(ViewBag.Field?.Tables[0]?.Rows[i]["production_cost"] ?? "")</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="11"> data not available.</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>

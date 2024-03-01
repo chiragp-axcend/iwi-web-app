@@ -1,0 +1,72 @@
+﻿@{
+    var SurfaceWaterQualitydata = new string[] { "Sediment Load From Field Greater Than Edge of Field Goal? ", "Amount In Excess of  Allowable Field Amount (%)", "Field Risk Level Resource Sediment Impact", "Resource Sediment Goal Index", "Probable Practices Needed to Achieve Load Reduction Goal", "Sediment Goal Feasibility Index" };
+    var PhosphorusWaterQualitydata = new string[] { "Phosphorus Load From Field Greater Than Edge of Field Goal? ", "Amount In Excess of  Allowable Field Amount (%)", "Field Risk Level Resource Phosphorus Impact", "Resource Phosphorus Goal Index", "Probable Practices Needed to Achieve Load Reduction Goal", "Phosphorus Goal Feasibility Index" };
+}
+<table class="mt-4 table table-borderless table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Current Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            List<KeyValuePair<string, string>> SoilLossfromLevelsList = new List<KeyValuePair<string, string>>();
+            if (ViewBag.SoilLossLevels != null)
+            {
+                SoilLossfromLevelsList = new List<KeyValuePair<string, string>>(ViewBag.SoilLossLevels);
+            }
+        }
+
+        @if (SoilLossfromLevelsList != null)
+        {
+
+            @for (int i = 0; i < SoilLossfromLevelsList.Count; i++)
+            {
+                var SoilLossfromLevel = SoilLossfromLevelsList[i];
+                <tr>
+                    @if (SurfaceWaterQualitydata.Length > 0)
+                    {
+                        <td>
+                            @{
+                                var data = ViewBag.actiontype == "sed"
+                                ? SurfaceWaterQualitydata[i % SurfaceWaterQualitydata.Length]
+                                : PhosphorusWaterQualitydata[i % PhosphorusWaterQualitydata.Length];
+                            }
+                            @data
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        @{
+                            var SoilLossdata = (SoilLossfromLevelsList.Count > 0 && SoilLossfromLevelsList[2].Value == "N/A")
+                            ? "N/A"
+                            : SoilLossfromLevel.Value;
+                        }
+                        @SoilLossdata
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<div id="HelperTextFieldRiskPopup">
+    <p class="HelperTextNiPho">The information describing the field risk level for sediment provides an indication of the (potential future) risk of environmental regulation, when the amount of sediment leaving the field exceeds the “allowable” levels (row 1). The amount of sediment leaving the field annually is compared to the allowable amount and expressed as a percentage (row 2). The amount of soil mobilized from the field surface is estimated using the<a href="https://www.nrcs.usda.gov/resources/tech-tools/water-erosion-rusle2"> USDA RUSLE2 model</a> then converted into sediment based on commonly accepted sediment transport equations.  </p>
+    <p class="HelperTextNiPho">The allowable amount is derived from a water quality goal (expressed in amount per year) established by a local, state or federal agency for a downstream lake or river reach. The goal is translated upstream to the edge of the field, using mathematical equations, to determine the allowable level leaving the field.  </p>
+    <p class="HelperTextNiPho">Water quality goals can be based on agency policy or a Total Maximum Daily Load <a href="https://www.epa.gov/tmdl/overview-total-maximum-daily-loads-tmdls">(TMDL)</a>. The default water quality goal for sediment is a 30% annual reductions for the stream or river. The current amount of phosphorus at the lake or river comes from the <a href="https://www.usgs.gov/mission-areas/water-resources/science/sparrow-modeling-estimating-nutrient-sediment-and-dissolved"> SPARROW model</a>. The annual reduction and current amounts can be altered by the administrator to reflection actual watershed conditions. By clicking on “Field Information” in My Field Details you can see the location of the field and the water quality goal location.   </p>
+    <p class="HelperTextNiPho">The Field Risk Resource Impact (row 3) provides an indication of the risk level for environmental regulation and is converted in the stewardship index (row 4) used in the calculating the stewardship rating as follows: </p>
+        <table class="mb-3 table-bordered table-sm ">
+            <tr> <th>Risk Level </th> <th>Description </th> </tr>
+            <tr> <td>Low </td> <td>Amount leaving field does not exceed allowable amount; resource goal index = 10 </td> </tr>
+            <tr> <td>Moderately Low  </td> <td>Amount leaving field exceeds 0 percent but is less than 20%; resource goal index = 7.5  </td> </tr>
+            <tr> <td>Moderate </td> <td>Amount leaving field equals or exceeds 20 percent but is less than 40%; resource goal index = 5  </td> </tr>
+            <tr> <td>Moderately High  </td> <td>Amount leaving field equals or exceeds 40 percent but is less than 60%; resource goal = 2.5 </td> </tr>
+            <tr> <td>High </td> <td>Amount leaving field equals or exceeds 60%; resource goal index = 0  </td> </tr>
+        </table>
+    <p class="HelperTextNiPho">The resource goal index is assigned to reflect typical sediment and phosphorus reductions realized used management conservation practices (e.g., like a cover crop), structural conservation practices (like a water and sediment control basin) and both management and structural conservation practices (row five). The goal feasibility index (row 6) converts the probability of using practices to achieve the necessary reduction into a numeric value used to calculate the stewardship rating. </p>
+    </div>

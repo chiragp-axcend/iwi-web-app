@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Project\Rusle2APIPublish</_PublishTargetUrl>
+    <History>True|2023-10-19T07:41:41.6965730Z;True|2023-10-16T02:42:13.7344555-07:00;True|2023-10-16T02:40:18.6278911-07:00;True|2023-10-16T02:27:22.4656338-07:00;True|2023-10-04T23:28:15.2883091-07:00;True|2023-10-04T02:23:17.2355725-07:00;True|2023-09-29T03:24:27.7849443-07:00;True|2023-09-29T02:34:20.7071423-07:00;True|2023-09-29T02:29:47.8772070-07:00;True|2023-09-27T23:38:29.9985646-07:00;True|2023-09-27T23:35:42.9222043-07:00;True|2023-09-27T00:51:05.8092560-07:00;True|2023-09-24T23:53:53.8927601-07:00;True|2023-09-24T23:07:49.1097089-07:00;True|2023-09-05T22:29:25.2943592-07:00;True|2023-09-05T06:37:37.3612657-07:00;True|2023-09-05T06:30:17.6788886-07:00;True|2023-09-05T06:29:30.9185234-07:00;True|2023-09-05T06:18:30.9446576-07:00;True|2023-09-05T06:18:00.2059475-07:00;True|2023-09-05T06:17:27.0528998-07:00;True|2023-09-05T06:16:44.0119175-07:00;True|2023-09-05T06:15:40.6133643-07:00;True|2023-09-05T06:04:23.0495300-07:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>04/22/2019 01:06:16</publishTime>
+    </File>
+    <File Include="bin/Rusle2API.dll">
+      <publishTime>10/19/2023 00:41:40</publishTime>
+    </File>
+    <File Include="bin/Rusle2API.pdb">
+      <publishTime>10/19/2023 00:41:40</publishTime>
+    </File>
+    <File Include="Controller.asmx">
+      <publishTime>08/28/2023 23:12:38</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>10/04/2023 23:28:15</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

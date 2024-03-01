@@ -1,0 +1,44 @@
+            string MgmtZonePFertilizer = $"select * from \"FSRCalc\".Field_Nitrogen_Criteria(datarefcursor => 'data',_actiontype =>'MgmtZonePFertilizerData');";
+            DataSet MgmtZonePFertilizerData = _masterRepository.GetAndSelectTableItems(MgmtZonePFertilizer);
+
+            if (MgmtZonePFertilizerData.Tables.Count != 0)
+            {
+                for (int col = 0; col <= MgmtZonePFertilizerData.Tables[0].Rows.Count - 1; col++)
+                {
+                    object field_id = MgmtZonePFertilizerData.Tables[0].Rows[col][0];
+                    object year = MgmtZonePFertilizerData.Tables[0].Rows[col][1];
+                    object zid = MgmtZonePFertilizerData.Tables[0].Rows[col][2];
+
+                    string MgmtZonePphosphorusData = $"select * from \"FSRCalc\".Field_Nitrogen_Criteria(datarefcursor => 'data',_actiontype =>'MgmtZonePphosphorusData' ,_legacy_field_id => '{field_id}',_zone_yearly_id =>{year});";
+                    DataSet DsMgmtZonePphosphorusData = _masterRepository.GetAndSelectTableItems(MgmtZonePphosphorusData);
+                    if (DsMgmtZonePphosphorusData.Tables.Count != 0)
+                    {
+
+                        try
+                        {
+                            if (DsMgmtZonePphosphorusData != null && DsMgmtZonePphosphorusData.Tables.Count != 0 && DsMgmtZonePphosphorusData.Tables[0].Rows.Count != 0)
+                            {
+                                object season = DsMgmtZonePphosphorusData.Tables[0].Rows[0][0];
+                                object? dateapplied = null;
+                                if (DsMgmtZonePphosphorusData.Tables[0].Rows[0][1] != "")
+                                {
+                                    dateapplied = DsMgmtZonePphosphorusData.Tables[0].Rows[0][1];
+                                }
+                                object form = DsMgmtZonePphosphorusData.Tables[0].Rows[0][2];
+                                object rate = DsMgmtZonePphosphorusData.Tables[0].Rows[0][3];
+                                object placementmethod = DsMgmtZonePphosphorusData.Tables[0].Rows[0][4];
+                                object incorporationdepth = DsMgmtZonePphosphorusData.Tables[0].Rows[0][5];
+                                object Nitrogenplan = DsMgmtZonePphosphorusData.Tables[0].Rows[0][6];
+
+
+                                string QuerylegacyInsertfertilizer = $"select * from \"FSRCalc\".MgmtZonePFertilizer_update(season => '{season}', dateapplied => NULL ,form =>'{form}' ,rate =>'{rate}',placementmethod =>'{placementmethod}',incorporationdepth =>'{incorporationdepth}',nitrogenplan =>'{Nitrogenplan}',zid =>{zid});";
+                                DataSet DsFieldlegacyInsertfertilizer = _masterRepository.GetAndSelectTableItemsWithoutCursor(QuerylegacyInsertfertilizer);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+                }
+            }

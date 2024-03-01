@@ -1,0 +1,646 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using InternationalWaterWebApp.Library.Common
+@using Newtonsoft.Json;
+@model SoilIndiciesChartData
+@{
+    var SoilIndiciesChartData = Model;
+    var serializedData = JsonConvert.SerializeObject(SoilIndiciesChartData);
+    bool showElements = Model.IrrUseEffBeInflag;
+    var ChartType = Model.ChartType;
+
+    var SurfaceWaterQualitydata = new string[] { "Sediment Load From Field Greater Than Edge of Field Goal? ", "Amount In Excess of  Allowable Field Amount (%)", "Field Risk Level Resource Sediment Impact", "Resource Sediment Goal Index", "Probable Practices Needed to Achieve Load Reduction Goal", "Sediment Goal Feasibility Index" };
+    var PhosphorusWaterQualitydata = new string[] { "Phosphorus Load From Field Greater Than Edge of Field Goal? ", "Amount In Excess of  Allowable Field Amount (%)", "Field Risk Level Resource Phosphorus Impact", "Resource Phosphorus Goal Index", "Probable Practices Needed to Achieve Load Reduction Goal", "Phosphorus Goal Feasibility Index" };
+    var SurfaceWaterQualityText = new string[] { "field_goal", "amount_in_excess", "risk_level", "resource_index", "prob_practices", "goal_feasibility_index" };
+
+    var Fertilizerdatadata = new string[] { "Fertilizer Source", "Application Rate", "Timing of Application", "Placement" };
+    var FertilizerdataText = new string[] { "source", "rate", "timing", "placement" };
+    List<KeyValuePair<string, string>> SoilLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option1SoilLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option2SoilLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> AlfalfaSoilLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> MoldSoilLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> PhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option1PhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option2PhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> AlfalfaPhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> MoldPhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> factorLevelsList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option1factorLevelsList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option2factorLevelsList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> AlfalfafactorLevelsList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> MoldfactorLevelsList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> PhosphorusFertilizerList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option1PhosphorusFertilizerList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> Option2PhosphorusFertilizerList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> AlfalfaPhosphorusFertilizerList = new List<KeyValuePair<string, string>>();
+    List<KeyValuePair<string, string>> MoldPhosphorusFertilizerList = new List<KeyValuePair<string, string>>();
+    if (Model.SoilLossfromField != null)
+    {
+        SoilLossfromFieldList = new List<KeyValuePair<string, string>>(Model.SoilLossfromField);
+    }
+    if (Model.Option1SoilLossfromField != null)
+    {
+        Option1SoilLossfromFieldList = new List<KeyValuePair<string, string>>(Model.Option1SoilLossfromField);
+    }
+    if (Model.Option2SoilLossfromField != null)
+    {
+        Option2SoilLossfromFieldList = new List<KeyValuePair<string, string>>(Model.Option2SoilLossfromField);
+    }
+    if (Model.AlfalfaSoilLossfromField != null)
+    {
+        AlfalfaSoilLossfromFieldList = new List<KeyValuePair<string, string>>(Model.AlfalfaSoilLossfromField);
+    }
+    if (Model.MoldSoilLossfromField != null)
+    {
+        MoldSoilLossfromFieldList = new List<KeyValuePair<string, string>>(Model.MoldSoilLossfromField);
+    }
+    if (Model.PhosphorusLossfromField != null)
+    {
+        PhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>(Model.PhosphorusLossfromField);
+    }
+    if (Model.Option1PhosphorusLossfromField != null)
+    {
+        Option1PhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>(Model.Option1PhosphorusLossfromField);
+    }
+    if (Model.Option2PhosphorusLossfromField != null)
+    {
+        Option2PhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>(Model.Option2PhosphorusLossfromField);
+    }
+    if (Model.AlfalfaPhosphorusLossfromField != null)
+    {
+        AlfalfaPhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>(Model.AlfalfaPhosphorusLossfromField);
+    }
+    if (Model.MoldPhosphorusLossfromField != null)
+    {
+        MoldPhosphorusLossfromFieldList = new List<KeyValuePair<string, string>>(Model.MoldPhosphorusLossfromField);
+    }
+    if (Model.Option1NitrogenFertilizer != null)
+    {
+        Option1factorLevelsList = new List<KeyValuePair<string, string>>(Model.Option1NitrogenFertilizer);
+    }
+    if (Model.Option2NitrogenFertilizer != null)
+    {
+        Option2factorLevelsList = new List<KeyValuePair<string, string>>(Model.Option2NitrogenFertilizer);
+    }
+    if (Model.NitrogenFertilizer != null)
+    {
+        factorLevelsList = new List<KeyValuePair<string, string>>(Model.NitrogenFertilizer);
+    }
+    if (Model.AlfalfaNitrogenFertilizer != null)
+    {
+        AlfalfafactorLevelsList = new List<KeyValuePair<string, string>>(Model.AlfalfaNitrogenFertilizer);
+    }
+    if (Model.MoldNitrogenFertilizer != null)
+    {
+        MoldfactorLevelsList = new List<KeyValuePair<string, string>>(Model.MoldNitrogenFertilizer);
+    }
+    if (Model.PhosphorusFertilizer != null)
+    {
+        PhosphorusFertilizerList = new List<KeyValuePair<string, string>>(Model.PhosphorusFertilizer);
+    }
+    if (Model.Option1PhosphorusFertilizer != null)
+    {
+        Option1PhosphorusFertilizerList = new List<KeyValuePair<string, string>>(Model.Option1PhosphorusFertilizer);
+    }
+    if (Model.Option2PhosphorusFertilizer != null)
+    {
+        Option2PhosphorusFertilizerList = new List<KeyValuePair<string, string>>(Model.Option2PhosphorusFertilizer);
+    }
+    if (Model.AlfalfaPhosphorusFertilizer != null)
+    {
+        AlfalfaPhosphorusFertilizerList = new List<KeyValuePair<string, string>>(Model.AlfalfaPhosphorusFertilizer);
+    }
+    if (Model.MoldPhosphorusFertilizer != null)
+    {
+        MoldPhosphorusFertilizerList = new List<KeyValuePair<string, string>>(Model.MoldPhosphorusFertilizer);
+    }
+}
+@*<input id="chart-data" type="hidden" value="@Html.Raw(JsonConvert.SerializeObject(Model))" />*@
+@if (ChartType == "rating_soil")
+{
+    <div class="SoilChartdata">
+        <h4>Soil Indicies</h4>
+        <h5 class="mt-3">Soil Water Erosion Benchmark Index (SoWaErBeIn)</h5>
+        @* <canvas id="bubbleChart" style="height: 100px; min-width: 100%; max-width: 100%; margin: 0 auto"></canvas>*@
+        <br />
+        @*<div id="bubbleChart"><!-- Plotly chart will be drawn inside this DIV --></div>*@
+        <div class="fsrbubblechart chart-container"></div>
+        <br />
+        <div>
+            <p>
+                <b>*# of Times the Field Estimated Annual Soil Loss Exceeds the Typical Rate Soil Forms*</b><br />
+                @**Soil forms at estimated rate of 0.0017 in / yr </p>*@
+                *Soil forms at an average rate of 0.0017 in / yr (~ 0.31 tons / acre with soil weight of 100 lb per cubic foot) based on the available scientific literature. The rate depends on the parent material and can vary by several orders of magnitude (i.e., by a factor of 1000)  for a specific field. Use visible signs of erosion caused by precipitation to confirm this index. 
+        </div>
+        <br />
+        @* <h5>Soil Formation Departure Index for Agriculture (SoFoDeInAg) </h5>
+    <br />
+    <div class="fsrbubblechart" id="chart-containerSoFoDeInAg"></div>
+    <br/>
+    <div class="inlineata">
+    <label>*Rebuilding Soil*</label>
+    <label> *Annual Soil Loss % Departure From the Rate Soil Forms* </label>
+    <label class="text-right"> Losing Soil Faster than Rebuilds </label>
+    </div>
+    <br />  <br />
+    <h5 class="mt-3">Soil Water Erosion Index For Agriculture (SoWaErInAg) </h5>
+    <br />
+    <div class="fsrbubblechart" id="chart-containerSoWaErInAg"></div>
+    <br/>
+    <p>*Annual Soil Loss Expressed as % of the Range for Agriculture *</p><br />*@
+        <h5 class="mt-3">Soil Water Erosion Departure Index for Agriculture (SoWaErDeInAg) </h5>
+        <br />
+        <div class="fsrbubblechart chart-containerSoWaErDeInAg"></div>
+        <br />
+        <p>*Annual Soil Loss % Departure From the Average for Agriculture *</p><br />
+        <h5 class="mt-3">Soil Retention Benchmark Index (SoReBeIn)</h5>
+        <br />
+        <div class="fsrbubblechart chart-containerSoReBeIn"></div>
+        <br />
+        <p>
+            <b>*% Reduction In The Amount of Soil Potentially Leaving the Field By Conservation Practices*</b><br />
+            Relative to mold board plow, same rotation; assumes no conservation practices present for benchmarks
+        </p>
+    </div>
+}
+else if (ChartType == "rating_water")
+{
+    <div class="WaterChartdata">
+        <h4>Water Management</h4>
+        <h5 class="mt-3">Infiltration Benchmark Index (InBeln)</h5>
+        <br />
+        <div class="fsrbubblechart chart-containerInBeln"></div>
+        <br />
+        <div class="nutrienttext">
+            <p>
+                Water retained (infiltration) by the soil and intercepted by plants (initial abstraction)
+            </p>
+        </div>
+        <br />
+        @* <h5>Infiltration Departure Index for Agriculture (InDeInAg) </h5>
+    <br />
+    <div class="fsrbubblechart" id="chart-containerInDeInAg"></div>
+    <br />
+    <div class="nutrienttext">
+    <p>
+    Annual Infiltrating % Departure From the Avereage for Agriculture <br />
+    </p>
+    </div>
+    <br />
+    <h5 class="mt-3">Runoff Benchmark Index(RuBeIn)</h5>
+    <br />
+    <div class="fsrbubblechart" id="chart-containerRuBeIn"></div>
+    <br />
+    <div class="nutrienttext">
+    <p>Runoff as a % of Annual Precipitation & Irrigation</p>
+    </div>
+    <br />*@
+        <h5 class="mt-3">Runoff Departure Index for Agriculture(RuDeInAg) </h5>
+        <br />
+        <div class="fsrbubblechart chart-containerRuDeInAg"></div>
+        <br />
+        <div class="nutrienttext">
+            <p>Annual Runoff % Departure From the Average for Agriculture</p>
+        </div>
+        <br />
+        <h5 class="mt-3" style="display: @(showElements ? "block" : "none")">Irrigation Water Use Efficiency Benchmark In (IrrUseEffBeIn)</h5>
+        <br />
+        <div class="fsrbubblechart chart-containerIrrUseEffBeIn" style="display: @(showElements ? "block" : "none")"></div>
+        <br />
+        <div class="nutrienttext" style="display: @(showElements ? "block" : "none")">
+            <p>
+                % Use of Irrigation Water Applied<br />
+                Note: Symbols may overlap; Values 0 mean no irrigated crop
+            </p>
+        </div>
+    </div>
+}
+else if (ChartType == "rating_nutrient")
+{
+    <div class="NutrientChartdata">
+        <h4>Nutrient Retention -P</h4>
+        <h5 class="mt-3">Total P Mobilization Index for Agriculture (TPMobInAg)</h5>
+        <br />
+        <div class="fsrbubblechart chart-containerTPMobInAg"></div>
+        <br />
+        <div class="nutrienttext">
+            <p>
+                Amount of Total P Carried by Water & Attached to Moving Soil as % of the<br />
+                Range for Agriculture
+            </p>
+        </div>
+        <br />
+        @* <h5> Total P Mobilization Departure Index for Agriculture (TPMobDeInAg) </h5>
+    <br />
+    <div class="fsrbubblechart" id="chart-containerTPMobDeInAg"></div>
+    <br />
+    <div class="nutrienttext">
+    <p>
+    Annual Total P Loss as % Departure From the Average for Agriculture<br />
+    </p>
+    </div>
+    <br />*@
+        @* <h5 class="mt-3">Total P Export Index (TPExInAg) for Agriculture</h5>
+    <br />
+    <div class="fsrbubblechart" id="chart-containerTPExInAg"></div>
+    <br />
+    <div class="nutrienttext">
+    <p>Amount of Total P Leaving the Field as % of the Range for Agriculture</p>
+    </div>
+    <br />*@
+        <h5 class="mt-3">Total P Export Departure Index for Agriculture (TPExDeInAg) </h5>
+        <br />
+        <div class="fsrbubblechart chart-containerTPExDeInAg"></div>
+        <br />
+        <div class="nutrienttext">
+            <p>Annual Total P Export From the Field as % Departure From the Average for Agriculture</p>
+        </div>
+        <br />
+        <h5 class="mt-3">Total P Retention Benchmark Index (TPReBeln)</h5>
+        <br />
+        <div class="fsrbubblechart chart-containerTPReBeln"></div>
+        <br />
+        <div class="nutrienttext">
+            <p>
+                @*% Change relative to moldboard plow tillage system*@
+                % difference relative to moldboard plow tillage system, with no practices to reduce soil loss. Moldboard plow benchmark may include practices for the current operation.
+            </p>
+        </div>
+    </div>
+}
+else if (ChartType == "rating_surface")
+{
+    <div class="SurfaceWaterQualityChartData">
+        <h4>Soil Loss from Field</h4>
+        <h5 class="mt-3"></h5>
+
+        <table class="mt-4 table table-borderless table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th class="descName">Description</th>
+                    <th class="crtopr">Current Operation</th>
+                    <th class="SurfaceWaterQualitybanchmark opt1">Option1</th>
+                    <th class="SurfaceWaterQualitybanchmark opt2">Option2</th>
+                    <th class="forge">Alfalfa Forage</th>
+                    <th class="mbp">Mold Board Plow</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (SoilLossfromFieldList != null)
+                {
+
+                    @for (int i = 0; i < SurfaceWaterQualityText.Length; i++)
+                    {
+                        var SoilLossfromFieldLevel = SoilLossfromFieldList[i];
+                        var Option1SoilLossfromFieldLevel = Option1SoilLossfromFieldList[i];
+                        var Option2SoilLossfromFieldLevel = Option2SoilLossfromFieldList[i];
+                        var AlfalfaSoilLossfromFieldLevel = AlfalfaSoilLossfromFieldList[i];
+                        var MoldSoilLossfromFieldLevel = MoldSoilLossfromFieldList[i];
+                        <tr>
+                            @if (SurfaceWaterQualitydata.Length > 0)
+                            {
+                                <td>@SurfaceWaterQualitydata[i % SurfaceWaterQualitydata.Length]</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            <td>
+                                @{
+                                    var SoilLossdata = (SoilLossfromFieldList.Count > 0 && SoilLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : SoilLossfromFieldLevel.Value;
+                                }
+                                @SoilLossdata
+                            </td>
+                            <td class="SurfaceWaterQualitybanchmark">
+                                @{
+                                    var Option1data = (Option1SoilLossfromFieldList.Count > 0 && Option1SoilLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : Option1SoilLossfromFieldLevel.Value;
+                                }
+                                @Option1data
+                            </td>
+                            <td class="SurfaceWaterQualitybanchmark">
+                                @{
+                                    var Option2data = (Option2SoilLossfromFieldList.Count > 0 && Option2SoilLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : Option2SoilLossfromFieldLevel.Value;
+                                }
+                                @Option2data
+                            </td>
+                            <td>
+                                @{
+                                    var Alfalfadata = (AlfalfaSoilLossfromFieldList.Count > 0 && AlfalfaSoilLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : AlfalfaSoilLossfromFieldLevel.Value;
+                                }
+                                @Alfalfadata
+                            </td>
+                            <td>
+                                @{
+                                    var Molddata = (MoldSoilLossfromFieldList.Count > 0 && MoldSoilLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : MoldSoilLossfromFieldLevel.Value;
+                                }
+                                @Molddata
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br>
+        <div id="">
+            <p class="HelperTextNiPho">The information describing the field risk level for sediment provides an indication of the (potential future) risk of environmental regulation, when the amount of sediment leaving the field exceeds the “allowable” levels (row 1). The amount of sediment leaving the field annually is compared to the allowable amount and expressed as a percentage (row 2). The amount of soil mobilized from the field surface is estimated using the<a href="https://www.nrcs.usda.gov/resources/tech-tools/water-erosion-rusle2"> USDA RUSLE2 model</a> then converted into sediment based on commonly accepted sediment transport equations.  </p>
+            <p class="HelperTextNiPho">The allowable amount is derived from a water quality goal (expressed in amount per year) established by a local, state or federal agency for a downstream lake or river reach. The goal is translated upstream to the edge of the field, using mathematical equations, to determine the allowable level leaving the field.  </p>
+            <p class="HelperTextNiPho">Water quality goals can be based on agency policy or a Total Maximum Daily Load <a href="https://www.epa.gov/tmdl/overview-total-maximum-daily-loads-tmdls">(TMDL)</a>. The default water quality goal for sediment is a 30% annual reductions for the stream or river. The current amount of phosphorus at the lake or river comes from the <a href="https://www.usgs.gov/mission-areas/water-resources/science/sparrow-modeling-estimating-nutrient-sediment-and-dissolved"> SPARROW model</a>. The annual reduction and current amounts can be altered by the administrator to reflection actual watershed conditions. By clicking on “Field Information” in My Field Details you can see the location of the field and the water quality goal location.   </p>
+            <p class="HelperTextNiPho">The Field Risk Resource Impact (row 3) provides an indication of the risk level for environmental regulation and is converted in the stewardship index (row 4) used in the calculating the stewardship rating as follows: </p>
+            <table class="mb-3 table-bordered table-sm HelperTextNiPho">
+                <tr> <th>Risk Level </th> <th>Description </th> </tr>
+                <tr> <td>Low </td> <td>Amount leaving field does not exceed allowable amount; resource goal index = 10 </td> </tr>
+                <tr> <td>Moderately Low  </td> <td>Amount leaving field exceeds 0 percent but is less than 20%; resource goal index = 7.5  </td> </tr>
+                <tr> <td>Moderate </td> <td>Amount leaving field equals or exceeds 20 percent but is less than 40%; resource goal index = 5  </td> </tr>
+                <tr> <td>Moderately High  </td> <td>Amount leaving field equals or exceeds 40 percent but is less than 60%; resource goal = 2.5 </td> </tr>
+                <tr> <td>High </td> <td>Amount leaving field equals or exceeds 60%; resource goal index = 0  </td> </tr>
+            </table>
+            <p class="HelperTextNiPho">The resource goal index is assigned to reflect typical sediment and phosphorus reductions realized used management conservation practices (e.g., like a cover crop), structural conservation practices (like a water and sediment control basin) and both management and structural conservation practices (row five). The goal feasibility index (row 6) converts the probability of using practices to achieve the necessary reduction into a numeric value used to calculate the stewardship rating. </p>
+        </div>
+
+        <br />
+        <br />
+        <h4>Total Phosphorus Loss from Field</h4>
+        <h5 class="mt-3"></h5>
+        <table class="mt-4 table table-borderless table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th class="descName">Description</th>
+                    <th class="crtopr">Current Operation</th>
+                    <th class="SurfaceWaterQualitybanchmark opt1">Option1</th>
+                    <th class="SurfaceWaterQualitybanchmark opt2">Option2</th>
+                    <th class="forge">Alfalfa Forage</th>
+                    <th class="mbp">Mold Board Plow</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (SoilLossfromFieldList != null)
+                {
+
+                    @for (int i = 0; i < SurfaceWaterQualityText.Length; i++)
+                    {
+
+                        var PhosphorusLossfromFieldLevel = PhosphorusLossfromFieldList[i];
+                        var AlfalfaPhosphorusLossfromFieldLevel = AlfalfaPhosphorusLossfromFieldList[i];
+                        var Option1PhosphorusLossfromFieldLevel = Option1PhosphorusLossfromFieldList[i];
+                        var Option2PhosphorusLossfromFieldLevel = Option2PhosphorusLossfromFieldList[i];
+                        var MoldPhosphorusLossfromFieldLevel = MoldPhosphorusLossfromFieldList[i];
+                        <tr>
+                            @if (PhosphorusWaterQualitydata.Length > 0)
+                            {
+                                <td>@PhosphorusWaterQualitydata[i % PhosphorusWaterQualitydata.Length]</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>
+                                @{
+                                    var PhosphorusLossdata = (PhosphorusLossfromFieldList.Count > 0 && PhosphorusLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : PhosphorusLossfromFieldLevel.Value;
+                                }
+                                @PhosphorusLossdata
+                            </td>
+                            <td class="SurfaceWaterQualitybanchmark">
+                                @{
+                                    var Option1data = (Option1PhosphorusLossfromFieldList.Count > 0 && Option1PhosphorusLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : Option1PhosphorusLossfromFieldLevel.Value;
+                                }
+                                @Option1data
+                            </td>
+                            <td class="SurfaceWaterQualitybanchmark">
+                                @{
+                                    var Option2data = (Option2PhosphorusLossfromFieldList.Count > 0 && Option2PhosphorusLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : Option2PhosphorusLossfromFieldLevel.Value;
+                                }
+                                @Option2data
+                            </td>
+                            <td>
+                                @{
+                                    var Alfalfadata = (AlfalfaPhosphorusLossfromFieldList.Count > 0 && AlfalfaPhosphorusLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : AlfalfaPhosphorusLossfromFieldLevel.Value;
+                                }
+                                @Alfalfadata
+                            </td>
+                            <td>
+                                @{
+                                    var Molddata = (MoldPhosphorusLossfromFieldList.Count > 0 && MoldPhosphorusLossfromFieldList[2].Value == "N/A")
+                                    ? "N/A"
+                                    : MoldPhosphorusLossfromFieldLevel.Value;
+                                }
+                                @Molddata
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br>
+        <div>
+            <p class="HelperTextNiPho">The information describing the field risk level for phosphorus provides an indication of the (potential future) risk of environmental regulation, when the amount of phosphorus leaving the field exceeds the "allowable" levels (row 1). The amount of phosphorus leaving the field annually is compared to the allowable amount and expressed as a percentage (row 2).  The amount of phosphorus mobilized from the field surface is a function of the type of crop, tillage method and amount of phosphorus carried by water rather than attached to soil particles.   </p>
+            <p class="HelperTextNiPho">The allowable amount is derived from a water quality goal (expressed in amount per year) established by a local, state or federal agency for a downstream lake or river reach. The goal is translated upstream to the edge of the field, using mathematical equations, to determine the allowable level leaving the field.</p>
+            <p class="HelperTextNiPho">Water quality goals can be based on agency policy or a Total Maximum Daily Load <a href="https://www.epa.gov/tmdl/overview-total-maximum-daily-loads-tmdls">(TMDL)</a>. The default water quality goal for phosphorus is a 12% annual reductions for the stream or river. The current amount of phosphorus at the lake or river comes from the <a href="https://www.usgs.gov/mission-areas/water-resources/science/sparrow-modeling-estimating-nutrient-sediment-and-dissolved">SPARROW model</a>. The annual reduction and current amounts can be altered by the administrator to reflection actual watershed conditions. <b>By clicking on "Field Information" in My Field Details you can see the location of the field and the water quality goal location.</b></p>
+            <table class="mb-3 table-bordered table-sm HelperTextNiPho">
+                <tr> <th>Risk Level </th> <th>Description </th> </tr>
+                <tr> <td>Low </td> <td>Amount leaving field does not exceed allowable amount; resource goal index = 10 </td> </tr>
+                <tr> <td>Moderately Low  </td> <td>Amount leaving field exceeds 0 percent but is less than 15%; resource goal index = 7.5  </td> </tr>
+                <tr> <td>Moderate </td> <td>Amount leaving field equals or exceeds 20 percent but is less than 30%; resource goal index = 5  </td> </tr>
+                <tr> <td>Moderately High  </td> <td>Amount leaving field equals or exceeds 40 percent but is less than 60%; resource goal = 2.5 </td> </tr>
+                <tr> <td>High </td> <td>Amount leaving field equals or exceeds 60%; resource goal index = 0  </td> </tr>
+            </table>
+            <p class="HelperTextNiPho">The resource goal index is assigned to reflect typical sediment and phosphorus reductions realized used management conservation practices (e.g., like a cover crop), structural conservation practices (like a water and sediment control basin) and both management and structural conservation practices (row five). The goal feasibility index (row 6) converts the probability of using practices to achieve the necessary reduction into a numeric value used to calculate the stewardship rating.</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="FertilizerChartData">
+        <h4>Nitrogen Fertilizer 4R Levels</h4>
+        <h5 class="mt-3"></h5>
+
+        <table class="mt-4 table table-borderless table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th class="factor">4R Factor</th>
+                    <th class="crtopr">Current Operation</th>
+                    <th class="SurfaceWaterQualitybanchmark opt1">Option1</th>
+                    <th class="SurfaceWaterQualitybanchmark opt2">Option2</th>
+                    <th class="forge">Alfalfa Forage</th>
+                    <th class="mbp">Mold Board Plow</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (factorLevelsList != null && AlfalfafactorLevelsList != null && MoldfactorLevelsList != null)
+                {
+
+                    @for (int i = 0; i < FertilizerdataText.Length; i++)
+                    {
+                        var factorLevel = factorLevelsList[i];
+                        var Option1factorLevel = Option1factorLevelsList[i];
+                        var Option2factorLevel = Option2factorLevelsList[i];
+                        var AlfalfafactorLevel = AlfalfafactorLevelsList[i];
+                        var MoldfactorLevel = MoldfactorLevelsList[i];
+                        <tr>
+                            @if (Fertilizerdatadata.Length > 0)
+                            {
+                                <td>@Fertilizerdatadata[i % Fertilizerdatadata.Length]</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@factorLevel.Value</td>
+                            <td class="SurfaceWaterQualitybanchmark">@Option1factorLevel.Value</td>
+                            <td class="SurfaceWaterQualitybanchmark">@Option2factorLevel.Value</td>
+                            <td>@AlfalfafactorLevel.Value</td>
+                            <td>@MoldfactorLevel.Value</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+
+        <br />
+        <br />
+        <h4>Phosphorus 4R Levels</h4>
+        <h5 class="mt-3"></h5>
+
+        <table class="mt-4 table table-borderless table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th class="factor">4R Factor</th>
+                    <th class="crtopr">Current Operation</th>
+                    <th class="SurfaceWaterQualitybanchmark opt1">Option1</th>
+                    <th class="SurfaceWaterQualitybanchmark opt2">Option2</th>
+                    <th class="forge">Alfalfa Forage</th>
+                    <th class="mbp">Mold Board Plow</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @if (PhosphorusFertilizerList != null)
+                {
+
+                    @for (int i = 0; i < FertilizerdataText.Length; i++)
+                    {
+                        var PhosphorusfactorLevel = PhosphorusFertilizerList[i];
+                        var Option1PhosphorusfactorLevel = Option1PhosphorusFertilizerList[i];
+                        var Option2PhosphorusfactorLevel = Option2PhosphorusFertilizerList[i];
+                        var AlfalfaPhosphorusfactorLevel = AlfalfaPhosphorusFertilizerList[i];
+                        var MoldPhosphorusfactorLevel = MoldPhosphorusFertilizerList[i];
+                        <tr>
+                            @if (Fertilizerdatadata.Length > 0)
+                            {
+                                <td>@Fertilizerdatadata[i % Fertilizerdatadata.Length]</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@PhosphorusfactorLevel.Value</td>
+                            <td class="SurfaceWaterQualitybanchmark">@Option1PhosphorusfactorLevel.Value</td>
+                            <td class="SurfaceWaterQualitybanchmark">@Option2PhosphorusfactorLevel.Value</td>
+                            <td>@AlfalfaPhosphorusfactorLevel.Value</td>
+                            <td>@MoldPhosphorusfactorLevel.Value</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <br>
+        <div>
+            <p class="HelperTextNiPho">The fertilizer management stewardship indices for nitrogen and phosphorus require answering multiple questions about fertilizer application methods – specifically about the fertilizer source, application rate, time of year applied, and placement methods – commonly referred to as “4R Standards (Right Source, Right Rate, Right Time, Right Place).”  The yes responses to the questions about the methods used to apply phosphorus (Bruulsema, 2017) and nitrogen (Snyder, 2016) fertilizers are summed by 4R category and classified as follows:  </p>
+            <table class="mb-3 table-bordered table-sm HelperTextNiPho">
+                <tr>
+                    <th>Factor</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Few Basic Factors</td>
+                    <td>Less than 50% of the responses to the basic questions are yes</td>
+                </tr>
+                <tr>
+                    <td>Most Basic Factors</td>
+                    <td>More than 50% but less than 100% of the responses to the basic questions are yes</td>
+                </tr>
+                <tr>
+                    <td>Basic</td>
+                    <td>100% of the responses to the basic questions are yes</td>
+                </tr>
+                <tr>
+                    <td>Basic Plus</td>
+                    <td>100% of the responses to the basic questions are yes, but less than 100% of the responses to the intermediate questions are yes</td>
+                </tr>
+                <tr>
+                    <td>Intermediate</td>
+                    <td>100% of the responses to the basic questions and intermediate questions are yes</td>
+                </tr>
+                <tr>
+                    <td>Advanced</td>
+                    <td>100% of the responses to the basic questions, intermediate questions, and advanced questions are yes</td>
+                </tr>
+            </table>
+            <p class="HelperTextNiPho">The classification is then converted into the stewardship index score as follows: </p>
+            <table class="mb-3 table-bordered table-sm">
+                <tr>
+                    <th>Factor</th>
+                    <th>Index Score</th>
+                </tr>
+                <tr>
+                    <td>Few Basic Factors</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Most Basic Factors</td>
+                    <td>2.5</td>
+                </tr>
+                <tr>
+                    <td>Basic</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Basic Plus</td>
+                    <td>6.5</td>
+                </tr>
+                <tr>
+                    <td>Intermediate</td>
+                    <td>7.5</td>
+                </tr>
+                <tr>
+                    <td>Advanced</td>
+                    <td>10</td>
+                </tr>
+            </table>
+            <p><b>For more information:</b></p>
+            <ul class="HelperTextNiPho">
+                <li> View questions pertaining to the<a href="http://www.ipni.net/publication/ireview-en.nsf/0/02B29AF424907531852580F1004C2E82/$FILE/IssueReview-EN-14064.pdf"> 4R practices for phosphorus</a> (Bruulsema, 2017).</li>
+                <li>View questions pertaining to the<a href="http://www.ipni.net/publication/ireview-en.nsf/0/B2F5CFA199C227C785258049004E3EBA/$FILE/IssueReview-EN-14063.002.pdf"> 4R practices for nitrogen</a> (Snyder, 2016).</li>
+            </ul>
+
+        </div>
+    </div>
+}
+<script>
+    var chartData = @Html.Raw(serializedData);
+    fetchDataAndPopulateModel(chartData);
+
+</script>
+

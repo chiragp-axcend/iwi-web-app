@@ -1,0 +1,8 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using InternationalWaterWebApp.Library.Common
+
+<p>Print of the year:</p>
+                <p>
+        @Html.DropDownList("printDropdownFrom", (IEnumerable<SelectListItem>)ViewBag.Dropdownfrom, new { @class = "form-select",AutoPostBack = "true" })
+                </p>
+         

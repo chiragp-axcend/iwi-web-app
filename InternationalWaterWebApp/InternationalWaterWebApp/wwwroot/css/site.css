@@ -1,0 +1,1456 @@
+@import 'bootstrap-icons/bootstrap-icons.css';
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto Slab', serif;
+    font-size: 16px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+    color: #000;
+}
+
+a {
+    color: #24959b;
+}
+
+    a:hover {
+        color: #073d1b;
+    }
+
+section.mainMargin {
+    margin: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+ul {
+    text-decoration: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+img {
+    display: block;
+}
+
+.form-select:focus,
+.btn-check:focus + .btn,
+.btn:focus,
+.accordion-button:focus,
+.form-control:focus {
+    border-color: transparent;
+    outline: 0;
+    box-shadow: inherit;
+}
+
+/* menu */
+.bg-green {
+    background-color: #073d1b;
+    color: #fff;
+}
+
+.LogOt {
+    color: #83D209 !important;
+}
+
+.HeaderLogo {
+    padding-right: 30px;
+    border-right: 1px solid #D8D8D8;
+}
+
+    .HeaderLogo img {
+        overflow: auto;
+        height: 40px;
+        width: auto;
+    }
+
+.MenuIconTxt {
+    padding: 0 10px;
+}
+
+    .MenuIconTxt img {
+        width: 20px;
+        margin: 0 auto;
+    }
+
+img.White {
+    display: none;
+}
+
+.nav-link span {
+    color: #83D209;
+    transition: .4s;
+}
+
+.nav-link.active img.White,
+.nav-link:hover img.White {
+    display: block;
+    transition: .4s;
+}
+
+.nav-link.active img.LitGreen,
+.nav-link:hover img.LitGreen {
+    display: none;
+    transition: .4s;
+}
+
+.nav-link.active span,
+.nav-link:hover span {
+    color: #fff;
+}
+
+.UserId{
+    display:flex;
+    align-items: center;
+}
+
+.UserId a {
+    /*display: flex;
+    align-items: center;*/
+    color: #fff;
+}
+
+.UserId img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.UsrNme span {
+    color: #ddd;
+}
+
+.dropdown-hover:hover > .dropdown-menu {
+    display: inline-block;
+    border-radius: 6px;
+}
+
+.dropdown-hover > .dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+
+/* menu-end */
+
+/* welcom wayfindr */
+.GreyBG {
+    background-color: #F0F0F0;
+}
+
+.Heading {
+    margin-bottom: 30px;
+    color: #073d1b;
+}
+
+    .Heading h2 {
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+.Ratig {
+    background-color: #E5EBE7;
+    padding: 35px 15px;
+    color: #073d1b;
+}
+
+    .Ratig span {
+        font-size: 50px;
+    }
+
+    .Ratig p {
+        margin-bottom: 0;
+    }
+
+.TxtDecor {
+    margin-bottom: 0 !important;
+}
+
+/* welcom wayfindr end */
+
+/* message advisor */
+.Heading h4 {
+    border-bottom: 1px solid #979797;
+    padding-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.MessAdvisrDetail {
+    background-color: #F5F5F5;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    display: block;
+    color: #000
+}
+
+    .MessAdvisrDetail:hover {
+        color: #83D209;
+    }
+
+    .MessAdvisrDetail img {
+        display: inline;
+        background-color: #DCE2DE;
+        padding: 10px;
+        border-radius: 10px;
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+        margin-right: 15px;
+    }
+
+.advsrBTN {
+    border-radius: 10px;
+}
+
+    .advsrBTN a {
+        padding: 15px;
+        color: #fff;
+        transition: .4s;
+    }
+
+    .advsrBTN:hover a {
+        color: #83D209;
+    }
+
+.kyResors a {
+    color: #000;
+    text-decoration: underline;
+    width: 100%;
+    display: block;
+}
+
+    .kyResors a:hover {
+        color: #83D209;
+    }
+
+/* message advisor end */
+
+#TabBar .nav.nav-pills {
+    background-color: #E5E5E5;
+}
+
+#TabBar {
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 350px;
+}
+
+    #TabBar .nav-pills li button {
+        color: #000;
+        padding: 15px 25px;
+        font-weight: bold;
+    }
+
+    #TabBar .nav-pills .nav-link.active,
+    #TabBar .nav-pills .nav-link.active:hover,
+    #TabBar .nav-pills .nav-link.active:focus {
+        background-color: #073d1b;
+        color: #fff;
+    }
+
+    #TabBar .nav-pills .nav-link {
+        border-radius: 0 !important;
+    }
+
+    #TabBar .tab-content {
+        box-shadow: 0px 0px 20px #0000002e;
+        overflow: auto;
+    }
+
+table {
+    margin-bottom: 0 !important;
+}
+
+.table-borderless > :not(caption) > * > * {
+    padding: 15px;
+}
+
+
+
+/* screen-2 page */
+
+li.breadcrumb-item,
+li.breadcrumb-item a {
+    color: #000 !important;
+}
+
+.AdvisorTab #pills-tab {
+    border-bottom: 5px solid #073d1b;
+}
+
+/*.AdvisorTab {
+    box-shadow: 0px 0px 10px #0000002e;
+}*/
+
+div.div-Border {
+    border-left: 2px solid #7979792e;
+    border-right: 2px solid #7979792e;
+}
+
+div.bottom-div {
+    margin-top: -5px !important;
+    border-bottom: 2px solid #7979792e;
+}
+
+.AdvisorPlanBtn button {
+    color: #fff;
+    padding: 7px 30px;
+}
+
+.AdvisorTab .nav-pills li button {
+    padding: 20px 25px !important;
+}
+
+.AdvisorPlanBtn:hover button {
+    color: #83D209;
+}
+
+.finacialResult {
+    padding: 15px;
+}
+
+.chartimg {
+    width: 500px;
+}
+
+    .chartimg img {
+        width: 100%;
+    }
+
+.bordrBtn button {
+    border: 2px solid #073d1b;
+    padding: 9px 20px;
+}
+
+    .bordrBtn button img {
+        width: 20px;
+        height: 20px;
+        margin-left: 20px;
+        object-fit: contain;
+    }
+
+.bordrBtn:hover .White {
+    display: block;
+}
+
+.bordrBtn:hover .LitGreen {
+    display: none;
+}
+
+.bordrBtn:hover button {
+    border: 2px solid #83D209;
+    color: #83D209;
+}
+
+/* screen-2 page end */
+
+/* screen-3 page */
+
+#finaceDetls {
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+}
+
+    #finaceDetls .leftTab .nav-link {
+        padding: 25px;
+        color: #000;
+        text-align: left;
+        font-weight: 500;
+    }
+
+.leftTab li {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+    .leftTab li:last-child {
+        border-bottom: none;
+    }
+
+#finaceDetls .leftTab .nav-link.active,
+#finaceDetls .leftTab .show > .nav-link {
+    color: #fff;
+    background-color: #073d1b;
+    text-align: left;
+}
+
+#finaceDetls .nav-pills .nav-link {
+    border-radius: inherit !important;
+}
+
+.LitGrenBG .nav-pills .nav-link.active,
+.LitGrenBG .nav-pills .show > .nav-link {
+    background-color: #83D209 !important;
+}
+
+.LitGrenBG .nav-pills .nav-link {
+    padding: 22.5px 40px !important;
+    color: #000;
+    font-weight: 500;
+}
+
+.LitGrenBG ul {
+    border-bottom: 5px solid #073d1b;
+}
+
+.BGWhite {
+    background-color: #fff;
+    height: 100%;
+}
+
+.innerPagePara {
+    font-size: 22px;
+    font-family: 'Roboto Slab';
+    font-weight: 500;
+}
+
+.RTFormBar {
+    height: 100%;
+}
+
+    .RTFormBar a.btn {
+        color: #fff;
+        padding: 10px;
+    }
+
+select::placeholder {
+    color: #fff !important;
+    opacity: 0 !important;
+    display: none !important;
+}
+
+.RTFormBar span {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Roboto Slab';
+}
+
+/* accordian */
+
+.accordion-item {
+    border: none;
+}
+
+.accordion-button,
+.accordion-button:not(.collapsed) {
+    background-color: #E5EBE7;
+}
+
+.accoBorRadi,
+.accordion-item:first-of-type .accordion-button,
+.accordion-item:last-of-type .accordion-button.collapsed {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-radius: 8px;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #000;
+    box-shadow: inherit;
+}
+
+.accordion-button::after {
+    content: none;
+}
+
+.accordion-button {
+    justify-content: space-between;
+    padding: 10px;
+}
+
+    .accordion-button > img {
+        transition: transform .2s ease-in-out;
+        background-color: #fff;
+        width: 35px;
+        height: 35px;
+        padding: 9px;
+        object-fit: contain;
+        border-radius: 5px;
+    }
+
+    .accordion-button:not(.collapsed) img {
+        transform: rotate(-180deg);
+    }
+
+.accordion h2 button {
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Roboto Slab';
+}
+
+.AccordInnerHead {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333
+}
+
+.Complsry {
+    font-size: 16px;
+    color: #DE5959;
+}
+
+.exclamImg {
+    width: 15px;
+    height: 15px;
+}
+
+.environmentalexclamImg {
+    width: 24px;
+    height: 23px;
+}
+
+.accordion-body {
+    padding: 1rem 1.25rem 0;
+}
+
+.form-control,
+.form-select,
+.form-select:focus {
+    border: 2px solid #073d1b;
+}
+
+.InptRgt ::placeholder {
+    text-align: right;
+}
+
+.totalGren {
+    color: #073d1b;
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.bodrGren {
+    border-bottom: 3px solid #073d1b;
+}
+
+.form-control:focus {
+    border: 2px solid #073d1b !important;
+}
+
+.bg-silver {
+    background-color: #d2d2d2;
+}
+
+.fieldExt {
+    margin-left: 10px;
+}
+/* accordian end */
+
+/* screen-3 page end */
+
+/* Custom css start */
+
+button.btn.bg-green:hover {
+    color: #83cd13;
+}
+
+.float-right {
+    float: right;
+}
+
+.text-right {
+    text-align: right;
+}
+
+table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting,
+table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > td.sorting {
+    background: #ddd;
+    padding-right: 25px !important;
+}
+
+.color-white {
+    color: #fff !important;
+}
+
+.color-black {
+    color: #000 !important;
+}
+
+.form-box {
+    background-color: #F2F2F2;
+    padding: 20px;
+}
+
+.btn:hover {
+    color: #83d209;
+}
+
+div.dataTables_wrapper div.dataTables_length select, div.dataTables_wrapper div.dataTables_length select:focus {
+    width: 32px !important;
+    border: 0 !important;
+    border-bottom: 2px solid #073d1b !important;
+    border-radius: 0 !important;
+}
+
+.nav-item dropdown .dropdown-menu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.mega-menu {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+}
+
+    .mega-menu a {
+        color: #237842;
+    }
+
+#calc_FSRData label {
+    font-weight: 800;
+}
+
+.justify-content-space-between {
+    justify-content: space-between;
+}
+
+#imgPreview {
+    max-height: 400px;
+    max-width: 650px;
+}
+
+.bi-exclamation-circle-fill, .bi-info-circle-fill, .bi-pencil-square {
+    color: #063d1b;
+}
+
+.align-justify {
+    text-align: justify;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.lblOutcome {
+    margin-right: 22px;
+}
+
+
+.environmentalchart {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.rating {
+    display: block;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+    .rating h2 {
+        font-size: 23px;
+        margin-top: 20px;
+        color: #073d1b;
+        font-weight: bold;
+    }
+
+.ratingnumber {
+    float: right;
+}
+
+.rating a {
+    font-size: 14px;
+    color: #073d1b;
+    display: block;
+    margin: 2px;
+    text-align: center;
+}
+
+.rating span {
+    display: block;
+    padding: 5px 20px;
+    border: solid 1px #fff;
+    text-align: center;
+    font-size: 26px;
+    background: #83D209;
+    font-weight: bold;
+}
+
+.rating a {
+    display: block;
+}
+
+.rating a {
+    font-size: 14px;
+}
+
+.flex-end {
+    justify-content: flex-end;
+}
+
+.flex-start {
+    justify-content: flex-start;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.inlineata {
+    display: flex;
+    align-items: flex-start;
+}
+
+    .inlineata label {
+        width: 33%;
+    }
+
+.text-right {
+    text-align: right
+}
+
+.freportcard {
+    background: #E5EBE7;
+    border-radius: 14px;
+    padding: 15px;
+    margin-left: -6px;
+}
+
+    .freportcard .table > thead, .freportcard .table > thead th {
+        background: #073d1b;
+        color: #FFF;
+    }
+
+.infoIcon {
+    width: 24px;
+    margin: 0 auto;
+}
+
+.fsrdata .freportcard tr:last-child {
+    background: #83D209;
+    font-weight: bold;
+}
+
+.ffreportcard {
+    background: #E5EBE7;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+    .ffreportcard .table > thead, .ffreportcard .table > thead th {
+        background: #073d1b;
+        color: #FFF;
+    }
+
+.infoIcon {
+    width: 24px;
+    margin: 0 auto;
+}
+
+.ffreportcard tr:last-child {
+    background: #83D209;
+    font-weight: bold;
+}
+
+
+.fileddetails {
+    background: #eaebe5;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.fieldatable tr td {
+    padding: 7px 20px;
+    border-bottom: solid 1px #fff;
+}
+
+.fileddetails h5 {
+    padding: 0px 0 10px 0;
+    font-size: 23px;
+}
+
+.fieldatable tr td:first-child {
+    background: #ddd;
+}
+
+.boxshadow {
+    box-shadow: 0px 0px 20px #0000002e;
+}
+
+.border-radius {
+    border-radius: 10px;
+}
+
+.p20 {
+    padding: 20px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.expvalue {
+    background: #E5EBE7;
+    color: #073d1b;
+    border-radius: 10px;
+    padding: 19px;
+    width: 230px;
+    text-align: left;
+}
+
+    .expvalue h1 span {
+        font-size: 14px;
+    }
+
+.customtable th {
+    background: #ddd
+}
+
+.form-check-input:checked {
+    background-color: #83d206;
+    border-color: #83d206;
+}
+
+.xaxis-line path {
+    stroke-width: 5px; /* Adjust the line width as desired */
+}
+
+#bubbleChart {
+    /*height: 50px;*/ /* Set the desired height */
+    /*border-radius: 10px;*/ /* Adjust the border radius as desired */
+    /*align-items: center;
+    justify-content: center;
+    overflow: hidden;*/
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    animation: border-animation 2s infinite alternate;
+    background-color: black;
+}
+
+@keyframes border-animation {
+    0% {
+        border-color: red;
+    }
+
+    50% {
+        border-color: blue;
+    }
+
+    100% {
+        border-color: green;
+    }
+}
+
+.fsrbubblechart {
+    border-radius: 30px;
+    overflow: hidden;
+    height: 40px;
+    position: relative;
+    width: 80%;
+}
+
+#chart-container svg g.google-visualization-bubblechart-xaxis text {
+    transform: translate(0, 20px);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-check-input {
+    width: 40px !important;
+    height: 25px !important;
+}
+
+.environmentBenchmark {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+.environmentBenchmark {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
+
+.zyearacre {
+    /*color: #83D209;
+    font-weight :500;*/
+}
+
+.financiadetailscrop {
+    background: #eaebe5;
+    padding: 15px;
+    margin-right: 15px;
+}
+
+.mr80 {
+    margin-right: 80px;
+}
+
+.mr70 {
+    margin-right: 70px;
+}
+
+.square-box {
+    width: 202px;
+    height: 100px;
+    /* width: 120px;
+    height: 80px;*/
+    border: 2px solid #073D1B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.fl-right {
+    float: right;
+}
+
+.fieldatable {
+    width: 100%
+}
+
+.w50 {
+    width: 50%;
+}
+
+    .w50 .square-box {
+        width: 100%;
+    }
+
+.nutrienttext {
+    text-align: center;
+}
+
+
+.mfinanciPlanname {
+    border: 2px solid #073d1b;
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-radius: 0.25rem;
+}
+
+.myfieldsdetailshowhide {
+    display: none;
+}
+
+.tooltip-inner {
+    background-color: #EFEFEF;
+    color: black;
+    max-width: 350px;
+    max-height: 700px;
+    overflow: auto;
+    white-space: pre-line;
+}
+
+/*previewFSR table / calculateFSRData view*/
+table#PreviewFSRTable thead > tr > th {
+    background: #073d1b;
+}
+
+table#PreviewFSRTable2 thead > tr > th {
+    background: #073d1b;
+}
+
+.circlefill {
+    font-size: 16px;
+}
+
+table#PreviewRusle2Table thead > tr > th {
+    background: #073d1b;
+}
+
+#PreviewRusle2Table thead .sorting::before,
+#PreviewRusle2Table thead .sorting::after,
+#PreviewRusle2Table thead .sorting_desc::before,
+#PreviewRusle2Table thead .sorting_desc::after,
+#PreviewRusle2Table thead .sorting_asc::before,
+#PreviewRusle2Table thead .sorting_asc::after {
+    display: none;
+}
+
+.tooltip-inner {
+    background: #ddd !important;
+    opacity: 1.0;
+    filter: alpha(opacity=100);
+    text-align: left;
+}
+
+.tooltip.show {
+    opacity: 1;
+}
+
+.fieldname {
+    width: 450px;
+}
+
+
+.fieldPlansul {
+    text-decoration: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.fieldPlansli {
+    list-style-type: circle !important;
+    margin-left: 24px !important;
+}
+
+.fieldPlans {
+    list-style-type: disc !important;
+    margin-left: 24px !important;
+}
+
+.imporveStewardshipheader-cell {
+    border: 1px solid #000; /* 1-pixel black border around cells */
+    padding: 8px;
+    text-align: left;
+    background-color: #C8C8C8;
+}
+
+
+.imporveStewardshipthheader-cell {
+    border: 1px solid #000; /* 1-pixel black border around cells */
+    padding: 8px;
+    text-align: left;
+    background-color: #A7C7E7;
+}
+
+.imporveStewardshipth {
+    border: 1px solid #000; /* 1-pixel black border around cells */
+    padding: 8px;
+    text-align: left;
+    background-color: #eec0c8;
+}
+
+.imporveStewardshipRetainSoilth {
+    border: 1px solid #000; /* 1-pixel black border around cells */
+    padding: 8px;
+    text-align: left;
+    background-color: #e3a857;
+}
+
+.imporveStewardshipNutrientsth {
+    border: 1px solid #000; /* 1-pixel black border around cells */
+    padding: 8px;
+    text-align: left;
+    background-color: #899499;
+}
+
+.imporveStewardshipsoilNutrientsth {
+    border: 1px solid #000; /* 1-pixel black border around cells */
+    padding: 8px;
+    text-align: left;
+    background-color: #93C572;
+}
+
+.form-select {
+    font-size: 1.15rem !important;
+    padding: .180rem 2.25rem .180rem .75rem;
+}
+
+.google-visualization-tooltip {
+    pointer-events: none;
+}
+
+
+.fieldsquare-box {
+    width: 100px;
+    height: 60px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.resources {
+    width: 70%;
+    text-align: justify;
+}
+
+.avgfinaciallabel {
+    margin-top: 125px;
+    width: 450px;
+}
+
+.avgfinacialdiv {
+    margin-left: 12px;
+}
+
+.avgfinacialabelans {
+    font-size: 22px;
+    color: #073D1B;
+}
+
+.avgfinacialabelque {
+    font-size: 15px;
+    color: #666666;
+}
+
+.error-message {
+    color: red;
+}
+
+#myfieldsdetailsgo {
+    padding: 5px 20px;
+}
+/* Custom css end */
+/* Modal popup css start */
+.modalHeader {
+    display: inline-block;
+    width: 100%;
+}
+
+    .modalHeader h3 {
+        font-size: 22px;
+        width: calc(100% - 40px);
+        float: left;
+    }
+
+    .modalHeader .modal-close {
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+/* Modal popup css end */
+
+/* Utilities css start */
+
+.fw-5 {
+    font-weight: 500;
+}
+
+.fw-8 {
+    font-weight: 800;
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+.br-10 {
+    border-radius: 10px;
+}
+
+.f-16 {
+    font-size: 16px;
+}
+
+.f-18 {
+    font-size: 18px;
+}
+
+.f-26 {
+    font-size: 26px;
+}
+
+/* Utilities css end */
+
+
+/* Bold sorting arrows on table start*/
+.sorting_desc_disabled:after {
+    position: absolute;
+    bottom: 0.9em;
+    display: block;
+    opacity: 14.3;
+}
+
+/*pagination button datatable color start*/
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #073d1b;
+    border-color: #073d1b;
+}
+
+.page-link {
+    color: #000000;
+}
+/*pagination button datatable color end*/
+
+
+/* submit/cancle  button color start */
+.btn-danger {
+    color: #073d1b;
+    border: 1px solid #073d1b;
+    background-color: white
+}
+
+/* datatable custom start */
+
+.dataTables_filter {
+    text-align: right !important;
+}
+
+#AdvisorLandingProducer_filter {
+    text-align: left;
+}
+
+#CommonAdvisor_filter, #CommonProducer_filter {
+    text-align: center;
+    /*margin-left: 110px;*/
+}
+/*#CommonProducer_filter {
+    text-align: center;
+    margin-left: 110px;
+}*/
+/*table.dataTable thead .sorting_desc_disabled:after {
+    position: absolute;
+    bottom: 0.9em;
+    display: block;
+    opacity: 1.3;
+}
+*/
+
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+    color: black;
+    font-size: 15px;
+    font-family: fantasy;
+    bottom: 1.2em !important;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+    color: black;
+    font-size: 15px;
+    font-family: fantasy;
+    bottom: 1.2em !important;
+}
+/*popup background color*/
+.bgpopup-1 {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(153,153,153,0.7);
+    z-index: 20000;
+}
+
+
+/* Spinner CSS Starts */
+
+#loading {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.8);
+    z-index: 20000;
+}
+
+#loadingcontent {
+    display: table;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#loadingspinner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    font-size: larger;
+    padding-top: 80px;
+}
+
+.descName {
+    width: 300px;
+}
+
+.crtopr {
+    width: 100px;
+}
+
+.opt1 {
+    width: 100px;
+}
+
+.opt2 {
+    width: 100px;
+}
+
+.forge {
+    width: 100px;
+}
+
+.mbp {
+    width: 100px;
+}
+
+.factor {
+    width: 150px;
+}
+
+.avgfinacialdetails {
+}
+
+/* Spinner CSS Ends */
+.HelperTextNiPho{
+    width:80%;
+}
+
+.custom-dropdown {
+    margin-left: 18px;
+    position: relative;
+}
+
+.custom-dropdown .dropdown-menu {
+    display: none;
+    right: 0;
+}
+
+/* Style to show the dropdown on hover */
+.custom-dropdown:hover .dropdown-menu {
+    display: block;
+    right:0;
+   
+}
+
+    .custom-dropdown .dropdown-divider {
+        margin: 5px 0; /* Adjust the margin as needed */
+        border: none;
+    }
+
+    .custom-dropdown .item {
+        color: #237842;
+        margin-left: 12px;
+        padding: 10px;
+    }
+
+/* Start -  Manipulate css for tabstrip - finaicial detail edit page */
+#financial_detail_edit .ul-tab-ops li {
+    border-bottom: 0 !important;
+}
+
+#financial_detail_edit .ul-tab-years {
+    border-bottom: 0 !important;
+}
+
+    #financial_detail_edit .ul-tab-years {
+        background-color: #fff !important;
+    }
+
+    #financial_detail_edit .LitGrenBG .nav-pills .nav-link.active {
+            background-color: transparent !important;
+            border-bottom: 4px solid #073d1b !important;
+        }
+
+.ul-tab-zones .nav-link.active {
+    color: #073d1b !important;
+    background-color: #cbcbcb !important;
+    border-left: 16px solid #073d1b !important;
+}
+/* End -  Manipulate css for tabstrip - finaicial detail edit page */
+
+
+
+/* Start Fiancial details edit calculate option data button css*/
+/* Common styles for all views */
+.calc-optiondiv-financialedit {
+    text-align: right;
+    margin-right: 174px;
+}
+
+.calc-optionbtn-financialedit {
+    margin-top: -200px;
+    position: absolute;
+}
+
+/* Media Query for Mobile and Tablet */
+@media only screen and (max-width: 1023px) {
+    .calc-optiondiv-financialedit,
+    .calc-optionbtn-financialedit {
+        text-align: center;
+        margin-right: 350px;
+        margin-left: 12px;
+    }
+
+    .calc-optionbtn-financialedit {
+        margin-top: 10px;
+        position: static;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .calc-optiondiv-financialedit {
+        margin-right: 35px;
+        margin-left: 22px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .calc-optiondiv-financialedit {
+        margin-right: 90px;
+        margin-left: 22px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .calc-optiondiv-financialedit {
+        margin-right: 90px;
+        margin-left: 14px;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .calc-optiondiv-financialedit {
+        margin-right: 140px;
+        margin-left: 22px;
+    }
+}
+
+/* End Fiancial details edit calculate option data button css*/
+
+.green-border {
+    border: 2px solid #073D1B;
+}

@@ -1,0 +1,125 @@
+﻿@model Advisors
+
+@using InternationalWaterWebApp.Library.ViewModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Add Edit Advisor";
+    int userId = Convert.ToInt32(ViewBag.UserId);
+}
+
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);" aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="/Common/Advisors">Advisor</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@(userId == 0 ? " Add Advisor " : " Edit Advisor  ")</li>
+                    </ol>
+                </nav>
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <h3>@(userId == 0 ? " Add Advisor " : " Edit Advisor  ")</h3>
+                    @using (Html.BeginForm("AdvisorAddEdit", "Common", FormMethod.Post, new { @id = "Editform", @class = "form-horizontal mt-3" }))
+                    {
+                        @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Error"])))
+                        {
+                            <div class="alert alert-danger mt-3" role="alert">
+                                @TempData["Error"]
+                            </div>
+                        }
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="FieldName"><span class="Complsry me-1">*</span>First Name</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.Hidden("userId",ViewBag.UserRole, new {})
+                                @Html.HiddenFor(x => x.AdvisorsId)
+                                @Html.HiddenFor(x => x.LoginId)
+                                @Html.TextBoxFor(x => x.FirstName, new {  @class = "form-control form-control-lg ", placeholder = "First Name" , maxlength = "50" })
+                                @Html.ValidationMessageFor(model => model.FirstName, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="LastName"><span class="Complsry me-1">*</span>Last Name</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(x => x.LastName, new {  @class = "form-control form-control-lg ", placeholder = "Last Name" , maxlength = "50" })
+                                @Html.ValidationMessageFor(model => model.LastName, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="Address1"><span class="Complsry me-1">*</span>Street Address</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(x => x.Address1, new {  @class = "form-control form-control-lg ", placeholder = "Street Address" , maxlength = "100" })
+                                @Html.ValidationMessageFor(model => model.Address1, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="City"><span class="Complsry me-1">*</span>City</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(x => x.City, new {  @class = "form-control form-control-lg ", placeholder = "City" , maxlength = "30" })
+                                @Html.ValidationMessageFor(model => model.City, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="State"><span class="Complsry me-1">*</span>State</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.DropDownListFor(x => x.State, new SelectList(ViewBag.StateOptions, "Value", "Text"),  "Select State", new {@id = "State" ,@class = "form-select form-control-lg w-25" })
+                                @Html.ValidationMessageFor(model => model.State, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="ZipCode"><span class="Complsry me-1">*</span>Zip</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(x => x.ZipCode, new {  @class = "form-control form-control-lg w-25", placeholder = "Zip" , maxlength = "5"  })
+                                @Html.ValidationMessageFor(model => model.ZipCode, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="Email"><span class="Complsry me-1">*</span>Email</label>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(x => x.Email, (userId > 0 ) ?
+                            new { @class = "form-control form-control-lg ", placeholder = "Email", @readonly = "readonly" } :
+                            new { @class = "form-control form-control-lg ", placeholder = "Email", maxlength = "50"  })
+                                @Html.ValidationMessageFor(model => model.Email, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <label for="PhoneMobile"><span class="Complsry me-1">*</span>Phone</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(x => x.PhoneMobile, new { @class = "form-control form-control-lg w-50", placeholder = "(___)-___-____"})
+                                @Html.ValidationMessageFor(model => model.PhoneMobile, "" , new {  @class = "alert-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group row">
+                            <div class="col-md-4">
+                                <input type="submit" class="btn bg-green" value="Submit" />
+                                <button type="button" class="btn btn-outline-dark" onclick="location.href='@Url.Action(Convert.ToInt32(HttpContextAccessor.HttpContext.Session.GetString("UserRole")) == (int)UserTypeEnum.Producer ? "Producers" : "Advisors", "Common")'">Cancel</button>
+                            </div>
+                            @if (userId != 0)
+                            {
+                                <div class="col-md-4 ms-4">
+                                    <a href="javascript:;" class="float-end p-1" onclick="alertdeleteAdvisorFunction()"><i class="bi bi-trash"></i> Delete Advisor</a>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

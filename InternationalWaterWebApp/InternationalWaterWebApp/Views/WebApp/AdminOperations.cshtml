@@ -1,0 +1,206 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@model Producers
+@{
+    ViewData["Title"] = "Admin Operations";
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Apply Irrigation Files</h2>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+                    {
+                        <div class="alert alert-success mt-3" role="alert">
+                            @TempData["Success"]
+                        </div>
+                    }
+
+                    @* Tab Strip Start *@
+                    <div class="col">
+                        <div class="col-md-12 mt-3 row">
+                            <b>Select Producer & Field</b>
+                            <div class="col-md-2 mt-1">
+                                <span>Producer</span>
+                                @Html.DropDownListFor(x => x.ProducerId, new SelectList(ViewBag.Producer, "Value", "Text"),"Select Producer",
+                                new { @id = "ProducerOnChnage", @class = "form-select mt-1",onchange= "func_GetFieldsFromProducer()" })
+                            </div>
+                            <div class="col-md-2 mt-1">
+                                <span>Field</span>
+                                @Html.DropDownListFor(x => x.Field_Id, new SelectList(Enumerable.Empty<SelectListItem>()),  new { @id = "ProducerFields", @class = "form-select mt-1"})
+                                <span id="Fieldlocatinn_fieldError">Field Is required</span>
+                            </div>
+                        </div>
+                        <div class="AdvisorTab mt-3" id="TabBar">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="irr-precip-tab" data-bs-toggle="pill"
+                                            data-bs-target="#irr-precip" type="button" role="tab"
+                                            aria-controls="irr-precip" aria-selected="true">
+                                        Bulk Apply Irr & Precip
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="batch-fsr-tab" data-bs-toggle="pill"
+                                            data-bs-target="#batch-fsr" type="button" role="tab"
+                                            aria-controls="batch-fsr" aria-selected="false">
+                                        Batch Processing FSR
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="p-4 tab-content div-Border" id="pills-tabContent">
+                                <div class="tab-pane fade active show" id="irr-precip" role="tabpanel" aria-labelledby="irr-precip-tab">
+                                    @*Irr & Precip Code*@
+                                    @using (Html.BeginForm("ApplyPrecipAndIrrigationFile", "WebApp", FormMethod.Post, new { @class = "form-horizontal my-form-class", id = "ApplyPrecipAndIrrigationFile", enctype = "multipart/form-data", AutoPostBack = "true" }))
+                                    {
+                                        <div class="freportcard">
+                                            @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Danger"])))
+                                            {
+                                                <div class="alert alert-danger mt-3" role="alert">
+                                                    @TempData["Danger"]
+                                                </div>
+                                            }
+                                            @* Field Irrigation *@
+                                            <div class="col-md-12 mt-3 row">
+                                                <b>Irrigation (NOTE: Current operation years should be matched with the years which are available in excel.) </b>
+                                                <div class="col-md-3 mt-2">
+                                                    <span>Upload Irrigation File</span>
+                                                    <input type="file" name="irrigationFile" accept=".xls,.xlsx" class="form-control disabledTag" />
+                                                    <span id="excelUploadErrorIrrigation" style="display: none;"><span class="Complsry">* &nbsp;</span>Please select a valid Excel file</span>
+                                                </div>
+                                            </div>
+
+                                            @* Field Precipitation *@
+                                            <div class="col-md-12 mt-3 row">
+                                                <b>Precipitation</b>
+                                                <div class="col-md-3">
+                                                    <span>Select Precip File</span>
+                                                    @Html.DropDownListFor(x => x.ProducerId,new SelectList(ViewBag.FileName, "Value", "Text"),"Select Precip File",new { @id = "SelectPrecipFileDropdown", @name="SelectPrecipfile", @class = "form-select disabledTag" })
+                                                </div>
+                                                <div class="col-auto mt-4">
+                                                    <b>Or</b>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <span>Upload Precip File</span>
+                                                    <input type="file" name="precipFile" accept=".xls,.xlsx" class="form-control disabledTag" />
+                                                    <span class="excelUploadError" style="display: none;"><span class="Complsry">* &nbsp;</span>Please select a valid Excel file</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-3">
+                                                <div class="col-md-4">
+                                                    <span>Actions</span>
+                                                    <br>
+                                                    <button type="button" class="border-2 btn bg-green" onclick="func_ApplyPrecipAndIrrigationFile(this)" data-type="All">
+                                                        Apply For All Field
+                                                    </button>
+                                                    <button type="button" class="border-2 btn bg-green" onclick="func_ApplyPrecipAndIrrigationFile(this)" data-type="Selected">
+                                                        Apply For Selected Field
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="freportcard mt-4" id="div_YearsErrors">
+                                        <div class="col-md-12 row">
+                                            <div class="col-md-6">
+                                                <div class="col-12">
+                                                    <h5 style="color: #184e2c;"></h5>
+                                                    <label style="color: #ff0000;"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="batch-fsr" role="tabpanel" aria-labelledby="batch-fsr-tab">
+                                    @using (Html.BeginForm("BatchProcessingFSR", "WebApp", FormMethod.Post, new { @class = "form-horizontal my-form-class", id = "ApplyPrecipAndIrrigationFile", enctype = "multipart/form-data", AutoPostBack = "true" }))
+                                    {
+                                        <div class="freportcard">
+                                            @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Danger"])))
+                                            {
+                                                <div class="alert alert-danger mt-3" role="alert">
+                                                    @TempData["Danger"]
+                                                </div>
+                                            }
+                                            @* Batch Processing *@
+                                            <div class="col-md-12 mt-3">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-2 mt-1">
+                                                        <span>Select Operation</span>
+                                                        <select id="FSRBulkProcessOption" class="form-select mt-1">
+                                                            <option id="opCalculateAll">Calculate all FSRs</option>
+                                                            <option id="opCurrent_Benchmarks">Calculate Current Operation + Benchmarks</option>
+                                                            <option id="opOptions">Calculate Options</option>
+                                                        </select>
+                                                    </div>
+                                                    <span>Actions</span>
+                                                    <br>
+                                                    @* <button type="button" class="border-2 btn bg-green" onclick="func_BatchProcessingFSR(this)" data-type="All">
+                                                        Apply For All Producers
+                                                    </button> *@
+                                                    <button type="button" class="border-2 btn bg-green" onclick="func_BatchProcessingFSR(this)" data-type="AllProdFields">
+                                                        Apply For Selected Producer All Fields
+                                                    </button>
+                                                    <button type="button" class="border-2 btn bg-green" onclick="func_BatchProcessingFSR(this)" data-type="Selected">
+                                                        Apply For Selected Field
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="freportcard mt-4" id="div_BatchErrors">
+                                        <div class="col-md-12 row">
+                                            <div class="">
+                                                <div class="col-12">
+                                                    <h5 style="color: #184e2c;"></h5>
+                                                    <label style="color: #ff0000;"></label>
+                                                    @*log table*@
+                                                    <table class="col-lg-12 mt-2 table table-responsive table-striped" id="AdminOperationBulkFSrTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Producre ID</th>
+                                                                <th>Field ID</th>
+                                                                <th>Benchmark Process</th>
+                                                                <th>Calculate FSR Process</th>
+                                                                <th>Calculate FSR OP1 Process</th>
+                                                                <th>Calculate FSR OP2 Process</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <br />
+                                                    <br />
+                                                    @*<h3>Rusle2 values</h3>*@
+                                                    @*Rusle2 value table  START*@
+                                                    <table class="col-lg-12 mt-2 table table-responsive table-striped" id="BulkFsrRusle2Value">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Field ID</th>
+                                                                <th>MZ ID</th>
+                                                                <th>Field Option ID</th>
+                                                                <th>Year</th>
+                                                                <th>Total Sed Mass Leaving</th>
+                                                                <th>Net C Factor</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    @*Rusle2 value table END*@
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* Tab Strip End *@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

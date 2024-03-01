@@ -1,0 +1,130 @@
+﻿@using InternationalWaterWebApp.Library.Common;
+@{
+    ViewData["Title"] = "My Fields";
+    EncryptDecryptData enc = new EncryptDecryptData();
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>My Fields</h2>
+                    </div>
+                    @*<p>The stewardship rating and environmental outcomes for each farm reflect the results for each field, adjusted for field size. </p>*@
+
+                    <div class="innerPgeHeading mb-4 justify-content-between">
+                        <h3>@ViewBag.FieldName</h3>
+                        @using (Html.BeginForm("MyFields", "Producer", FormMethod.Post, new { @class = "w-40" }))
+                        {
+                            @Html.Hidden("id", ViewBag.FieldId, new { })
+                            @Html.Hidden("name", ViewBag.FieldName, new { })
+                           @* <div class="inline-dropdowns d-flex justify-content-space-between align-items-center">
+                                <span class="Myfarmoperations">Operations Year:</span>
+                                @Html.DropDownList("DropdownFrom", (IEnumerable <SelectListItem>)ViewBag.Dropdownfrom , new { @class = "form-select w-30", onchange = "this.form.submit();", AutoPostBack = "true" } )
+                                <span>to</span>
+                                @Html.DropDownList("DropdownTo", (IEnumerable <SelectListItem>)ViewBag.Dropdownto , new { @class = "form-select w-30", onchange = "this.form.submit();", AutoPostBack = "true" } )
+                            </div>*@
+                        }
+                    </div>
+
+                    <table class="table table-striped table-responsive table-borderless" id="ProducerMyfields">
+                        <thead>
+                            <tr style="border-bottom:1px solid #ddd">
+                                <th>Edit</th>
+                                <th>ID</th>
+                                <th>Field</th>
+                                <th>Farm</th>
+                                <th>Acres</th>
+                                <th>% Soil Retained 
+                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="% Soil retained is the percentage of soil sheet and rill erosion, trapped before leaving the field, for the contributing drainage area.">
+                                        <i class="bi bi-info-circle-fill" style="pointer-events: none;"
+                                                               data-toggle="tooltip"
+                                                               data-bs-placement="right"
+                                                               title="">
+                                                            </i></span>
+                                                            </th>
+                                <th>
+                                    % Total P Retained <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="% Total p retained is the percentage of total phosphorus mobilized from the soil, trapped before leaving the field, for the contributing drainage area.">
+                                        <i class="bi bi-info-circle-fill" style="pointer-events: none;"
+                                                               data-toggle="tooltip"
+                                                               data-bs-placement="right"
+                                                               title="">
+                                                            </i></span></th>
+                                <th>
+                                    % Precipitation Retained <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="% Precipitation retained is the percentage of precipitation falling on and irrigation water applied to the  field, intercepted by vegetation, infiltrating into the soil, and stored by the soil.">
+                                        <i class="bi bi-info-circle-fill" style="pointer-events: none;"
+                                           data-toggle="tooltip"
+                                           data-bs-placement="right"
+                                           title="">
+                                        </i>
+                                    </span>
+                                </th>
+                                <th>Stewardship Rating</th>
+                                <th>Plans</th>
+                                <th>Field Score</th>
+                                <th>Avg Net Return </th>
+                                <th>Avg Production Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int rowCount = Math.Min(ViewBag.Field?.Tables[0]?.Rows?.Count ?? 0, ViewBag.Field3?.Tables[0]?.Rows?.Count ?? 0);
+                                var fieldArray = ViewBag.Field4 as object[,];
+                            }
+                            @if (rowCount > 0)
+                            {
+                                for (int i = 0; i < rowCount; i++)
+                                {
+                                    var fieldId = ViewBag.Field?.Tables[0]?.Rows[i]["field_id"];
+                                    var field3Id = ViewBag.Field3?.Tables[0]?.Rows[i]["field_id"];
+
+                                    if (fieldId != null && field3Id != null && fieldId.Equals(field3Id))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a asp-controller="Common" asp-action="MyFieldEdit" asp-route-id="@enc.Encryptdata(Convert.ToString(Convert.ToString(fieldId)))" asp-route-name="@fieldId"><i class="bi bi-pencil-square f-26"></i></a>
+                                            </td>
+                                            <td>  @(ViewBag.Field?.Tables[0]?.Rows[i]["field_id"])</td>
+                                            <td>
+                                                <a asp-controller="Common" asp-action="MyFieldsDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(Convert.ToString(fieldId)))" asp-route-name="@(ViewBag.Field?.Tables[0]?.Rows[i]["name"] ?? "")">@(ViewBag.Field?.Tables[0]?.Rows[i]["name"] ?? "")</a>
+                                            </td>
+                                            <td>  @(ViewBag.Field?.Tables[0]?.Rows[i]["farm_name"] ?? "")</td>
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["acres"] ?? "")</td>
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["soil_retained_perc"] ?? "")</td>
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["totalp_retained_perc"] ?? "") </td>
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["precip_retained_perc"] ?? "") </td>
+                                            <td>
+                                                @{
+                                                    var fsrValue = ViewBag.Field3?.Tables[0]?.Rows[i]["fsr"];
+                                                    var ratingFsrValue = ViewBag.Field3?.Tables[0]?.Rows[i]["rating_fsr"];
+
+                                                    var result = !Convert.IsDBNull(fsrValue)
+                                                    ? (ratingFsrValue?.ToString() == "-" ? "N/A" : fsrValue?.ToString()) ?? "-"
+                                                    : "-";
+                                                }
+                                                @result
+                                            </td>
+                                            <td>@(ViewBag.Field?.Tables[0]?.Rows[i]["plans"] ?? "")</td>
+                                            <td>@(!Convert.IsDBNull(ViewBag.Field3?.Tables[0]?.Rows[i]["rating_fsr"]) ? (ViewBag.Field3.Tables[0].Rows[i]["rating_fsr"]) : "-") </td>
+                                            <td>@(ViewBag.Field?.Tables[0]?.Rows[i]["net_return"] ?? "")</td>
+                                            <td>@(ViewBag.Field?.Tables[0]?.Rows[i]["production_cost"] ?? "")</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="11"> data not available.</td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,645 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@model Producers
+@{
+    ViewData["Title"] = "Calculate FSR Data";
+}
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Calculate FSR Data</h2>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Danger"])))
+                    {
+                        <div class="alert alert-danger mt-3" role="alert">
+                            @TempData["Danger"]
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+                    {
+                        <div class="alert alert-success mt-3" role="alert">
+                            @TempData["Success"]
+                        </div>
+                    }
+                    <div class="freportcard">
+                        <label class="mt-1"> Step 1 : Select Field to Submit FSR Data</label>
+                        <div class="col-md-12 mt-3 row">
+                            <div class="col-md-3">
+                                <span>Producer</span>
+                                @Html.DropDownListFor(x => x.ProducerId,
+                                new SelectList(ViewBag.Producer, "Value", "Text"),"Select Producer",
+                                new { @id = "ProducerOnChnage", @class = "form-select",onchange= "func_GetFieldsFromProducer()" })
+                            </div>
+                            <div class="col-md-3">
+                                <span>Field</span>
+                                @Html.DropDownListFor(x => x.ProducerId, new SelectList(Enumerable.Empty<SelectListItem>()),"Select Field",  new { @id = "ProducerFields", @class = "form-select",onchange= "func_Get_OperationYearsFromFieldId()" })
+                            </div>
+                            <div class="col-md-3">
+                                <span>Operation</span>
+                                <select id="FSRFieldOptionNameDropdown" class="form-select" onchange="Step5AdjustInputValue()">
+                                    <option value="null" selected>Select Operation</option>
+                                </select>
+                            </div>
+                            @*<div class="col-md-1">
+                            <span>&nbsp;</span>
+                            <button type="button" id="ExportFildDataGoBtn" class="border-2 btn bg-green form-control">Go</button>
+                            </div>*@
+                        </div>
+                        @*Benchmarks Calculation*@
+                        <div id="div_Upload_PrecipFile" class="border-top mt-4">
+                            <label class="mt-1"> Step 2 : Select Precip File</label>
+                            @using (Html.BeginForm(FormMethod.Post, new { @id = "CalculateFSRPrecipFileUploadForm", @class = "mt-2 disabledTag", enctype = "multipart/form-data" }))
+                            {
+                                <p><span class="fw-5">Precipitation Years : </span><span id="PrecipitationYear"></span></p>
+                                //dropdown of exixting excel file
+                                <div class="col-md-12 row">
+                                    <div class="col-md-5 row">
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(x => x.ProducerId,new SelectList(ViewBag.FileName, "Value", "Text"),"Select Precip File",new { @id = "SelectPrecipFileDropdown", @name="SelectPrecipfile", @class = "form-select disabledTag" })
+                                        </div>
+                                        <div class="col-md-1 w-auto">
+                                            <button type="button" class="btn bg-green border-2 disabledTag" id="btn_ApplyExistingPrecipFileData">
+                                                Apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto mt-2">
+                                        <b>Or</b>
+                                    </div>
+                                    @*Select excel file*@
+                                    <div class="col-md-7 row">
+                                        <div class="col-md-6">
+                                            <input type="file" name="file" accept=".xls,.xlsx" class="form-control disabledTag" />
+                                            <span class="excelUploadError" style="display: none;"><span class="Complsry">* &nbsp;</span>Please select a valid Excel file</span>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <button type="button" class="btn bg-green border-2 disabledTag" id="btn_CalculateFSRPrecipFileUpload">
+                                                Upload Precip File
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="excelUploadErrorDropdown" style="display: none;"><span class="Complsry">* &nbsp;</span>This Excel file data are already uploaded.</span>
+                                <span class="excelUploadError2Dropdown" style="display: none;"><span class="Complsry">* &nbsp;</span>Selected field related Precip File not found.</span>
+                            }
+                        </div>
+                        <div id="div_Upload_IrrigationFile" class="border-top mt-4">
+                            <label class="mt-1"> Step 3 :Upload Irrigation</label>
+                            @using (Html.BeginForm(FormMethod.Post, new { @id = "CalculateFSRIrrigationFileUploadForm", @class = "mt-2 disabledTag", enctype = "multipart/form-data" }))
+                            {
+                                <input id="txt_CO_Years" type="hidden" />
+                                <p><span class="fw-5">Current Operation Years : </span><span id="Currunt_operation_Year"></span></p>
+                                @*<table class="border mt-2 table table-borderless table-responsive table-striped w-auto" id="irrigationFileUpload_table">
+                            <thead>
+                            <tr>
+                            <th>Zones</th>
+                            <th>Crop</th>
+                            <th>Year</th>
+                            <th>Irrigated?</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                            </table>*@
+                                <div id="div_IrrigationFileUpload" class="col-md-12 mt-4 row" style="display: none">
+                                    <div class="col-md-4">
+                                        <label>Irrigation File in Use:</label>
+                                        <p id="irrigationUploadFiles">
+
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="file" name="file" accept=".xls,.xlsx" class="form-control disabledTag" />
+                                        <span id="excelUploadErrorIrrigation" style="display: none;"><span class="Complsry">* &nbsp;</span>Please select a valid Excel file</span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <button type="button" class="btn bg-green border-2 disabledTag" id="btn_CalculateFSRIrrigationFile">
+                                            Upload Irrigation File
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @*Calculate Benchmarks*@
+                        <div id="div_CalculateBenchmarks" class="border-top mt-4">
+                            <label> Step 4 : Calculate Benchmarks</label>
+                            <div class="mt-2 row">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn bg-green border-2 disabledTag" id="btn_CalculateFSRBenchmarks">
+                                        Calculate Benchmarks
+                                    </button>
+                                    <span id="calc_BenchmarksError" style="display: none;"><span class="Complsry">* &nbsp;</span>You must have to upload Irrigation data for calculating benchmarks.</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="col-md-12 row" style="display: none;" id="onprocess">
+                                        <div class="col-md-12">
+                                            <div class="spinner-border" role="status" style="width: 1.5rem; height: 1.5rem;">
+                                                <span class="sr-only"></span>
+                                            </div><label class="align-top f-18 ms-2">Please wait until calculating Benchmarks data.</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row" style="display: none;" id="offprocess">
+                                        <span class="f-18 ms-2"><i class="bi bi-check-circle" style=""></i><span class="ms-2">Calculation of Benchmarks data completed successfully</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*step:5*@
+                        <div id="" class="border-top mt-4 disabledTag">
+                            <label> Step 5 : Adjust Inputs</label>
+                            <div class="col-md-12 mt-2 row">
+                                <div class="mt-2" id="TabBar">
+                                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-Hydrology-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-Hydrology" type="button" role="tab"
+                                                    aria-controls="pills-Hydrology" aria-selected="true">
+                                                Hydrology
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-Soilloss-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-Soilloss" type="button" role="tab"
+                                                    aria-controls="pills-Soilloss" aria-selected="false">
+                                                Soil loss
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-TotalP-tab" data-bs-toggle="pill"
+                                                    data-bs-target="#pills-TotalP" type="button" role="tab"
+                                                    aria-controls="pills-TotalP" aria-selected="false">
+                                                Total P
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div class="p-4 tab-content" id="pills-tabContent">
+                                        <input id="FieldId" type="hidden" value="0">
+                                        @*hydrology tab content*@
+                                        <div class="tab-pane fade active show" id="pills-Hydrology" role="tabpanel"
+                                             aria-labelledby="pills-Hydrology-tab">
+                                            @* step-5 Hydrology*@
+                                            <div class="col-md-12">
+                                                <div class="border border-2 container-fluid">
+                                                    <p class="mt-3">Hydrology</p>
+                                                    <div class="d-inline-flex">
+                                                        <div class="mb-3">
+                                                            <span for="LastName">Lambda Value</span>
+                                                            <div class="mt-1">
+                                                                <input class="form-control disabledTag" data-val="true" id="HydrologyLambda" maxlength="50" placeholder="Lambda Value" type="number" value="0">
+                                                            </div>
+                                                        </div>
+                                                        @* <div>
+                                                        <span for="LastName">Average Watershed Slope</span>
+                                                        <div class="">
+                                                        <input class="form-control" id="HydrologySlope" maxlength="50" placeholder="Average Watershed Slope" type="number" value="0">*@
+                                                        <input id="hydrology_ZydId" type="hidden" value="0" class="disabledTag">
+                                                        <input id="hydrology_MzId" type="hidden" value="0" class="disabledTag">
+                                                        @*</div>
+                                                        </div>*@
+                                                    </div>
+                                                    <table class="col-lg-12 mt-2 table table-responsive table-striped" id="Step5AdjustInputValueTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Zones</th>
+                                                                <th>Crop</th>
+                                                                <th>Year</th>
+                                                                <th>Option</th>
+                                                                <th>Curve Number</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <table class="col-lg-12 mt-3 mb-3 table table-responsive table-striped" id="Step5HydroMzValueTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Zones</th>
+                                                                <th>Average Watershed Slope</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*Soil loss tab content*@
+                                        <div class="tab-pane fade" id="pills-Soilloss" role="tabpanel"
+                                             aria-labelledby="pills-Soilloss-tab">
+                                            @* step-5 Solil loss*@
+                                            <div class="col-md-12">
+                                                <div class="border border-2 container-fluid">
+                                                    <p class="mt-3">Soil loss Inputs</p>
+                                                    <div class="d-inline-flex">
+                                                        <div class="mb-3">
+                                                            <span>Soil Unit Weight</span>
+                                                            <div class="d-flex mt-1">
+                                                                <input class="form-control" data-val="true" id="Soilloss_SoilUnitWeight" maxlength="50" placeholder="Soil Unit Weight" type="number" value="0">
+                                                                &nbsp;
+                                                                <div class="mt-2">lb/ft3</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 ms-3 mx-xxl-2">
+                                                            <span>Soil Formation Rate</span>
+                                                            <div class="d-flex mt-1">
+                                                                <input class="form-control" id="Soilloss_SoilFormationRate" maxlength="50" placeholder="Soil formation Rate" type="number" value="0">
+                                                                &nbsp;
+                                                                <div class="mt-2">t/acre/yr</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <table class="col-lg-12 mt-2 table table-responsive table-striped" id="Step5AdjustInputSoillossValueTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Zones</th>
+                                                                <th>Crop</th>
+                                                                <th>Year</th>
+                                                                <th>Option</th>
+                                                                <th>Practice Effect. Structural</th>
+                                                                <th>Practice Effect. Management</th>
+                                                                <th>Sediment Drainage Factor</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <table class="col-lg-12 mt-3 mb-3 table table-responsive table-striped" id="Step5SoillossMzValueTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Zones</th>
+                                                                <th>Sediment Delivery Ratio</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*Total P tab content*@
+                                        <div class="tab-pane fade" id="pills-TotalP" role="tabpanel"
+                                             aria-labelledby="pills-TotalP-tab">
+                                            @* step-5 Total P*@
+                                            <div class="col-md-12">
+                                                <div class="border border-2 container-fluid">
+                                                    <p class="mt-3">Total P</p>
+                                                    <table class="col-lg-12 mt-2 table table-responsive table-striped" id="Step5AdjustInputTotalpValueTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Zones</th>
+                                                                <th>Crop</th>
+                                                                <th>Year</th>
+                                                                <th>Option</th>
+                                                                <th>Practice Effect. Structural</th>
+                                                                <th>Practice Effect. Management</th>
+                                                                <th>TP Drainage Factor</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <table class="col-lg-12 mt-3 mb-3 table table-responsive table-striped" id="Step5TotalpMzValueTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Zones</th>
+                                                                <th>Proportion of TP Dissolved in Surface Runoff</th>
+                                                                <th>Proportion Total P Attached / Associated with Soil</th>
+                                                                <th>TP Delivery Ratio</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*step:6*@
+                        <div id="" class="border-top mt-4 disabledTag">
+                            <label> Step 6 : Set Watershed Goal details</label>
+                            <div class="col-md-12 ms-3">
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Downstream Lake or Stream?
+                                        </div>
+                                        <p style="font-size: 14px;" class="AccordInnerHead">Waterbody with a sediment problem?</p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="w-25">
+                                            @*<input class="form-control" data-val="true" data-val-required="The AdvisorId field is required." id="OperatorShare" name="AdvisorId" onblur="sendInputValue(this)" placeholder="%" type="number" value="0">*@
+                                            <select class="form-select" id="DownstreamIssue">
+                                                <option selected value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Stream Reach or Lake?
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="w-25">
+                                            <input class="form-control" data-val="true" placeholder="" type="text" id="StreamReach" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Waterbody Name
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="w-25">
+                                            <input class="form-control" data-val="true" placeholder="" type="text" id="WatershedName" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead align-items-center">
+                                            Maximum Allowable Sediment?
+                                            <p style="font-size: 14px;">Has a Mximum Allowable Amount of sediment Beed determined by the state or Federal Govrnment for the waterbody</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="w-25 mt-3">
+                                            @*<input class="form-control" data-val="true" data-val-required="The AdvisorId field is required." name="AdvisorId" onblur="sendInputValue(this)" placeholder="%" type="number" value="0">*@
+                                            <select class="form-select" id="MaxAllowedGov">
+                                                <option value=false>No</option>
+                                                <option selected value=true>Yes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Sediement - Percentage Reduction Goal for Waterbody
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="SedimentGoal" type="number" value="30"> &nbsp; %
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Total P - Percentage Reduction Goal for Waterbody
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="TpGoal" type="number" value="12"> &nbsp; %
+                                        </div>
+
+                                    </div>
+                                </div> &nbsp;
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            % of Watershed Area Required to Achieve Load Reduction cropland
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="PercContrUpstreamPrp" type="number" value="100"> &nbsp; %
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*step:7*@
+                        <div id="" class="border-top mt-4 disabledTag">
+                            <label> Step 7 : Adjust Watershed Value</label>
+                            <div class="col-md-12 ms-3">
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            % of Watershed Area Contributing Runoff and Load to PRP
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="PercFieldPrpContr" type="number" value="100">  &nbsp; %
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Total Watershed Area Upstream of the PRP (ac.)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" id="UpstreamdrainagePrpContr" type="text" value="0.00" readonly> &nbsp; Acres
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Upstream Watershed Area Contributing to PRP (ac.)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" id="TotalAreaUpstreamDrainagePr" type="text" value="0.00" readonly> &nbsp; Acres
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Total Field Area (ac.)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" id="TotalArea" type="text" value="0.00" readonly> &nbsp; Acres
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Field Area Located Within the PRP Watershed (ac.)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" id="AreaContrPrp" type="text" value="0.00"> &nbsp; Acres
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*calculation column*@
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            % of the Field Contributing Runoff and Load to PRP
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex ">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="FielsAppInputCalc" type="number" value="100"> &nbsp; %
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Field Area Contributing Runoff and Load to PRP
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" id="FieldAreaContributingPrp" type="text" value="0.00" readonly> &nbsp; Acres
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            % of PRP Area in Field Non-Contributing
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" type="number" value="0" id="PrpAreaFieldNonContri" readonly> &nbsp; %
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Field area not contributing Runoff and Load to PRP (ac.)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" type="text" id="FiAreaNotContribRunoffLoadPRP" value="0.00" readonly> &nbsp; acres
+                                        </div>
+                                    </div>
+                                </div>
+                                @*calculatio field end*@
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Sediment Delivery Percentage From Field to PRP
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="SedPrpDelRatio" type="number" value="0.00"> &nbsp;  (decimal)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Total P Delivery Percentage from Field to PRP
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25" data-val="true" placeholder="%" id="TpPrpDelRatio" type="number" value="0.00">  &nbsp; (decimal)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Estimated Total Sediment Load (tons)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" id="SedPrpNonpointSourceT" type="text" value="0.00"> &nbsp; tons
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 row">
+                                    <div class="col-md-5">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Estimated Total P Load (lbs)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="align-items-xxl-center d-lg-flex">
+                                            <input class="form-control w-25 mask" data-val="true" placeholder="%" id="TpPrpNonpointSourceLb" type="text" value="0.0"> &nbsp; lbs
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*PreView FSR*@
+                        <div id="div_CalculateBenchmarks" class="border-top mt-4">
+                            <div class="mt-2 mb-2 row">
+                                <div class="">
+                                    <button type="button" class="btn bg-green border-2 em-5" id="btn_PreviewFSR">
+                                        Calculate FSR
+                                    </button>                         
+                                 <button type="button" class="btn bg-green border-2 disabledTag ms-5" id="btn_PreviewFSR_Save">
+                                        Save
+                                    </button>
+                                  </div>
+                                @*<div class="col-3">
+                                    <button type="button" class="btn bg-green border-2 disabledTag" id="btn_PreviewFSR_Save">
+                                        Save Data
+                                    </button>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn bg-green border-2 disabledTag" id="btn_PublishFSRtoWeb" onclick="func_PublishFsr();">
+                                        Publish FSR to Web
+                                    </button>
+                                </div>*@
+                                <div class="col-md-9">
+                                    <div class="col-md-12 row" style="display: none;" id="onprocess">
+                                        <div class="col-md-11">
+                                            <div class="spinner-border" role="status" style="width: 1.5rem; height: 1.5rem;">
+                                                <span class="sr-only"></span>
+                                            </div>
+                                            <label class="align-top f-18 ms-2">Please wait while we update the field data.</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row" style="display: none;" id="offprocess">
+                                        <div class="col-md-4">
+                                            <h5><i class="bi bi-check-circle" style=""></i> Update successful!</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input id="txt_CO_Years2" type="hidden" />
+                        <p><span class="fw-5">Current Operation Years : </span><span id="Currunt_operation_Year2"></span></p>
+                        <br />
+                        <div id="PreviewFSRTableModel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

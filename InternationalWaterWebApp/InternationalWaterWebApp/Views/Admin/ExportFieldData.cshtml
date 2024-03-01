@@ -1,0 +1,103 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model Producers
+@{
+    ViewData["Title"] = "Export Field Data";
+}
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Export Field Data</h2>
+                    </div>
+
+                    @*get appsetting.json api for export field*@
+                    <input id="GetExportFieldApi" type="hidden" />
+                    <input id="GetExportAllFieldApi" type="hidden" />
+
+                    <div class="freportcard">
+                        @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Danger"])))
+                        {
+                            <div class="alert alert-danger mt-3" role="alert">
+                                @TempData["Danger"]
+                            </div>
+                        }
+                        <span class="mt-1"> Select Field to Export</span>
+                        <div class="col-md-12 mt-3 row">
+                            <div class="col-md-3">
+                                <span>Producer</span>
+                                @Html.DropDownListFor(x => x.ProducerId,
+                                new SelectList(ViewBag.Producer, "Value", "Text"),"Select Producer",
+                                new { @id = "ProducerOnChnage", @class = "form-select",onchange= "func_GetFieldsFromProducer()" })
+                            </div>
+                            <div class="col-md-3">
+                                <span>Fields</span>
+                                @* @Html.DropDownListFor(x => x.ProducerId, new SelectList(Enumerable.Empty<SelectListItem>()), "Select Fields",
+                                new { @id = "ProducerFields", @class = "form-select",onchange= "GetsingleFieldsTableForExpostData()" })*@
+                                <select id="ProducerFields" class="form-select" onchange="GetsingleFieldsTableForExpostData()">
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <span>&nbsp;</span>
+                                @* <button type="button" id="ExportFildDataGoBtn" class="border-2 btn bg-green form-control" ">*@
+                                <button type="button" id="exportDataBtn" class="border-2 btn bg-green form-control">
+                                    Export
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <span>&nbsp;</span>
+                                <button type="button" id="exportaAllFieldDataBtn" class="border-2 btn bg-green form-control">
+                                    Export All Fields
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="freportcard mt-4 overflow-auto">
+                        <table class="mt-5 table table-responsive table-striped" id="ExportDataTable">
+                            <thead>
+                                <tr>
+                                    <th>Field ID</th>
+                                    <th>Field</th>
+                                    <th>Management Zone ID</th>
+                                    <th>Management Zone</th>
+                                    <th>Year</th>
+                                    @* <th>Option Name</th>
+                                    <th>Crop Name</th>
+                                    <th>Tillage Method</th>*@
+                                    <th>Yield Class</th>
+                                    <th>Boundaries Exist</th>
+                                    <th>Topology Check (Field - Zones)</th>
+                                    <th>Data Entered</th>
+                                    <th>Export Ready</th>
+                                   
+                                    @*new added columns*@
+                                    <th>Field_Option_Id</th>
+                                    <th>Crop1_Name</th>
+                                    <th>Crop1_Rusle2_Lookup_Value</th>
+                                    <th>Primary_Tillage</th>
+                                    <th>Primary_Tillage_Rusle2_Lookup</th>
+                                    <th>Secondary_Tillage</th>
+                                    <th>Secondary_Tillage_Rusle2_Lookup</th>
+                                    <th>Net_C_Factor</th>
+                                    <th>CN3</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myTable">
+                            </tbody>
+                        </table>
+                        @* <input type="button" class="bg-green btn mt-4" value="Export" id="exportDataBtn" onclick="exportexcel()" />*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    const commonUrl = @Json.Serialize(@Configuration.GetSection("Keys:ApiUrls").GetSection("ExportFieldApi").Value);
+    const AllcommonUrl = @Json.Serialize(@Configuration.GetSection("Keys:ApiUrls").GetSection("ExportAllFieldApi").Value);
+    document.getElementById("GetExportAllFieldApi").value = AllcommonUrl;
+    document.getElementById("GetExportFieldApi").value = commonUrl;
+</script>

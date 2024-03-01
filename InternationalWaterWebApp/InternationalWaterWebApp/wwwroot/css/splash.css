@@ -1,0 +1,269 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+   font-family: 'Roboto Slab', serif;
+   width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+}
+img {
+    display: block;
+}
+.container{
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.top_line{
+    background-color: #83d206;
+    height: 25px;
+}
+.inner_wayfindr {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.logo {
+    width: 10%;
+}
+.logo_txt {
+    width: 38%;
+}
+.way_imge {
+    width: 50%;
+    height: 550px;
+}
+section.MR_T_B {
+    margin: 30px 0 0;
+}
+.way_imge img {
+    width: 100%;
+    border-radius: 60px;
+    /*height: 100%;*/
+    object-fit: cover;
+    object-position: center;
+}
+.ligt_grn {
+    color: #83d206;
+    font-size: 63px;
+    font-weight: 900;
+    line-height: 1;
+}
+.drk_grn {
+    color: #073d1b;
+    font-size: 63px;
+    font-weight: 900;
+    line-height: 1.1;
+}
+.logo_txt p {
+    font-size: 16px;
+    color: #073d1b;
+}
+.logo_txt p {
+    font-size: 20px;
+    color: #073d1b;
+    font-family: 'Roboto', sans-serif;
+    margin: 20px 0;
+    line-height: 1.8;
+}
+.coming_soon {
+    color: #83d206;
+    font-size: 70px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 50px 0;
+}
+.inr_txt {
+    margin: 20px 40px;
+}
+
+.bg-green {
+    background-color: #073d1b;
+    color: #fff;
+}
+
+.btn:hover {
+    color: #fff;
+}
+
+.si_input_group, .si_forget {
+    margin-top: 10px;
+}
+
+.signIn_content {
+    padding: 0 0 0 40px;
+    margin-bottom: 100px;
+}
+/* Splash responsive css*/
+@media screen and (max-width: 1300px) {
+    .logo_txt img {
+        width: 100%;
+        object-fit: contain;
+        object-position: left;
+    }
+
+    .ligt_grn,
+    .drk_grn {
+        font-size: 60px;
+    }
+
+    .logo_txt p {
+        font-size: 18px;
+        margin: 15px 0;
+    }
+
+    .coming_soon {
+        font-size: 65px;
+    }
+
+    .coming_soon {
+        margin: 30px 0 0;
+    }
+
+    .way_imge {
+        height: 450px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+
+    .ligt_grn,
+    .drk_grn {
+        font-size: 40px;
+        line-height: 1.2;
+    }
+
+    .logo_txt p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .inr_txt {
+        margin: 10px 0px;
+    }
+
+    .coming_soon {
+        font-size: 50px;
+    }
+
+    .way_imge {
+        height: 400px;
+    }
+
+        .way_imge img {
+            border-radius: 30px;
+        }
+}
+
+@media screen and (max-width: 992px) {
+    .logo img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .ligt_grn,
+    .drk_grn {
+        font-size: 30px;
+        line-height: 1.2;
+    }
+
+    .logo_txt p br {
+        display: none;
+    }
+
+    .coming_soon {
+        font-size: 40px;
+    }
+
+    .way_imge {
+        height: 370px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .logo,
+    .logo_txt,
+    .way_imge {
+        width: 100%;
+    }
+
+    .inner_wayfindr {
+        flex-flow: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .logo img {
+        width: auto;
+        height: 70px;
+        margin: 0 auto;
+    }
+
+    .main_logo {
+        height: 80px;
+        overflow: hidden;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .logo_txt img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+
+    .coming_soon {
+        margin: 20px 0 30px;
+        font-size: 45px;
+        line-height: 1.2;
+    }
+
+    .logo_txt p {
+        margin: 10px 0 0;
+    }
+
+    section.MR_T_B {
+        margin: 30px 0;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    section.MR_T_B {
+        margin: 20px 0;
+    }
+
+    .logo img {
+        height: 50px;
+    }
+
+    .main_logo {
+        height: 60px;
+    }
+
+    .coming_soon {
+        margin: 10px 0 30px;
+        font-size: 40px;
+    }
+
+    .way_imge {
+        height: 270px;
+    }
+
+        .way_imge img {
+            border-radius: 20px;
+        }
+}

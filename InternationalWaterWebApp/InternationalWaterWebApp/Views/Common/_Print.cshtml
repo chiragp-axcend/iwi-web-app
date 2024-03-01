@@ -1,0 +1,468 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <base href="/">
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #ebebeb;
+            margin: 0;
+            padding: 0;
+        }
+
+        #iwmaincontainer {
+            width: 980px;
+            margin: 0 auto;
+            display: block;
+            padding: 30px;
+            background: #fff;
+        }
+
+        #header {
+            display: flex;
+            align-content: flex-start;
+            justify-content: flex-start;
+            width: 100%;
+            border-bottom: solid 2px #0082ca;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        #leftheader, #rightheader, #leftContent, #rightContent {
+            width: 50%;
+        }
+
+        #companyname {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 33px;
+            /*color: #ea0029;*/
+            color: #5A5A5A
+        }
+
+        div#companydesc {
+            font-size: 16px;
+            color: #001689;
+            font-weight: 500;
+        }
+
+        #barcode {
+            float: right;
+            width: 86px;
+            margin-right: -10px;
+        }
+
+            #barcode img {
+                margin-right: -10px;
+                width: 100%;
+            }
+
+        #maincontent {
+            display: flex;
+            align-content: flex-start;
+            justify-content: flex-start;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        #fsrimg img {
+            width: 80%;
+        }
+
+        #fsrimg {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .BoxContent {
+            border: solid 1px #0082ca;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 25px;
+        }
+
+        .formInfo {
+            display: flex;
+            align-content: flex-start;
+            justify-content: flex-start;
+        }
+
+            .formInfo label {
+                width: 40%;
+            }
+
+            .formInfo b {
+                width: 60%;
+            }
+
+        .BoxContent h2 {
+            color: #073d1b;
+            font-size: 16px;
+            margin: 0 0 14px 0;
+            border-bottom: solid 1px #001689;
+            padding-bottom: 8px;
+        }
+
+        #BottomContent {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        table {
+            margin-top: 10px
+        }
+
+            table tr th {
+                background-color: #0082ca;
+                color: #fff;
+            }
+
+            table tr td, table tr th {
+                padding: 10px;
+                text-align: right;
+                font-weight: normal;
+                font-size: 14px;
+            }
+
+        /*table tr td {
+                        border-bottom: solid 1px #ccc;
+                    }*/
+
+        #fsrContent {
+            border: solid 10px #000;
+            border-radius: 46px;
+            margin-left: 20px;
+        }
+
+        #rating {
+            background: #000;
+            color: #fff;
+            font-size: 9em;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1em;
+        }
+
+        #fsrdetails {
+            background: #000;
+            color: #fff;
+            display: flex;
+            align-content: flex-start;
+            justify-content: flex-start;
+            border-radius: 0 0 14px 14px;
+        }
+
+        #ratingtext {
+            /*margin-bottom: 2px;*/
+            background: #fff;
+            display: block;
+            font-weight: 900;
+            text-align: center;
+            letter-spacing: 1px;
+            padding: 3px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #000;
+        }
+
+        #acbca {
+            width: 20%;
+            font-size: 2em;
+            font-weight: 700;
+            text-align: left;
+            line-height: 38px;
+            padding: 10px 0;
+            border-radius: 0 0 0 43px;
+            padding-left :15px;
+        }
+
+        #fsrdetailiteam {
+            width: 80%;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+            #fsrdetailiteam span {
+                display: block;
+                background: #fff !important;
+                /*margin: 2px 0;*/
+                padding: 6px 15px;
+                color: #000 !important;
+                font-weight: 900;
+                border-bottom: 2px solid #000;
+            }
+
+        #borderradius {
+            border-radius: 0px 0 36px 0px;
+        }
+
+        @@media only screen and (max-width: 980px) {
+            #iwmaincontainer {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @@page {
+            size: auto; /* auto is the initial value */
+            margin: 0mm; /* this affects the margin in the printer settings */
+        }
+
+        @@media print {
+            body {
+                background-image: none; /* Remove background image */
+                background-color: white; /* Set background color */
+            }
+
+            #fsrdetailiteam span {
+                display: block;
+                background: #fff !important;
+                /*margin: 2px 0;*/
+                padding: 6px 15px;
+                color: #000 !important;
+                font-weight: 900;
+                border-bottom: 2px solid #000;
+            }
+
+            #footer-link {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+    @* <div id="partialContainer">
+
+    <!-- HTML and Razor code to display the calculated data -->
+    <h2>Print View</h2>
+    <p>Field ID: @ViewBag.FieldId</p>
+    <p>Field Name: @ViewBag.FieldName</p>
+    <!-- Display other calculated data from the ViewBag as needed -->
+    </div>*@
+
+    <div id="iwmaincontainer">
+        <div id="header">
+            <div id="leftheader">
+                <div id="companyname">International Water Institute</div>
+                <div id="companydesc">
+                    Stewardship Program<br>
+                    Crop Certification
+                </div>
+            </div>
+            @*<div id="rightheader">
+            <div id="barcode"><img src="~/images/qrcode.png" title="QR Code"/></div>
+            </div>*@
+        </div>
+        <div id="maincontent">
+            <div id="leftContent">
+                <div id="ProdInfo" class="BoxContent">
+                    <h2>Producer Information</h2>
+                    <div class="formInfo">
+                        <label>Name: </label>
+                        <b>@ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["first_name"]</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>Street Address: </label>
+                        <b> @ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["address"]</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>City, State, Zip: </label>
+                        <b>
+                            @(string.IsNullOrEmpty(ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["city"]?.ToString()) ? "" : ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["city"] + ",")
+                            @(string.IsNullOrEmpty(ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["state"]?.ToString()) ? "" : ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["state"] + ",")
+                            @(string.IsNullOrEmpty(ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["zip"]?.ToString()) ? "" : ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["zip"] )
+                        </b>
+                    </div>
+                </div>
+                <div id="FieldInfo" class="BoxContent">
+                    <h2>Field Information</h2>
+                    <div class="formInfo">
+                        <label>Field Name: </label>
+                        <b>@ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["Name"]</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>Farm Name: </label>
+                        <b>@ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["farm_name"]?.Trim()</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>Cultivated Acres: </label>
+                        <b>@ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["total_area"]</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>Location: </label>
+                        
+                        <b>
+                            @(string.IsNullOrEmpty(ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["street_address"]?.ToString()) ? "" : ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["street_address"]+",")
+                            @(string.IsNullOrEmpty(ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["fieldscity"]?.ToString()) ? "" : ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["fieldscity"]+",")
+                            @(string.IsNullOrEmpty(ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["statename"]?.ToString()) ? "" : ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["statename"])
+                        </b>
+                    </div>
+                    <div class="formInfo">
+                        <label>Irrigated (yes/no)?: </label>
+                        <b>@ViewBag.FieldsPrintDeatils2?.Tables[0]?.Rows[0]["irrigated"]</b>
+                    </div>
+                </div>
+                <div id="OperatInfo" class="BoxContent">
+                    <h2>Operational Information for Production Year @ViewBag.Fromyear </h2>
+                    <div class="formInfo">
+                        <label>Crop: </label>
+                        <b> @ViewBag.crop_names[0]</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>Primary Tillage System: </label>
+                        <b>@ViewBag.tillag_names[0]</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>N 4R Fertilizer Rating: </label>
+                        <b> @ViewBag.RFactorLevels</b>
+                    </div>
+                    <div class="formInfo">
+                        <label>P 4R Fertilizer Rating: </label>
+                        <b> @ViewBag.RFactorLevelsp</b>
+                    </div>
+                </div>
+            </div>
+            <div id="rightContent">
+                @*<div id="fsrimg"> <img src="~/images/FSR.png" title="FSR" /></div>*@
+                <div id="fsrContent" style=" print-color-adjust: exact">
+                    <div id="fsrimg"> <img src="~/images/FSRlogo.png" alt="logo" /></div>
+
+                    @*<div id="rating">
+                    style="background:#000000; color:#FFFFFF;  print-color-adjust: exact; ">6.3</td>
+                    </tr></table>
+                    6.3</div>*@
+                    <div id="rating">@ViewBag.FSR</div>
+                    <div id="ratingtext">Field STEWARDSHIP RATING</div>
+                    <div id="fsrdetails">
+                        <div id="acbca">
+                            @(!Convert.IsDBNull(ViewBag.FSRdata.Tables[0].Rows[0]["rating_soil"]) ? (ViewBag.FSRdata.Tables[0].Rows[0]["rating_soil"].Trim()) : "") <br>
+                            @(!Convert.IsDBNull(ViewBag.FSRdata.Tables[0].Rows[0]["rating_water"]) ? (ViewBag.FSRdata.Tables[0].Rows[0]["rating_water"].Trim()) : "") <br>
+                            @(!Convert.IsDBNull(ViewBag.FSRdata.Tables[0].Rows[0]["rating_nutrient"]) ? (ViewBag.FSRdata.Tables[0].Rows[0]["rating_nutrient"].Trim()) : "") <br>
+                            @(!Convert.IsDBNull(ViewBag.FSRdata.Tables[0].Rows[0]["rating_surface"]) ? (ViewBag.FSRdata.Tables[0].Rows[0]["rating_surface"].Trim()) : "") <br>
+                            @(!Convert.IsDBNull(ViewBag.FSRdata.Tables[0].Rows[0]["rating_fertilizer"]) ? (ViewBag.FSRdata.Tables[0].Rows[0]["rating_fertilizer"].Trim()) : "") <br>
+                            @(!Convert.IsDBNull(ViewBag.FSRdata.Tables[0].Rows[0]["rating_allover"]) ? (ViewBag.FSRdata.Tables[0].Rows[0]["rating_allover"].Trim()) : "")
+                        </div>
+                        <div id="fsrdetailiteam">
+                            <span>
+                                SOIL MANAGEMENT
+                            </span>
+                            <span> WATER MANAGEMENT   </span>
+                            <span>
+                                NUTRIENT RETENTION - P
+                            </span>
+                            <span>
+                                SURFACE WATER QUALITY
+                            </span>
+                            <span> FERTILIZER MANAGEMENT    </span>
+                            <span id="borderradius"> OVERALL   </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="BottomContent">
+                <div id="EnvironmentalOutcome" class="BoxContent">
+                    <h2>Environmental Outcomes (add irrigation use efficiency if irrigated)</h2>
+                    <div id="outcomes">
+                        <label><strong>Outcomes:</strong> </label>
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <th>% Soil Retained</th>
+                                <th>% Total P Retained</th>
+                                <th>% Precipitation Retained</th>
+                                <th>Stewardship Rating</th>
+                            </tr>
+
+                            <tbody>
+                                @{
+                                    int rowCount1 = Math.Min(ViewBag.Field3?.Tables[0]?.Rows?.Count ?? 0, ViewBag.Field3?.Tables[0]?.Rows?.Count ?? 0);
+                                }
+                                @if (rowCount1 > 0)
+                                {
+                                    for (int i = 0; i < rowCount1; i++)
+                                    {
+
+                                        <tr>
+
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["soil_retained_perc"] ?? "")</td>
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["totalp_retained_perc"] ?? "") </td>
+                                            <td>@(ViewBag.Field3?.Tables[0]?.Rows[i]["precip_retained_perc"] ?? "") </td>
+                                            <td><strong>@ViewBag.FSR</strong></td>
+                                        </tr>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="11"> data not available.</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                            @*<tr>
+                            <td>80%</td>
+                            <td>65%</td>
+                            <td>40%</td>
+                            <td><strong>6.95</strong></td>
+                            </tr>*@
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@*<script>
+
+	 function myFunction() {
+		console.log('This is my function.');
+        // Function logic here
+			var printContents = document.getElementById("iwmaincontainer").innerHTML;
+			var originalContents = document.body.innerHTML;
+
+			document.body.innerHTML = printContents;
+			window.print();
+
+			document.body.innerHTML = originalContents;
+    }
+
+	$(function () {
+		// Check if the condition is met
+		var printOnLoad = '@ViewBag.PrintOnLoad' === 'True';
+		if (printOnLoad) {
+			// Function to print the document
+			function printDocument() {
+				//var documentData = '@ViewBag.DocumentData'; // Retrieve data from ViewBag
+				//$('#documentContent').text(documentData); // Update the document content
+				//window.print(); // Trigger the browser's print functionality
+
+
+				var printContents = document.getElementById("iwmaincontainer").innerHTML;
+				var originalContents = document.body.innerHTML;
+
+				document.body.innerHTML = printContents;
+				window.print();
+
+				document.body.innerHTML = originalContents;
+
+
+			}
+
+			// Delay the printing to ensure the document content is updated
+			setTimeout(printDocument, 100);
+		}
+	});
+</script>*@
+</html>

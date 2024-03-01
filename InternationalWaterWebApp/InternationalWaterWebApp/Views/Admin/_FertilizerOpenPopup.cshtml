@@ -1,0 +1,112 @@
+﻿@{
+    var FertilizerdataText = new string[] { "Fertilizer Source", "Application Rate", "Timing of Application", "Placement" };
+}
+<table class="mt-4 table table-borderless table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>4R Factor</th>
+            <th>Current Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            List<KeyValuePair<string, string>> factorLevelsList = new List<KeyValuePair<string, string>>();
+            if (ViewBag.FactorLevels != null)
+            {
+                factorLevelsList = new List<KeyValuePair<string, string>>(ViewBag.FactorLevels);
+            }
+        }
+
+        @if (factorLevelsList != null)
+        {
+
+            @for (int i = 0; i < factorLevelsList.Count; i++)
+            {
+                var factorLevel = factorLevelsList[i];
+                <tr>
+                    @if (FertilizerdataText.Length > 0)
+                    {
+                        <td>@FertilizerdataText[i % FertilizerdataText.Length]</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>@factorLevel.Value</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<div id="HelperTextFartilizerPopup">
+    <p class="HelperTextNiPho">The fertilizer management stewardship indices for nitrogen and phosphorus require answering multiple questions about fertilizer application methods – specifically about the fertilizer source, application rate, time of year applied, and placement methods – commonly referred to as “4R Standards (Right Source, Right Rate, Right Time, Right Place).”  The yes responses to the questions about the methods used to apply phosphorus (Bruulsema, 2017) and nitrogen (Snyder, 2016) fertilizers are summed by 4R category and classified as follows:  </p>
+    <table class="mb-3 table-bordered table-sm HelperTextNiPho">
+        <tr>
+            <th>Factor</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Few Basic Factors</td>
+            <td>Less than 50% of the responses to the basic questions are yes</td>
+        </tr>
+        <tr>
+            <td>Most Basic Factors</td>
+            <td>More than 50% but less than 100% of the responses to the basic questions are yes</td>
+        </tr>
+        <tr>
+            <td>Basic</td>
+            <td>100% of the responses to the basic questions are yes</td>
+        </tr>
+        <tr>
+            <td>Basic Plus</td>
+            <td>100% of the responses to the basic questions are yes, but less than 100% of the responses to the intermediate questions are yes</td>
+        </tr>
+        <tr>
+            <td>Intermediate</td>
+            <td>100% of the responses to the basic questions and intermediate questions are yes</td>
+        </tr>
+        <tr>
+            <td>Advanced</td>
+            <td>100% of the responses to the basic questions, intermediate questions, and advanced questions are yes</td>
+        </tr>
+    </table>
+    <p class="HelperTextNiPho">The classification is then converted into the stewardship index score as follows: </p>
+    <table class="mb-3 table-bordered table-sm">
+        <tr>
+            <th>Factor</th>
+            <th>Index Score</th>
+        </tr>
+        <tr>
+            <td>Few Basic Factors</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Most Basic Factors</td>
+            <td>2.5</td>
+        </tr>
+        <tr>
+            <td>Basic</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>Basic Plus</td>
+            <td>6.5</td>
+        </tr>
+        <tr>
+            <td>Intermediate</td>
+            <td>7.5</td>
+        </tr>
+        <tr>
+            <td>Advanced</td>
+            <td>10</td>
+        </tr>
+    </table>
+    <p class="HelperTextNiPho"><b>For more information:</b></p>
+    <ul class="HelperTextNiPho">
+        <li> View questions pertaining to the<a href="http://www.ipni.net/publication/ireview-en.nsf/0/02B29AF424907531852580F1004C2E82/$FILE/IssueReview-EN-14064.pdf"> 4R practices for phosphorus</a> (Bruulsema, 2017).</li>
+        <li>View questions pertaining to the<a href="http://www.ipni.net/publication/ireview-en.nsf/0/B2F5CFA199C227C785258049004E3EBA/$FILE/IssueReview-EN-14063.002.pdf"> 4R practices for nitrogen</a> (Snyder, 2016).</li>
+    </ul>
+
+</div>

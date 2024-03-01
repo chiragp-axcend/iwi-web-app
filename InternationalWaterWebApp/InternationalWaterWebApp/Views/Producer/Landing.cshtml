@@ -1,0 +1,243 @@
+﻿@using System.Data;
+@using InternationalWaterWebApp.Library.Common
+
+@{
+    ViewData["Title"] = "Landing Page";
+    EncryptDecryptData enc = new EncryptDecryptData();
+}
+
+@if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+{
+    <div class="alert alert-success mt-3" role="alert">
+        @TempData["Success"]
+    </div>
+}
+@if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Error"])))
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        @TempData["Error"]
+    </div>
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-8 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Welcome to WayFindr</h2>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-lg-auto">
+                            <div class="br-10 Ratig text-center">
+                                @if (ViewBag.FSRBox != 0)
+                                {
+                                    var ratingValue = @Math.Round(Convert.ToDouble(ViewBag.FSRBox), 2);
+                                    <span>@ratingValue.ToString("0.00")</span>
+                                }
+                                else
+                                {
+                                    <span>N/A</span>
+                                }
+                                <p>Farmer Stewardship Rating</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <p class="align-justify">
+                                @* The stewardship rating reflects the quality of your operation for all of your farms and the fields comprising each farm. The value ranges from 0 to 10, is adjusted for the size of each field and farm, and is based on specific environmental outcomes and stewardship indices that reflect your actual farming methods.*@
+                                Thank you for placing your trust in the International Water Institute’s Steward Program (SP). The SP focuses on realizing continuous improvements in the farm operation by exploring and implementing change that reflects the values of the Producer, rather than “selling” conservation or a specific farming method. Wayfinder provides you with the means to explore your ability to increase profitability, while understanding the implications of your operation on land stewardship and environmental outcomes. <br />
+                                Not only do receive direct value through the SP, you’re empowered to explore and test the viability of secondary markets (e.g., premium commodity pricing, preferred lending rates) using the Patent Pending Stewardship Rating.
+                            </p>
+                            @*<p class="TxtDecor">
+                            • Aliquam vel eros facilisis, cursus ante ac, interdum eros.
+                            <br>
+                            • Ut tristique et purus eget varius.
+                            <br>
+                            • Fusce iaculis dignissim justo, viverra ultricies risus rutrum sed.
+                            </p>
+                            <br />*@
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="br-10 bg-white p-3 mb-3">
+                    <div class="MessAdvisr">
+                        <div class="Heading">
+                            <h4 class="text-center">Message My Advisor</h4>
+                        </div>
+                        @if (ViewBag.AdvisorInfo?.Tables[0]?.Rows?.Count > 0)
+                        {
+                            @foreach (System.Data.DataRow Row in ViewBag.AdvisorInfo.Tables[0].Rows)
+                            {
+                                @* <div>Message My Advisor</div>*@
+                                <div><b>Advisor Name: </b> @Convert.ToString(Row["first_name"])  @Convert.ToString(Row["last_name"])</div>
+                                <br />
+                                <div>
+                                    <b>Phone: </b>
+                                    @{
+
+                                        var displayPhone = !string.IsNullOrEmpty(Convert.ToString(Row["phone_mobile"])) ? string.Format("({0:###) ###-####}", long.Parse(Convert.ToString(Row["phone_mobile"]))) : "N/A";
+                                    }
+                                    @displayPhone
+                                </div>
+                                <br />
+                                <div><b>Email: </b> @Convert.ToString(Row["email"])</div>
+                                <br />
+                            }
+                        }
+                        else
+                        {
+                            <div>No Advisor Assigned</div>
+                        }
+                        <div class="d-grid bg-green advsrBTN">
+                            <a href="javascript:;" class="btn" id="btnSendMessageToAdvisor"><i class="fa fa-plus"></i> Send Message </a>
+                        </div>
+                    </div>
+                </div>
+                @* <div class="br-10 bg-white p-3">
+                <div class="MessAdvisr">
+                <div class="Heading">
+                <h4 class="text-center">Key Resources</h4>
+                </div>
+                <div class="d-grid mb-2 kyResors mb-4">
+                <a href="#">Your Options</a>
+                </div>
+                <div class="d-grid mb-2 kyResors mb-4">
+                <a href="#">Field Setting</a>
+                </div>
+                <div class="d-grid mb-2 kyResors mb-4">
+                <a href="#">Management Zones</a>
+                </div>
+                </div>
+                </div>*@
+            </div>
+        </div>
+        <div class="col-lg-12 col-12">
+            <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                <div class="Heading">
+                    <h2>My Farms</h2>
+                </div>
+                <div class="innerPgeHeading  d-flex justify-content-between row">
+                    <p class="col-md-6 col-sm-12">The stewardship rating and environmental outcomes for each farm reflect the results for each field, adjusted for field size. </p>
+
+                    @*<h3>@ViewBag.FieldName</h3>*@
+                    @using (Html.BeginForm("Landing", "Producer", FormMethod.Post, new
+                    {
+                        @class = "col-md-5 mb-2",@* style = "margin-top: -13px;"*@ }))
+                    {
+                        @Html.Hidden("id", ViewBag.FieldId, new { })
+                        @Html.Hidden("name", ViewBag.FieldName, new { })
+                        <div class="inline-dropdowns d-flex justify-content-space-between align-items-center">
+                            <span class="Myfarmoperations">Operations Year:</span>
+                            @Html.DropDownList("DropdownFrom", (IEnumerable<SelectListItem>)ViewBag.Dropdownfrom, new { @class = "form-select w-30", onchange = "this.form.submit();", AutoPostBack = "true" })
+                            <span>to</span>
+                            @Html.DropDownList("DropdownTo", (IEnumerable<SelectListItem>)ViewBag.Dropdownto, new { @class = "form-select w-30", onchange = "this.form.submit();", AutoPostBack = "true" })
+                        </div>
+                    }
+                </div>
+                <table class="table table-striped table-responsive table-borderless" id="ProducerLandingFarm">
+                    <thead>
+                        <tr>
+                            <th>Farms</th>
+                            <th># of Fields</th>
+                            <th>Acres</th>
+                            <th>% of Enterprise</th>
+                            <th>Farm Stewardship Rating</th>
+                            <th>Stewardship Letter Grade</th>
+                            <th>Avg Net Return </th>
+                            <th>Avg Production Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.Farm?.Tables[0]?.Rows?.Count > 0 && ViewBag.Farm2?.Tables.Count > 0)
+                        {
+                            int rowCount = Math.Max(ViewBag.Farm?.Tables.Count > 0 ? ViewBag.Farm.Tables[0]?.Rows?.Count ?? 0 : 0, ViewBag.Farm2?.Tables.Count > 0 ? ViewBag.Farm2.Tables[0]?.Rows?.Count ?? 0 : 0);
+                            @* int averagesCount = ViewBag.Averages?.Count ?? 0;
+                        int gradesCount = ViewBag.Grades?.Count ?? 0;
+                        int loopLength = Math.Min(rowCount, Math.Min(averagesCount, gradesCount));*@
+
+                            if (rowCount > 0)
+                            {
+                                for (int i = 0; i < rowCount; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Producer" asp-action="MyFarmDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(ViewBag.Farm.Tables[0].Rows[i]["farm_id"]))" asp-route-name="@ViewBag.Farm.Tables[0].Rows[i]["farm_name"]">
+                                                @Convert.ToString(ViewBag.Farm.Tables[0].Rows[i]["farm_name"])
+                                            </a>
+                                        </td>
+                                        <td>
+
+                                            @(ViewBag.Farm?.Tables[0]?.Rows[i]["field_count"] ?? "")
+
+                                        </td>
+                                        <td>
+                                            @{
+                                                var acresRaw = ViewBag.Farm?.Tables[0]?.Rows[i]["acres"];
+                                                var formattedAcres = acresRaw != null
+                                                ? string.Format("{0:#,##0.##}", Convert.ToDouble(acresRaw))
+                                                : "";
+                                            }
+                                            @formattedAcres
+                                        </td>
+                                        @*<td>
+                            @(ViewBag.Farm?.Tables[0]?.Rows[i]["enterprise"] != null ? ((decimal)ViewBag.Farm.Tables[0].Rows[i]["enterprise"]).ToString("0.00") : "") %
+                            </td>*@
+                                        <td>@(!Convert.IsDBNull(ViewBag.Farm?.Tables[0]?.Rows[i]["enterprise"]) ? (ViewBag.Farm.Tables[0].Rows[i]["enterprise"]) : "") </td>
+                                        <td>
+                                            @(Convert.IsDBNull(ViewBag.Farm3?.Tables[0]?.Rows[i]["total_fsr"]) || Convert.ToDouble(ViewBag.Farm3?.Tables[0]?.Rows[i]["total_fsr"]) == 0 ? "-" : Convert.ToDouble(ViewBag.Farm3?.Tables[0]?.Rows[i]["total_fsr"]).ToString())
+                                        </td>
+
+                                        <td>@(!Convert.IsDBNull(ViewBag.Farm3?.Tables[0]?.Rows[i]["avgoverall_rating"]) ? (ViewBag.Farm3.Tables[0].Rows[i]["avgoverall_rating"]) : "-") </td>
+                                        @* <td>
+                            @(i < averagesCount ? (ViewBag.Averages[i]?.Average != null && ViewBag.Averages[i]?.Average.ToString("0.00") != "0.00" ? ViewBag.Averages[i]?.Average.ToString("0.00") : "-") : "-"
+                            )
+                            </td>
+                            <td>
+                            @(i < gradesCount ? (ViewBag.Grades[i] != null && ViewBag.Grades[i] != "" ? ViewBag.Grades[i] : "-") : "-"
+                            )
+                            </td>*@
+                                        <td>
+                                            @*@(ViewBag.Farm2?.Tables[0]?.Rows[i]["net_return"] ?? "")*@
+                                            @if (ViewBag.Farm2?.Tables[0]?.Rows != null && i >= 0 && i < ViewBag.Farm2.Tables[0].Rows.Count)
+                                            {
+                                                @ViewBag.Farm2.Tables[0].Rows[i]["net_return"]
+                                                ;
+
+                                            }
+                                            else
+                                            {
+                                                <text>0</text>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (ViewBag.Farm2?.Tables[0]?.Rows != null && i >= 0 && i < ViewBag.Farm2.Tables[0].Rows.Count)
+                                            {
+                                                @ViewBag.Farm2.Tables[0].Rows[i]["production_cost"]
+                                                ;
+                                            }
+                                            else
+                                            {
+                                                <text>0</text>
+                                            }
+
+                                            @*@(ViewBag.Farm2?.Tables[0]?.Rows[i]["production_cost"] ?? "")*@
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8"> data not available.</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,238 @@
+﻿@using InternationalWaterWebApp.Library.Common;
+@*@{
+   // ViewData["Title"] = @ViewBag.FieldName + "Financial Details";
+    EncryptDecryptData enc = new EncryptDecryptData();
+}*@
+@{
+    Layout = null;
+}
+@Html.Hidden("fieldId", ViewBag.FieldId, new { })
+
+<section class="FinancialDetails  rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="g-3 row">
+            <div class="col-sm-12 col-md-7 col-lg-7  bg-white">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        @* <h2>Expenses</h2> *@
+                        <h2>Total Cost of Production</h2>
+                    </div>
+                    <div id="Os" class="mt-3" style="display: block;">
+                        <div>
+                            @* <span>The chart below displays the cost summary for the field in $/acres</span> *@
+                            <span>The chart show your total cost of production, based on the data you provided. The absence of a column within a category means you provided no data.</span>
+                            <div id='ProductionSummaryGraph'><!-- Plotly chart will be drawn inside this DIV --></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-5  bg-white">
+                <div class="financiadetailscrop  mt-2">
+                    <h5>Operation Details</h5>
+                    <table class="fieldatable">
+                        <tbody>
+                            <tr>
+                                <td class="w-50">Crop </td>
+                                <td class=" w-60">
+                                    @if (ViewBag.crop_names != null && ViewBag.crop_names.Length > 0)
+                                    {
+                                        @string.Join(", ", ViewBag.crop_names)
+                                    }
+                                    else
+                                    {
+                                        <text>N/A</text>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="w-50">Tillage </td>
+                                <td class=" w-60">
+                                    @if (ViewBag.tillag_names != null && ViewBag.tillag_names.Length > 0)
+                                    {
+                                        @string.Join(", ", ViewBag.tillag_names)
+                                    }
+                                    else
+                                    {
+                                        <text>N/A</text>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=" w-50">Cover Crop </td>
+                                <td class=" w-60">
+                                    @if (ViewBag.cover_crop_names != null && ViewBag.cover_crop_names.Length > 0)
+                                    {
+                                        @string.Join(", ", ViewBag.cover_crop_names)
+                                    }
+                                    else
+                                    {
+                                        <text>N/A</text>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                @* <div class="mt-5">
+                <p><b>Net Return</b></p>
+                <div class="square-box" id="box">
+                <label id="SquareNetReturn">$ 0</label>
+                <label>per acre</label>
+                </div>
+
+                <p><b>Regional Bachamark Avg</b></p>
+                <div class="square-box" id="box">
+                <label id="SquareNetReturn">$ 0</label>
+                <label>per acre</label>
+                </div>
+
+                </div>*@
+                <div class="d-flex mt-5 text-center">
+                    <div class="mr-3">
+                        <b>Your Net Return</b>
+                        <br />
+                        <br />
+                        <div class="square-box mt-3" id="box">
+                            <label class="avgfinacialabelans" id="SquareNetReturn"><b>$ 0</b></label>
+                            <label class="avgfinacialabelque">($/acre)</label>
+                        </div>
+                    </div>
+                    <div class="ms-4 mr-3">
+                        <b>Benchmark Ave. Net Return</b>
+                        <p class="text-center">( @(((SelectList)ViewBag.Dropdownfrom).SelectedValue) - @(((SelectList)ViewBag.Dropdownto).SelectedValue) ) </p>
+
+                        <div class="square-box" id="box">
+                            <label class="avgfinacialabelans" id="SquareRegionalBenchmark"><b>$ 0</b></label>
+                            <label class="avgfinacialabelque">($/acre)</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="bordrBtn mt-4 mr70">
+                    <button class="btn d-flex  fl-right mt-1">Learn to intepret financial results ></button>
+                </div>
+                @*   <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                <div class="Heading">
+                <h2>Financial Results</h2>
+                </div>
+                <div>
+                <div style="width: 100%;display: flex;">
+                <div class="w-25">
+                <p><b>Net Return</b></p> <div class="square"><h1 id="SquareNetReturn">$ 0</h1><p>per acres</p></div>
+                </div>
+                <div>
+                <p><b>Regional Bachamark Avg</b></p>  <div class="square"><h1>$ 0</h1><p>per acres</p></div>
+                </div>
+                </div>
+                <div style="width: 100%">
+                <p>
+                <b> Direct costs</b>: expenses assigned to a specific activity to produce  your crop (e.g., seed, fertilizer, herbicides, etc.).
+                </p>
+                <p>
+                <b>Variable direct costs </b> are expenses that change based on the amount of commodity produced and land farmed.
+                </p>
+                <p>
+                <b>Fixed costs </b> are expenses that remain the same each month.
+                </p>
+                <p>
+                <b>Indirect costs </b> are expenses that apply your entire farm operation
+                (e.g., machinery depreciation, labor, overhead expenses, etc.)
+                </p>
+                <br />
+                <div class="bordrBtn mt-4">
+                <button class="btn d-flex align-items-center justify-content-space-between mt-1">Learn to intepret financial results ></button>
+                </div>
+                </div>
+                </div>
+                </div>*@
+            </div>
+
+            <div class="col-lg-12 col-12" style="margin-top: -77px;">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        @*<h2></h2>*@
+                    </div>
+                    <div class="d-flex mt-5 ">
+                        <div class="mr-3  ">
+                            @* <p><b>Net Return (Variable & Fixed)</b></p> *@
+                            <p class="border-bottom border-dark text-center"><b class="">Net Return Break – Even </b> <br></p>
+                            <div class="d-flex">
+                                <div>
+                                    <p class="text-center">$ / unit yield </p>
+                                    <div class="square-box  mr-3" id="box">
+                                        <label class="avgfinacialabelans" id="NetReturnBreakevenBushelBox"><b>$ 0</b></label>
+                                        <label class="avgfinacialabelque">($/acre)</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-center">yield / acre </p>
+                                    <div class="square-box ms-4  mr-3" id="box">
+                                        <label class="avgfinacialabelans" id="NetReturnBreakevenYieldAcresBox"><b>$ 0</b></label>
+                                        <label class="avgfinacialabelque">($/acre)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mr-5  ms-4 ">
+                            @* <p><b>Repayment Capacity (Cash Flow)</b></p> *@
+
+                            <p class="border-bottom border-dark text-center"><b class="">Repayment Capacity Break – Even (Cash Flow) </b> <br></p>
+                            <div class="d-flex">
+                                <div>
+                                    <p class="text-center">$ / unit yield </p>
+                                    <div class="square-box  mr-3" id="box">
+                                        <label class="avgfinacialabelans" id="RepaymentBreakevenBushelBox"><b>$ 0</b></label>
+                                        <label class="avgfinacialabelque">($/acre)</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-center">yield / acre</p>
+                                    <div class="square-box ms-4  mr-3" id="box">
+                                        <label class="avgfinacialabelans" id="RepaymentBreakevenYieldAcresBox"> <b>$ 0</b></label>
+                                        <label class="avgfinacialabelque">($/acre)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    @* <div class="d-flex">
+                    <div class="w-25">
+                    <p>Net Return(Variable & Fixed)</p>
+                    <div class="square" style="height: 137px;width: 191px;"><h1 id="NetReturnBreakevenBushelBox">$ 0</h1><p>Break-even $$/Bushel</p> </div>
+                    <div class="square" style="height: 137px;width: 191px;"><h1 id="NetReturnBreakevenYieldAcresBox">$ 0</h1><p>Break-even Yield/Acre</p> </div>
+                    </div>
+                    <div class="w-25">
+                    <p>Repayment Capacity (Cash Flow)</p>
+                    <div class="square" style="height: 137px;width: 191px;"><h1 id="RepaymentBreakevenBushelBox">$ 0</h1><p>Break-even $$/Bushel</p></div>
+                    <div class="square" style="height: 137px;width: 191px;"><h1 id="RepaymentBreakevenYieldAcresBox">$ 0</h1><p>Break-even Yield/Acre</p></div>
+                    </div>
+                    </div>*@
+                </div>
+            </div>
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Direct Cost</h2>
+                    </div>
+                    @* <span>The chart below outlines the direct costs below in term of Dollar/Acres</span> *@
+                    <span>The chart show your total direct cost, based on the data you provided. The absence of a column within a category means you provided no data.</span>
+                    <div id='CostProductionDirectCostsGraph'><!-- Plotly chart will be drawn inside this DIV --></div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Indirect Cost</h2>
+                    </div>
+                    <span>The chart show your total indirect cost, based on the data you provided. The absence of a column within a category means you provided no data.</span>
+                    <div id='CostProductionInDirectCostsGraph'><!-- Plotly chart will be drawn inside this DIV --></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

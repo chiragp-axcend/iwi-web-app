@@ -1,0 +1,106 @@
+2023-09-04 06:23:05.5447 Rusle2API.Controller ptrRome: 1537404080
+2023-09-04 06:23:05.7597 Rusle2API.Controller scienceVer: 20171018
+2023-09-04 06:23:05.7597 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-04 06:23:05.7597 Rusle2API.Controller pFiles: 1537404800
+2023-09-04 06:23:05.7597 Rusle2API.Controller pEngine: 1537404536
+2023-09-04 06:23:05.7597 Rusle2API.Controller pDb: 1537404800
+2023-09-04 06:23:07.0087 Rusle2API.Controller dbOpen: 1
+2023-09-04 06:23:07.0087 Rusle2API.Controller Using DB file: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\MOSES 2016_Orig.gdb
+2023-09-04 06:23:07.8097 Rusle2API.Controller pProfile: 135872648
+2023-09-04 06:23:08.8537 Rusle2API.Controller SLOPE_DETACH :136.933381111731
+2023-09-04 06:23:08.8537 Rusle2API.Controller Error retrieving attr: FN_SLOPE_EROD_FRAC_SOIL_LOSS
+2023-09-04 06:23:08.8537 Rusle2API.Controller FN_SLOPE_EROD_FRAC_SOIL_LOSS :
+2023-09-04 06:23:08.8537 Rusle2API.Controller SLOPE_DELIVERY :136.933381111731
+2023-09-04 06:23:08.8537 Rusle2API.Controller SLOPE_DEGRAD :136.933381111731
+2023-09-04 06:23:08.8537 Rusle2API.Controller NET_C_FACTOR :0.997507085707690
+2023-09-04 06:23:08.8537 Rusle2API.Controller NET_K_FACTOR :0.700000000000000
+2023-09-04 06:23:08.8537 Rusle2API.Controller NET_LS_FACTOR :0.972757246784448
+2023-09-04 06:23:08.8537 Rusle2API.Controller SLOPE_EVENT_RUNOFF :178.550515548474
+2023-09-04 06:23:08.8537 Rusle2API.Controller ------------------------------------------------
+2023-09-04 06:23:08.8537 Rusle2API.Controller strClimate: climates\default
+2023-09-04 06:23:08.8537 Rusle2API.Controller strMangmt: managements\Continuously tilled and smoothed
+2023-09-04 06:23:08.8627 Rusle2API.Controller strSoil: soils\default
+2023-09-04 06:23:08.8627 Rusle2API.Controller Done.
+2023-09-04 06:23:08.8627 Rusle2API.Controller Error retrieving attr: FN_SLOPE_EROD_FRAC_SOIL_LOSS
+2023-09-05 01:13:51.8109 Rusle2API.Controller ptrRome: 1536879792
+2023-09-05 01:13:51.8690 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 01:13:51.8690 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 01:13:51.8690 Rusle2API.Controller pFiles: 1536880512
+2023-09-05 01:13:51.8690 Rusle2API.Controller pEngine: 1536880248
+2023-09-05 01:13:51.8690 Rusle2API.Controller pDb: 1536880512
+2023-09-05 01:13:51.8690 Rusle2API.Controller DB File not found: MOSES 2016_Orig.gdb
+2023-09-05 01:14:19.3241 Rusle2API.Controller ptrRome: 1536879792
+2023-09-05 01:14:23.5283 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 01:15:02.6698 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 01:15:04.8516 Rusle2API.Controller pFiles: 1536880512
+2023-09-05 01:15:06.3316 Rusle2API.Controller pEngine: 1536880248
+2023-09-05 01:15:08.0956 Rusle2API.Controller pDb: 1536880512
+2023-09-05 01:15:24.7476 Rusle2API.Controller DB File not found: MOSES 2016_Orig.gdb
+2023-09-05 01:20:19.6127 Rusle2API.Controller ptrRome: 1537404080
+2023-09-05 01:20:20.4721 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 01:20:24.4393 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 01:20:25.5486 Rusle2API.Controller pFiles: 1537404800
+2023-09-05 01:20:26.8767 Rusle2API.Controller pEngine: 1537404536
+2023-09-05 01:20:28.2986 Rusle2API.Controller pDb: 1537404800
+2023-09-05 01:22:55.1338 Rusle2API.Controller ptrRome: 1537404080
+2023-09-05 01:22:55.9463 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 01:22:57.3551 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 01:22:58.5713 Rusle2API.Controller pFiles: 1537404800
+2023-09-05 01:22:59.8994 Rusle2API.Controller pEngine: 1537404536
+2023-09-05 01:23:01.8520 Rusle2API.Controller pDb: 1537404800
+2023-09-05 01:25:17.3008 Rusle2API.Controller ptrRome: 1419701424
+2023-09-05 01:25:17.7738 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 01:25:18.4339 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 01:25:18.9568 Rusle2API.Controller pFiles: 1419702144
+2023-09-05 01:25:20.5588 Rusle2API.Controller pEngine: 1419701880
+2023-09-05 01:25:21.7868 Rusle2API.Controller pDb: 1419702144
+2023-09-05 01:27:18.0961 Rusle2API.Controller ptrRome: 1398992048
+2023-09-05 01:27:18.1431 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 01:27:18.1431 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 01:27:18.1586 Rusle2API.Controller pFiles: 1398992768
+2023-09-05 01:27:18.1586 Rusle2API.Controller pEngine: 1398992504
+2023-09-05 01:27:21.3112 Rusle2API.Controller pDb: 1398992768
+2023-09-05 01:27:30.7984 Rusle2API.Controller dbOpen: 1
+2023-09-05 01:27:30.7984 Rusle2API.Controller Using DB file: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\dll\MOSES 2016_Orig.gdb
+2023-09-05 01:27:31.1109 Rusle2API.Controller pProfile: 8372064
+2023-09-05 01:27:31.9856 Rusle2API.Controller SLOPE_DETACH :136.933381111731
+2023-09-05 01:27:31.9856 Rusle2API.Controller Error retrieving attr: FN_SLOPE_EROD_FRAC_SOIL_LOSS
+2023-09-05 01:27:31.9856 Rusle2API.Controller FN_SLOPE_EROD_FRAC_SOIL_LOSS :
+2023-09-05 01:27:31.9856 Rusle2API.Controller SLOPE_DELIVERY :136.933381111731
+2023-09-05 01:27:31.9856 Rusle2API.Controller SLOPE_DEGRAD :136.933381111731
+2023-09-05 01:27:31.9856 Rusle2API.Controller NET_C_FACTOR :0.997507085707690
+2023-09-05 01:27:31.9856 Rusle2API.Controller NET_K_FACTOR :0.700000000000000
+2023-09-05 01:27:31.9856 Rusle2API.Controller NET_LS_FACTOR :0.972757246784448
+2023-09-05 01:27:31.9856 Rusle2API.Controller SLOPE_EVENT_RUNOFF :178.550515548474
+2023-09-05 01:27:31.9856 Rusle2API.Controller ------------------------------------------------
+2023-09-05 01:27:31.9856 Rusle2API.Controller strClimate: climates\default
+2023-09-05 01:27:31.9955 Rusle2API.Controller strMangmt: managements\Continuously tilled and smoothed
+2023-09-05 01:27:31.9955 Rusle2API.Controller strSoil: soils\default
+2023-09-05 01:27:31.9955 Rusle2API.Controller Done.
+2023-09-05 01:27:31.9955 Rusle2API.Controller Error retrieving attr: FN_SLOPE_EROD_FRAC_SOIL_LOSS
+2023-09-05 01:58:07.1401 Rusle2API.Controller ptrRome: 1537404080
+2023-09-05 01:58:30.8245 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 02:09:26.0834 Rusle2API.Controller ptrRome: 1537207472
+2023-09-05 02:09:51.8397 Rusle2API.Controller scienceVer: 20171018
+2023-09-05 02:09:51.8397 Rusle2API.Controller strAppPath: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\bin\dll
+2023-09-05 02:09:51.8397 Rusle2API.Controller pFiles: 1537208192
+2023-09-05 02:09:51.8397 Rusle2API.Controller pEngine: 1537207928
+2023-09-05 02:09:53.3017 Rusle2API.Controller pDb: 1537208192
+2023-09-05 02:09:55.0767 Rusle2API.Controller dbOpen: 1
+2023-09-05 02:09:55.0767 Rusle2API.Controller Using DB file: C:\Project\Rusle2API 3.5\Rusle2API\Rusle2API\dll\MOSES 2016_Orig.gdb
+2023-09-05 02:09:55.7497 Rusle2API.Controller pProfile: 136140072
+2023-09-05 02:09:57.4957 Rusle2API.Controller SLOPE_DETACH :136.933381111731
+2023-09-05 02:09:57.4957 Rusle2API.Controller Error retrieving attr: FN_SLOPE_EROD_FRAC_SOIL_LOSS
+2023-09-05 02:09:57.4957 Rusle2API.Controller FN_SLOPE_EROD_FRAC_SOIL_LOSS :
+2023-09-05 02:09:57.4957 Rusle2API.Controller SLOPE_DELIVERY :136.933381111731
+2023-09-05 02:09:57.4987 Rusle2API.Controller SLOPE_DEGRAD :136.933381111731
+2023-09-05 02:09:57.4987 Rusle2API.Controller NET_C_FACTOR :0.997507085707690
+2023-09-05 02:09:57.4987 Rusle2API.Controller NET_K_FACTOR :0.700000000000000
+2023-09-05 02:09:57.4987 Rusle2API.Controller NET_LS_FACTOR :0.972757246784448
+2023-09-05 02:09:57.4987 Rusle2API.Controller SLOPE_EVENT_RUNOFF :178.550515548474
+2023-09-05 02:09:57.4987 Rusle2API.Controller ------------------------------------------------
+2023-09-05 02:09:57.4987 Rusle2API.Controller strClimate: climates\default
+2023-09-05 02:09:57.4987 Rusle2API.Controller strMangmt: managements\Continuously tilled and smoothed
+2023-09-05 02:09:57.4987 Rusle2API.Controller strSoil: soils\default
+2023-09-05 02:09:57.4987 Rusle2API.Controller Done.
+2023-09-05 02:09:57.4987 Rusle2API.Controller Error retrieving attr: FN_SLOPE_EROD_FRAC_SOIL_LOSS

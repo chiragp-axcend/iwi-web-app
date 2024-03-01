@@ -1,0 +1,74 @@
+﻿@using InternationalWaterWebApp.Library.Common;
+@{
+    ViewData["Title"] = "MyFields";
+    EncryptDecryptData enc = new EncryptDecryptData();
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-lg-12 col-12">
+                <div class="bg-white WelWayFindr br-10 p-3 mb-3">
+                    <div class="Heading">
+                        <h2>Fields</h2>
+                    </div>
+                    @*<p>The stewardship rating and environmental outcomes for each farm reflect the results for each field, adjusted for field size. </p>*@
+
+                    <div class="myfields_wayfindr innerPgeHeading mb-4 justify-content-between">
+                        @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+                        {
+                            <div class="alert alert-success mt-3" role="alert">
+                                @TempData["Success"]
+                            </div>
+                        }
+                        <table class="table table-striped table-responsive table-borderless" id="AdminMyFields">
+                            <thead>
+                                <tr style="border-bottom:1px solid #ddd">
+                                    <th>Edit</th>
+                                    <th>ID</th>
+                                    <th>Field</th>
+                                    <th>Farm</th>
+                                    <th>Stewardship Rating</th>
+                                    @*<th>Advisor Plans</th>*@
+                                    <th>Producer</th>
+                                    <th>Management Zones</th>
+                                    <th>Plans</th>
+                                    <th>Township</th>
+                                    <th>Range</th>
+                                    <th>Section</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (System.Data.DataRow Row in ViewBag.Field.Tables[0].Rows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Common" asp-action="MyFieldEdit" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["field_id"]))" title="Edit"><i class="bi bi-pencil-square f-26"></i></a>
+                                          @*  <a asp-controller="Common" asp-action="MyFieldEdit" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["field_id"]))" title="Delete"><i class="bi bi-trash f-26"></i></a>*@
+                                        </td>
+                                        <td>@Convert.ToString(Row["field_id"])</td>
+                                        <td><a asp-controller="Common" asp-action="MyFieldsDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["field_id"]))" asp-route-name="@Row["name"]">@Convert.ToString(Row["name"])</a></td>
+                                        <td>@Convert.ToString(Row["farm_name"])</td>
+                                        <td>@(Row["fsr"] == null || Row["fsr"] == DBNull.Value || Convert.ToDecimal(Row["fsr"]) == 0 ? "-"  : Convert.ToDecimal(Row["fsr"]).ToString("#,##0.00"))</td>
+                                        @*<td>
+                                    <a asp-controller="Common" asp-action="AdvisorPlans">View</a>*@
+                                        @*<a asp-controller="Common" asp-action="MyFieldsDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["field_id"]))" asp-route-name="@Row["name"]">View</a>*@
+                                        @*</td>*@
+                                        <td> @(!Convert.IsDBNull(Row["producer_name"]) ? (Row["producer_name"]) : "")</td>
+
+                                        @*<td><a href="#">@Convert.ToString(Row["zone_name"])</a></td>*@
+                                        <td>@Convert.ToString(Row["zone_count"])</td>
+                                        <td>@Convert.ToString(Row["plans"])</td>
+                                        <td>@Convert.ToString(Row["township"])</td>
+                                        <td>@Convert.ToString(Row["range"])</td>
+                                        <td>@Convert.ToString(Row["section"])</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

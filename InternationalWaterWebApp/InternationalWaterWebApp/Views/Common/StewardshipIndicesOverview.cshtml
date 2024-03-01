@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Stewardship Indices Overview";
+}
+
+<div class="container-fluid">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+         aria-label="breadcrumb">
+        <ol class="breadcrumb mt-4 mb-2">
+            <li class="breadcrumb-item"><a href="/Common/Resources">Resources</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Stewardship Indices Overview</li>
+        </ol>
+    </nav>
+    <br />
+    <div class="resources">
+        <h4 for="StewardshipIndicesOverview" class="fw-8">Stewardship Indices Overview</h4> <br />
+        @*Explanation*@
+        <p>
+            <b>Explanation</b>
+        </p>
+        <p>
+            The 4 types of indices developed to describe stewardship quality are unique to the Stewardship Program.  Each index is based on quantitative data (e.g., amount of soil loss) and subsequently transformed into a scaled value ranging from 0 to 10. Each index is “weighted” based on “reliability” reflecting the quality of the science supporting the index.  The index values are summed and divided by the total number of values to arrive at a final “field stewardship rating.” <b>The field stewardship rating ranges from 0 to 10 (a higher value being more desirable).</b>
+        </p>
+        <br />
+
+        @*Types of Indices*@
+        <b>Types of Indices </b>
+        <p>Each stewardship index is one of the following types (see graphic):</p>
+        <p><u>Benchmark</u>—a characteristic of the field and farm operation is compared to a single “known” value (e.g., the rate soil forms) or benchmark.</p>
+        <p> <u>Agriculture Operation</u>—a characteristic of the field and farm operation is compared to the range for the field in agricultural production. Forage alfalfa and the current rotation in a moldboard plow tillage system is used to represent the range of agriculture production.</p>
+        <p><u>Agriculture Operation Departure</u>—a characteristic of the field and farm operation is compared to the midpoint value for the range in agricultural production and normalized by the range for agriculture.</p>
+        <p><u>Performance</u> (not illustrated) – based on achieving certain minimum protocols, methods or processes.</p>
+        <br />
+
+        @*Reliability*@
+        <b>Reliability</b>
+        <p>
+            Each index is rated with regard to the quality of the science information used to estimate the value. Reliability is rated as high, moderate or low:
+        </p>
+        <div class="col-md-12 row">
+            <div class="col-md-3">
+                <img src="../images/resources-stewardshipindicesoverview-img4.png" class="img-fluid" />
+
+            </div>
+            <div class="col-md-9">
+                <p><u>High (weight 3)</u> – No opinion or bias. Well supported by science and research data. The input data and the spatial scale of the calculations (5 x 5 meter cell) are the same and the benchmark value is “known.”</p>
+
+            </div>
+        </div>
+        <div class="col-md-12 row mt-4">
+            <div class="col-md-3">
+                <img src="../images/resources-stewardshipindicesoverview-img3.png" class="img-fluid" />
+            </div>
+            <div class="col-md-9">
+                <p><u>Moderate (weight 2)</u> – Some opinion or bias. Best professional judgment based on moderate to limited science and research data. The input data and the spatial scale of the calculations are not the same OR the benchmark value is based on a moderate amount of science and research data.</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 row mt-4">
+            <div class="col-md-3">
+                <img src="../images/resources-stewardshipindicesoverview-img2.png" class="img-fluid" />
+            </div>
+            <div class="col-md-9">
+                <p><u>Low (weight 1)</u> – Considerable opinion or bias. Best professional judgment based on limited science and research data. The input data and the spatial scale of the calculations (5 x 5 meter cell) are not the same <u>AND </u>the benchmark value is based on a limited amount of science and research data.</p>
+            </div>
+        </div>
+        <br />
+        @*Parameters*@
+        <b>Parameters</b>
+        <p>Each index describes one of the following parameters: soil / sediment, water, nitrogen, phosphorus.</p>
+        @*Spatial Scale*@
+        <b>Spatial Scale</b>
+        <p>Each index describes a physical, chemical or biological process at one of the following spatial scales:</p>
+        <img src="../images/resources-stewardshipindicesoverview-img1.png" class="img-fluid m-lg-5" />
+    </div>
+</div>

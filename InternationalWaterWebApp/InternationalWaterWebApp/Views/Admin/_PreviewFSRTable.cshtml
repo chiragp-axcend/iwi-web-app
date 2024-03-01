@@ -1,0 +1,123 @@
+﻿
+<table class="col-lg-12 mt-2 table table-responsive table-striped" id="PreviewFSRTable2">
+    <thead>
+        <tr>
+            <th>Field Option Id</th>
+            <th>Zone</th>
+            <th>Year</th>
+            <th>CN1</th>
+            <th>CN3</th>
+            <th>Ave.Watershed Slope</th>
+            <th>Max.Potential Storage</th>
+            <th>Precipitaion</th>
+            <th>Irrigation</th>
+            <th>Antecedent Morsture</th>
+            <th>Antecedent Morsture (NO IRR)</th>
+            <th>Initial Abstraction</th>
+            <th>Runoff IRR</th>
+            <th>Runoff No IRR</th>
+            <th>Infiltration No IRR</th>
+            <th>Infiltration IRR</th>
+            <th>Net C Factor</th>
+            <th>Total Sed Mass leaving</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.PreviewFSRTable2Ds != null)
+        {
+            @foreach (System.Data.DataRow Row in ViewBag.PreviewFSRTable2Ds.Tables[0].Rows)
+            {
+                <tr>
+                    <td>@Convert.ToString(Row["field_option_id"])</td>
+                    <td>@Convert.ToString(Row["management_zone_id"])</td>
+                    <td>@Convert.ToString(Row["year"])</td>
+                    <td>@Convert.ToString(Row["curve_number_lookup"])</td>
+                    <td>@Convert.ToString(Row["calc_curve_number"])</td>
+                    <td>@Convert.ToString(Row["slope"])</td>
+                    <td>@Convert.ToString(Row["max_potential"])</td>
+                    <td>@Convert.ToString(Row["total_precip_yr"])</td>
+                    <td>@Convert.ToString(Row["total_irrigation_yr"])</td>
+                    <td>@Convert.ToString(Row["calc_antecedent_moisture_irr"])</td>
+                    <td>@Convert.ToString(Row["calc_antecedent_moisture_no_irr"])</td>
+                    <td>@Convert.ToString(Row["initial_infiltration"])</td>
+                    <td>@Convert.ToString(Row["clac_runoff_yr_irr"])</td>
+                    <td>@Convert.ToString(Row["calc_runoff_yr_no_irr"])</td>
+                    <td>@Convert.ToString(Row["calc_infiltration_yr_no_irr"])</td>
+                    <td>@Convert.ToString(Row["calc_infiltration_yr_irr"])</td>
+                    <td>@Convert.ToString(Row["net_f_factor"])</td>
+                    <td>@Convert.ToString(Row["total_sed_mass_leaving"])</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="16">No record found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<hr />
+<br />
+
+<table class="col-lg-12 mt-2 table table-responsive table-striped" id="PreviewFSRTable">
+    <thead>
+        <tr>
+            <th>Zones</th>
+            <th>Crop</th>
+            <th>Year</th>
+            @*<th>FSR</th>*@
+            <th>SoWaErBeIn</th>
+            <th>SoFoDeInAg</th>
+            <th>SoWaErInAg</th>
+            <th>SoWaErDeInAg</th>
+            <th>SoReBeIn</th>
+            <th>InBeIn</th>
+            <th>InDeInAg</th>
+            <th>RuBeIn</th>
+            <th>RuDeInAg</th>
+            <th>IrrUseEffBeIn</th>
+            <th>TPMobInAg</th>
+            <th>TPMobDeInAg</th>
+            <th>TPExInAg</th>
+            <th>TPExDeInAg</th>
+            <th>TPReBeIn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.PreviewFSRDs != null)
+        {
+            @foreach (System.Data.DataRow Row in ViewBag.PreviewFSRDs.Tables[0].Rows)
+            {
+                <tr>
+                    <td>@Convert.ToString(Row["zone_name"])</td>
+                    <td>@Convert.ToString(Row["crop_name"])</td>
+                    <td>@Convert.ToString(Row["year"])</td>
+                    @*<td>@Convert.ToString(Row["fsr"])</td>*@
+                    <td>@Convert.ToString(Row["index_sowaerbein"])</td>
+                    <td>@Convert.ToString(Row["index_sofodeinag"])</td>
+                    <td>@Convert.ToString(Row["index_sowaerinag"])</td>
+                    <td>@Convert.ToString(Row["index_sowaerdeinag"])</td>
+                    <td>@Convert.ToString(Row["index_sorebein1"])</td>
+                    <td>@Convert.ToString(Row["index_inbein"])</td>
+                    <td>@Convert.ToString(Row["index_indeinag"])</td>
+                    <td>@Convert.ToString(Row["index_rubein"])</td>
+                    <td>@Convert.ToString(Row["index_rudeinag"])</td>
+                    <td>@Convert.ToString(Row["index_irruseeffbein"])</td>
+                    <td>@Convert.ToString(Row["index_tpmobinag"])</td>
+                    <td>@Convert.ToString(Row["index_tpmobdeinag"])</td>
+                    <td>@Convert.ToString(Row["index_tpexinag"])</td>
+                    <td>@Convert.ToString(Row["index_tpexdeinag"])</td>
+                    <td>@Convert.ToString(Row["index_tprebein"])</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="18">No record found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

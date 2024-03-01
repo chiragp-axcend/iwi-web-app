@@ -1,0 +1,328 @@
+﻿@{
+    ViewData["Title"] = "Understanding the FSR Calculation";
+}
+
+
+<div class="container-fluid">
+
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+         aria-label="breadcrumb">
+        <ol class="breadcrumb mt-4 mb-2">
+            <li class="breadcrumb-item"><a href="/Common/Resources">Resources</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Understanding the FSR Calculation</li>
+        </ol>
+    </nav>
+    <br />
+    <div class="resources">
+        <h4 for="UnderstandingtheFSRCalculatio" class="fw-8">Understanding the FSR Calculation</h4> <br />
+        <p>
+            The field stewardship rating is developed from 14 different stewardship indices. Each stewardship index reflects a process occurring within the soil profile, the field or the watershed.  Each index also represents a specific parameter (e.g, sediment or soil) and has a weight applied to reflect the quality of the science used to derive the index.
+        </p>
+        <p>
+            We first developed the 14 raw stewardship index values using quantitative information (e.g., the amount of soil detachment as a result of water sheet and rill erosion).  The raw stewardship indices are derived from soil loss and water retention methods using commonly accepted scientific equations. A method called the Revised Universal Soil Loss Equation (RUSLE2) is used to estimate the amount of soil detachment. A method called the “Curve Number” is used to estimate the amount of precipitation, which infiltrates into the soil profile. The input values to these equations are important assumptions affecting the stewardship rating.
+        </p>
+        <p>
+            The 14 raw stewardship indices are then “adjusted” or “scaled” to ensure each value ranges from 0 to 10.  We call these “scaled stewardship indices.” A value nearer 10 is “better” than a lower value.  The 14 scaled stewardship indices are mathematically combined into a single field stewardship rating. The field stewardship rating is weighted if adjusted by the reliability factor and unweighted if not adjusted by the reliability factor.
+        </p>
+        <div class="overflow-auto">
+            <table border="1" class="table-bordered text-center">
+                <tbody>
+                    <tr>
+                        <td rowspan="2" style="background-color: #dbdbdb;" class="h-6">
+                            Stewardship Index
+                        </td>
+                        <td rowspan="2" style="background-color: #dbdbdb;" class="h-6">
+                            Report Card Category
+                        </td>
+                        <td colspan="2" style="background-color: #dbdbdb;" class="h-6">
+                            Value
+                        </td>
+                        <td rowspan="2" style="background-color: #dbdbdb;" class="h-6">
+                            Weight Rationale
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #dbdbdb;" class="h-6">
+                            Data Quality
+                        </td>
+                        <td style="background-color: #dbdbdb;" class="h-6">
+                            Index Weight
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            Soil Water Erosion Benchmark Index (SoWaErBeIn)
+
+                        </td>
+                        <td>
+                            Soil Management
+                        </td>
+                        <td>
+                            Low
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td colspan="2">
+                            Uncertainty in soil formation rate.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Soil Water Erosion Departure Index for Agriculture (SoWaErDeInAg)
+
+                        </td>
+                        <td>
+                            Soil Management
+                        </td>
+                        <td>
+                            High
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Use of accepted method to estimate soil erosion (Revised Universal Soil Loss Equation).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Soil Retention Benchmark Index (SoReBeIn)
+
+                        </td>
+                        <td>
+                            Soil Management
+                        </td>
+                        <td>
+                            Moderate
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Use of accepted method to estimate soil erosion (Revised Universal Soil Loss Equation), but uncertainty surrounding removal of sediment by conservation practices.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Infiltration Benchmark Index (InBeIn)
+
+                        </td>
+                        <td>
+                            Water Management
+                        </td>
+                        <td>
+                            High
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Use of accepted hydrology model (continuous simulation model estimating daily water terms), based on Natural Resources Curve Number model. Model parameters adjusted for antecedent moisture and field specific conditions (soil type, land slope, presence of drainage).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Runoff Departure Index for Agriculture (RuDeInAg)
+
+                        </td>
+                        <td>
+                            Water Management
+                        </td>
+                        <td>
+                            High
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Use of accepted hydrology model (continuous simulation model estimating daily water terms), based on Natural Resources Curve Number model. Model parameters adjusted for antecedent moisture and field specific conditions (soil type, land slope, presence of drainage)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Irrigation Water Use Efficiency Benchmark In (IrrUseEffBeIn)
+
+                        </td>
+                        <td>
+                            Water Management
+                        </td>
+                        <td>
+                            High
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Use of accepted hydrology model (continuous simulation model estimating daily water terms), based on Natural Resources Curve Number model. Model parameters adjusted for antecedent moisture and field specific conditions (soil type, land slope, presence of drainage)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Total P Mobilization Index for Agriculture (TPMobInAg)
+
+                        </td>
+                        <td>
+                            Nutrient Retention - P
+                        </td>
+                        <td>
+                            Moderate
+                        </td>
+                        <td>
+                            2
+                        </td>
+                        <td colspan="2">
+                            Use of accepted watershed loading model, where P generated based on crop type and tillage method. Less detailed than hydrology model.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Total P Export Departure Index for Agriculture (TPExDeInAg)
+
+                        </td>
+                        <td>
+                            Nutrient Retention - P
+                        </td>
+                        <td>
+                            Moderate
+                        </td>
+                        <td>
+                            2
+                        </td>
+                        <td colspan="2">
+                            Use of accepted watershed loading model, where P generated based on crop type and tillage method. Less detailed than hydrology model.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Total P Retention Benchmark Index (TPReBeIn)
+
+                        </td>
+                        <td>
+                            Nutrient Retention - P
+                        </td>
+                        <td>
+                            Moderate
+                        </td>
+                        <td>
+                            2
+                        </td>
+                        <td colspan="2">
+                            Use of accepted watershed loading model, where P generated based on crop type and tillage method. Less detailed than hydrology model.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Resource Sediment Goal Index (ReSedGlIn)
+
+                        </td>
+                        <td>
+                            Surface Water Quality Risk
+                        </td>
+                        <td>
+                            Low
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td colspan="2">
+                            Use of accepted transport equations, but lack of information about site specific watershed goals and current annual sediment load (from SPARROW model &ndash; SPAtially Referenced Regression On Watershed attributes).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Sediment Goal Feasibility Index (ReSedFeasIn)
+
+
+                        </td>
+                        <td>
+                            Surface Water Quality Risk
+                        </td>
+                        <td>
+                            Low
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td colspan="2">
+                            Use of accepted transport equations, but lack of information about site specific watershed goals and current annual sediment load (from SPARROW model &ndash; SPAtially Referenced Regression On Watershed attributes)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Resource Phosphorus Goal Index (RePhosGlIn)
+
+                        </td>
+                        <td>
+                            Surface Water Quality Risk
+                        </td>
+                        <td>
+                            Low
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td colspan="2">
+                            Use of accepted transport equations, but lack of information about site specific watershed goals and current annual sediment load (from SPARROW model &ndash; SPAtially Referenced Regression On Watershed attributes).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Phosphorus Goal Feasibility Index (RePhosFeasIn)
+
+                        </td>
+                        <td>
+                            Surface Water Quality Risk
+                        </td>
+                        <td>
+                            Low
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td colspan="2">
+                            Use of accepted transport equations, but lack of information about site specific watershed goals and current annual sediment load (from SPARROW model &ndash; SPAtially Referenced Regression On Watershed attributes)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            4R Nitrogen Fertilizer Index (NFertIn)
+                        </td>
+                        <td>
+                            Fertilizer Management
+                        </td>
+                        <td>
+                            High
+
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Performance standard based on actual data collected from the farmer.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            4R Phosphorus Fertilizer Index (PFertIn)
+
+                        </td>
+                        <td>
+                            Fertilizer Management
+                        </td>
+                        <td>
+                            High
+                        </td>
+                        <td>
+                            3
+                        </td>
+                        <td colspan="2">
+                            Performance standard based on actual data collected from the farmer.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

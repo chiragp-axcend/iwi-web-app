@@ -1,0 +1,203 @@
+@media (max-width: 1399.98px) {}
+
+@media (max-width: 1199.98px) {
+
+    /* menu */
+    .HeaderLogo {
+        padding-right: 40px;
+    }
+
+    .HeaderLogo img {
+        height: 35px;
+    }
+
+    .HeaderMenu {
+        margin-left: 20px !important;
+    }
+
+    .nav-link span {
+        font-size: 14px;
+    }
+
+    /* menu-end */
+    .Ratig {
+        padding: 15px;
+    }
+
+    .Ratig span {
+        font-size: 30px;
+    }
+
+    .Ratig p {
+        font-size: 14px;
+    }
+
+    .MessAdvisrDetail {
+        padding: 8px;
+    }
+
+    .Heading {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    body{
+        font-size: 14px;
+    }
+
+    /* menu */
+    .HeaderLogo {
+        padding-right: 0;
+        border-right: none;
+        margin-right: 0 !important;
+    }
+
+    .navbar-toggler .navbar-toggler-animation {
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        background-image: none;
+        position: relative;
+        height: 22px;
+        width: 22px;
+        display: inline-block;
+        vertical-align: middle;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+    }
+
+    .navbar-toggler .navbar-toggler-animation span {
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        height: 2px;
+        background: #fff;
+        display: block;
+        position: absolute;
+        width: 100%;
+        border-radius: 30px;
+    }
+
+    .navbar-toggler .navbar-toggler-animation span:nth-child(1) {
+        top: 10%;
+    }
+
+    .navbar-toggler[data-bs-toggle=collapse][aria-expanded=true] .navbar-toggler-animation span:nth-child(1) {
+        -webkit-transform: rotateZ(45deg) translateY(-50%);
+        transform: rotateZ(45deg) translateY(-50%);
+        top: 49%;
+        -webkit-transform-origin: 50% 0;
+        transform-origin: 50% 0;
+        width: 100%;
+    }
+
+    .navbar-toggler .navbar-toggler-animation span:nth-child(2) {
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .navbar-toggler[data-bs-toggle=collapse][aria-expanded=true] .navbar-toggler-animation span:nth-child(2) {
+        visibility: hidden;
+        -webkit-transition: all 0s ease-in-out;
+        transition: all 0s ease-in-out;
+    }
+
+    .navbar-toggler .navbar-toggler-animation span:nth-child(3) {
+        bottom: 10%;
+    }
+
+    .navbar-toggler[data-bs-toggle=collapse][aria-expanded=true] .navbar-toggler-animation span:nth-child(3) {
+        -webkit-transform: rotateZ(-45deg) translateY(-50%);
+        transform: rotateZ(-45deg) translateY(-50%);
+        bottom: 42%;
+        -webkit-transform-origin: 50% 0;
+        transform-origin: 50% 0;
+        width: 100%;
+    }
+
+    .navbar-collapse {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background: #073d1b;
+        border-radius: 5px;
+        margin-top: -5px;
+    }
+
+    .navbar-toggler,
+    .navbar-toggler:focus {
+        border: none !important;
+        color: transparent;
+    }
+
+    .MenuIconTxt img {
+        margin: 0 10px 0 0;
+    }
+
+    a.nav-link {
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .HeaderMenu {
+        margin-left: 0px !important;
+        margin-top: 10px;
+    }
+
+    .MenuIconTxt {
+        padding: 8px 15px;
+    }
+
+    /* menu-end */
+    .Ratig {
+         padding: 10px;
+    }
+}
+
+@media (max-width: 767.98px) {}
+
+@media (max-width: 575.98px) {
+
+    /* menu */
+    .UserId span {
+        font-size: 14px;
+    }
+
+    .UserId img {
+        width: 30px;
+        height: 30px;
+        margin-right: 5px;
+    }
+
+    .UserId a {
+        margin-left: 10px !important;
+    }
+
+    .HeaderLogo img {
+        height: 30px;
+    }
+
+    /* menu-end */
+
+    .environmentalOutcomes {
+        display: inline !important;
+        width: 100% !important;
+    }
+
+    .div-avg-boxes {
+        display: inline !important;
+    }
+
+        .div-avg-boxes .avgfinacialdiv {
+            margin-top: 12px;
+            margin-left: 0;
+        }
+
+        .d-sm-inline #myForm  {
+            width: 80% !important;
+        }
+}

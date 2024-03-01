@@ -1,0 +1,48 @@
+            string fileName = Path.GetFileName("Minnesota soil data.xlsx");
+            string path = "C:\\Project";
+            string filePath = Path.Combine(path, fileName);
+
+            using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // Register encoding provider
+                EncodingProvider provider = CodePagesEncodingProvider.Instance;
+                Encoding.RegisterProvider(provider);
+                using (var reader = ExcelReaderFactory.CreateOpenXmlReader(stream))
+                {
+                    var result = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // Treat the first row as column headers
+                        }
+                    });
+
+                    //excel code start........
+                    //Exce sheet-1 data update
+                    var worksheet1 = result.Tables["Sheet1"];
+                    try
+                    {
+                        foreach (DataRow row in worksheet1.Rows)
+                        {
+                            var State = row["State"]?.ToString();
+                            var County = row["County"]?.ToString();
+                            var Soil_lookup = row["Soil_lookup"]?.ToString();
+
+
+                            try
+                            {
+                                string QuerylegacyInsertfertilizer = $"select * from \"FSRCalc\".rusle_soil_lookup_tableinsert(_state => '{State}', _county => '{County}',_soil_lookup =>'{Soil_lookup}');";
+                                DataSet DsFieldlegacyInsertfertilizer = _masterRepository.GetAndSelectTableItemsWithoutCursor(QuerylegacyInsertfertilizer);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }

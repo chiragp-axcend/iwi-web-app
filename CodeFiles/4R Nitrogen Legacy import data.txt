@@ -1,0 +1,64 @@
+            Field_Nitrogen 4R Criteria data import
+            string fileName = Path.GetFileName("Field_Nitrogen Criteria 310.xlsx");
+            string path = "C:\\Project";
+            string filePath = Path.Combine(path, fileName);
+
+            using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // Register encoding provider
+                EncodingProvider provider = CodePagesEncodingProvider.Instance;
+                Encoding.RegisterProvider(provider);
+                using (var reader = ExcelReaderFactory.CreateOpenXmlReader(stream))
+                {
+                    var result = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // Treat the first row as column headers
+                        }
+                    });
+
+                    //excel code start........
+                    //Exce sheet-1 data update
+                    var worksheet1 = result.Tables["Sheet1"];
+                    try
+                    {
+                        foreach (DataRow row in worksheet1.Rows)
+                        {
+                            var FieldId = row["FieldID"]?.ToString();
+                            var Factor = row["Factor"]?.ToString();
+                            var Value = row["Value"]?.ToString();
+
+                            string QuerylegacyFieldPhosphorus = $"select * from \"FSRCalc\".Field_Nitrogen_Criteria(datarefcursor => 'data',_actiontype =>'GetFieldId' ,_legacy_field_id => '{FieldId} ');";
+                            DataSet DsFieldlegacyPhosphorusData = _masterRepository.GetAndSelectTableItems(QuerylegacyFieldPhosphorus);
+
+                            string QuerylegacyFactorPhosphorus = $"select * from \"FSRCalc\".Field_Nitrogen_Criteria(datarefcursor => 'data',_actiontype =>'GetFactorId' ,_factor => '{Factor} ');";
+                            DataSet DsFieldlegacyFactorPhosphorus = _masterRepository.GetAndSelectTableItems(QuerylegacyFactorPhosphorus);
+
+                            if (DsFieldlegacyPhosphorusData.Tables.Count != 0)
+                            {
+                                for (int col = 0; col <= DsFieldlegacyPhosphorusData.Tables[0].Rows.Count - 1; col++)
+                                {
+                                    object FactorId = DsFieldlegacyFactorPhosphorus.Tables[0].Rows[0][0];
+                                    object zid = DsFieldlegacyPhosphorusData.Tables[0].Rows[col][0];
+                                    object mgmtzid = DsFieldlegacyPhosphorusData.Tables[0].Rows[col][1];
+
+                                    try
+                                    {
+                                        string QuerylegacyInsertfertilizer = $"select * from \"FSRCalc\".field_nitrogen_criteriainsert(_four_r_factor_id => {FactorId}, _response_value => '{Value}',_zone_yearly_id =>{zid} ,_mgmt_zone_id =>{mgmtzid});";
+                                        DataSet DsFieldlegacyInsertfertilizer = _masterRepository.GetAndSelectTableItemsWithoutCursor(QuerylegacyInsertfertilizer);
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }

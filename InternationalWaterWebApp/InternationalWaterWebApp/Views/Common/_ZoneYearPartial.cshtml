@@ -1,0 +1,2094 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using InternationalWaterWebApp.Library.Common
+
+@model ZoneYearDetails
+@{
+    ViewBag.FieldName = Model.Field_Name;
+}
+@using (Html.BeginForm("SaveFinancialData", "Common", FormMethod.Post, new { @id = "form-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId, @class = "form-horizontal my-form-class" }))
+{
+    <div class="row g-0">
+        <div class="col-lg-8">
+            <div class="LftFormBar p-4">
+                    @if(Model.FieldOptionId != 1)
+                    {
+                    <p class="alert-warning border p-1">For any structural practices, management practices, or cover crops that you have applied to your field, please adjust the financial plan fields accordingly.</p>
+                    }
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item mb-4">
+                        <h2 class="accordion-header" id="headingOne">
+                            @Html.Hidden("Fieldid", ViewBag.FieldId, new { })
+                            @Html.Hidden("Name", ViewBag.FieldName, new { })
+                            <button class="accordion-button accoBorRadi" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Zone Details <img src="~/images/Icon feather-chevron-down.png" alt="">
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body tab-content-zone">
+                                <div class="row mb-2">
+                                    <div class="col-md-5 AccordInnerHead">
+                                        Crop:
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.HiddenFor(x => x.Management_Zone_Id)
+                                        @Html.HiddenFor(x => x.Year)
+                                        @Html.HiddenFor(x => x.ZydId)
+                                        @Html.HiddenFor(x => x.FieldOptionId)
+                                        @* @Html.HiddenFor(x => x.IsValuesChanged, new { id = "isValueChangeFinancialEdit-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId }) *@
+                                        <span class="crop-name"> @Html.DisplayFor(x => x.CropName, new { htmlAttributes = new { @class = "crop-name" }} ) </span>
+                                        @*  <span class="crop-name"> @Model.CropName </span>*@
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-5 AccordInnerHead">
+                                        Primary Tillage:
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.DisplayFor(x => x.TillageName)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 AccordInnerHead">
+                                        Yield Designation:
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.DisplayFor(x => x.Yield)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-4">
+                        <h2 class="accordion-header mb-3" id="headingTwo">
+                            <button class="accordion-button collapsed accoBorRadi"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo"
+                                    aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                <span class="w-75">Gross Revenue</span>
+                                <span class="TotalGrossRevenue"></span> <img src="~/images/Icon feather-chevron-down.png" alt="">
+                            </button>
+                        </h2>
+                        <div id="collapseTwo"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="headingTwo"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                @Html.HiddenFor(x => x.Management_Zone_Id)
+                                @Html.HiddenFor(x => x.Year)
+                                @Html.HiddenFor(x => x.Field_Id)
+                                @Html.HiddenFor(x => x.Field_Name)
+                                @Html.HiddenFor(x => x.ZydId)
+                                @Html.HiddenFor(x => x.DataQualityGrade,new { id="DataQualityGrade-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId})
+                                @Html.Hidden("ManagementZoneAndYear", $"{Model.Management_Zone_Id}-{Model.Year}-{Model.ZydId}")
+                                @*TotalProductReturn*@
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-3 row">
+                                    <div class="col-5 p-0 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Total Product Return
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalProductReturn"></span>
+                                                @Html.HiddenFor(x => x.TotalProductReturn, new{@id="TotalProductReturnInput"})
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Acres*@
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Acres <span class="Complsry me-1">*</span>
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Field size based on the field boundary stored within the database. Cultivated area may be less than the field size."></i>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Acres, new { id="Acres-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, type = "text", placeholder="2.5", onblur="sendInputValue(this)", @class = "form-control disabler validator maks",@readonly = "readonly"})
+                                                </div>
+                                            </div>
+                                            <div class="col-1">acres</div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Expected Yield   <span class="Complsry me-1">*</span>
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Yield per acre (e.g., bushel, dry weight) within the management zone. Use the field average assuming typical weather conditions and timely plant/harvest dates if lacking a specific value for the management zone in the selected year."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.ExpectedYield, new { @id = "ExpectedYield-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, type = "text",  onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "$" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.ExpectedYield, "" , new {  @class = "alert-danger" })<br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Renter % share
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Your share of the yield."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">%</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group w-50">
+                                                    @Html.TextBoxFor(x => x.OperatorShare, new { maxlength = "3", @id = "OperatorShare-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, type = "number", onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "%" })
+                                                    @*@Html.TextBoxFor(x => x.OperatorShare, new { @id = "OperatorShare-" + Model.Management_Zone_Id + "-" + Model.Year, type = "number", onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "%", pattern = "[0-9]{2}", maxlength = "4" })*@
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OperatorShare, "" , new {  @class = "alert-danger" })
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Commodity Sale Price <span class="Complsry me-1">*</span>
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Dollars per unit yield (e.g., bushel, dry weight). Use the field average assuming typical weather conditions and timely plant/harvest dates if lacking a specific value for the management zone in the selected year."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.CommoditySalePrice, new { @id = "CommoditySalePrice-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, type = "text",  onblur="sendInputValue(this)", @class = "form-control disabler validator  mask", placeholder = "$"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CommoditySalePrice, "" , new {  @class = "alert-danger" })<br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-4 pb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Product Revenue <span class="Complsry me-1">*</span>
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Other revenue received on a yield per acre basis."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherProductReturn, new { @id = "OtherProductReturn-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, type = "text",  onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "$" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherProductReturn, "" , new {  @class = "alert-danger" })<br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*TotalGrossRevenue*@
+                                <div class="align-items-center bodrGren mQuryMargin mb-3 row">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead totalGren d-flex align-items-center">
+                                            Other Revenue
+                                        </div>
+                                    </div>
+                                    <div class="InptRgt col-md-7 mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @*<span id="TotalGrossRevenue"></span>*@
+                                                    @{
+                                                        string clsTGR = "TotalGrossRevenue-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId;
+                                                    }
+                                                    @*<input type="number" name="TotalGrossRevenue" class="form-control @(clsTGR)">*@
+                                                    @*@Html.TextBoxFor(model => model.TotalGrossRevenue, new { @id="TotalGrossRevenue", @class = "form-control" ,onblur="sendInputValue(this)"})*@
+                                                    @Html.TextBoxFor(x => x.TotalGrossRevenue, new { @id="TotalGrossRevenue-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler " + clsTGR+ " mask mb-1", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="To make fields editable,
+                                                clear all of the textboxes
+                                                above "></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Hedge Gain/Loss*@
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Hedge Gain/Loss
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Difference between contract and actual (futures) sale price."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.HedgeGainLoss, new { @id = "HedgeGainLoss-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.HedgeGainLoss, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Crop Insurance Payment*@
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Crop Insurance Payment
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Revenue from crop insurance."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.CropInsurancePayments, new { @id = "CropInsurancePayments-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CropInsurancePayments, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Stewardship Payments*@
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Stewardship Payments
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Revenue for conservation related activities (e.g. cover crop cost share; implementing conservation practice)."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.StewardshipPayments, new { @id = "StewardshipPayments-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.StewardshipPayments, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Government Payments*@
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Government Payments
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Revenue from government payments (e.g., program payments; subsidy)."></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.GovernmentPayments, new { @id = "GovernmentPayments-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.GovernmentPayments, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-4">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed accoBorRadi"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree"
+                                    aria-expanded="false"
+                                    aria-controls="collapseThree">
+                                <span class="w-75" style="display: flex; align-items: center;">
+                                    Direct Expenses   <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Sometimes called variable expenses because they increase or decrease according to the number of production units (e.g., acres planted, these expenses are incurred only when agricultural production occurs. Direct expenses are $0 in the absence of producing a crop or raising livestock. Common direct expenses include labor, machinery fuel, oil, lubricants and repairs, including labor and fuel costs required to prepare for planting and interest payments for operating capital. &#10;
+                                    A commonly overlooked direct expense is the opportunity cost for family labor, management, land and equity capital. Opportunity costs are the benefits you and your operation “miss out on” when choosing an enterprise, such as corn, over an alternative, such as soybeans. For example, although you may not write yourself a paycheck every other week, your labor and management time has value – or an opportunity cost. &#10;
+                                  To calculate the value of your management and labor, consider the wage or salary you could be earning working somewhere else. Additionally, include the value of unpaid family labor, which the wage they could be earning working somewhere else."></i>
+                                </span>
+
+                                <span class="TotalDirectExpense"></span>
+                                <img src="~/images/Icon feather-chevron-down.png" alt="">
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-2 row">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Seed Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalSeedrExpenses"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*seed*@
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Seed
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Seed"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Seed, new { @id = "Seed-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Seed, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*fertilizer*@
+                                @*Total Fertilizer Expenses*@
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-2 row">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Fertilizer Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalFertilizerExpenses"></span>
+                                                @Html.HiddenFor(x => x.TotalFertilizerExpenses)
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Nitrogen (as N)
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Nitrogen (as N)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Nitrogen, new { @id = "Nitrogen-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"  })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Phosphorus (as P)
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Phosphorus (as P)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+
+                                                    @Html.TextBoxFor(x => x.Phosphorus, new { @id = "Phosphorus-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Potash
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Potash"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Potash, new { @id = "Potash-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Sulphur
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Sulphur"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Sulfur, new { @id = "Sulfur-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"  })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Lime
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Lime"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+
+                                                    @Html.TextBoxFor(x => x.Lime, new { @id = "Lime-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Fertilizer
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="if your cost is not by type, enter total fertilizer cost in “other fertilizer”"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.SeedOther, new { @id = "SeedOther-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"  })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.SeedOther, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Total Crop Chemical Expenses*@
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-2 row">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Crop Chemical Expenses
+                                        </div>
+                                    </div>
+                                    <div class="InptRgt col-6 mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+
+                                                <span id="TotalCropChemicalExpenses"></span>
+                                                @Html.HiddenFor(x => x.TotalCropChemicalExpenses)                                                
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Herbicide
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Herbicide"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Herbicide, new { @id = "Herbicide-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Fungicide
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Fungicide"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Fungicide, new { @id = "Fungicide-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Insecticide
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Insecticide"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Insecticide, new { @id = "Insecticide-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Chemicals
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="if your cost is not by type, enter total crop chemical cost in “other chemicals”"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.CropChemicalOther, new { @id = "CropChemicalOther-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CropChemicalOther, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*Other Crop Expenses*@
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-2 row">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Other Crop Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="OtherCropExpenses"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Miscellaneous
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Miscellaneous"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Miscellaneous, new { @id = "Miscellaneous-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Cover Crop
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Cover Crop"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.CoverCrop, new { @id = "CoverCrop-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CoverCrop, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        @*<div class="AccordInnerHead">
+                                    Insurance
+                                    </div>*@
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Crop Insurance
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Crop Insurance"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Insurance, new { @id = "Insurance-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId , onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Insurance, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*Energy Expenses*@
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-2 row">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Energy Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalEnergyExpenses"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center ">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Drying Propane
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Drying Propane"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.DryingPropane, new { @id = "DryingPropane-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DryingPropane, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Equipment Fuel
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Equipment Fuel"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.EquipmentFuel, new { @id = "EquipmentFuel-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.EquipmentFuel, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*Total Repair & Maintenanc*@
+                                <div class="align-items-center border-3 border-bottom mQuryMargin mb-2 row">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Repair &amp; Maintenance
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalRepairMaintenance"></span>
+                                                @Html.HiddenFor(x => x.TotalRepairMaintenance)                                                
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Machinery
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Machinery"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Machinery, new { @id = "Machinery-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Buildings
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Buildings"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Buildings, new { @id = "Buildings-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Repair & Maintenance
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Other Repair & Maintenance"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.RepairMaintenanceOther, new { @id = "RepairMaintenanceOther-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*start custom hire*@
+                                <div class="row align-items-center mb-3 mQuryMargin border-3 border-bottom">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Custom Hire
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalCustomHire">25</span>
+                                                @Html.HiddenFor(x => x.TotalCustomHire)
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Driver
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Driver"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Driver, new { @id = "Driver-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Equipment
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Equipment"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Equipment, new { @id = "Equipment-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3 mediBordrBotm">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Custom Application
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Custom Application"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.CustomApplicationt, new { @id = "CustomApplicationt-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Custom Hire (Direct)
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Other Custom Hire (Direct)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.CustomHireOther, new { @id = "CustomHireOther-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.CustomHireOther, "" , new {  @class = "alert-danger" })
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*end custom hire*@
+
+                                @*start hired labor*@
+                                <div class="row align-items-center mb-3 mQuryMargin border-3 border-bottom">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Hired Labor
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalHiredLabor"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Hired Labor
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Hired Labor"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.HiredLabor, new { @id = "HiredLabor-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.HiredLabor, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Irrigation
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Irrigation"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Repairs, new { @id = "Repairs-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center pb-4 mediBordrBotm mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Fuel Electricity
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Fuel Electricity"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.FuelElectricity, new { @id = "FuelElectricity-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*end hired labor*@
+
+                                @*start leases*@
+                                <div class="row align-items-center mb-3 mQuryMargin border-3 border-bottom">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Leases
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalLeases"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Machinery
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Machinery"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.LeasesMachinery, new { @id = "LeasesMachinery-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LeasesMachinery, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Buildings
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Buildings"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.LeasesBuildings, new { @id = "LeasesBuildings-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LeasesBuildings, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*end leases*@
+
+                                @*start other expenses*@
+                                <div class="row align-items-center mb-3 mQuryMargin border-3 border-bottom">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Other Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="align-items-center row">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="TotalDirectOtherExpenses"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* <div class="row align-items-center mb-2">
+                            <div class="col-md-4">
+                            <div class="AccordInnerHead totalGren">
+                            Other Expenses
+                            </div>
+                            </div>
+                            <div class="col-7 InptRgt mb-2">
+                            <div class="align-items-center row">
+                            <div class="col-lg-10 col-8 totalGren">
+                            <span class="zyearacre">$/acre</span>
+                            <span id="TotalDirectOtherExpenses"></span>
+                            </div>
+                            <div class="col-lg-2 col-4">
+                            </div>
+                            </div>
+                            </div>
+
+                            </div>*@
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Land Rent
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Land Rent"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.LandRent, new { @id = "LandRent-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.LandRent, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Stewardship Implementation
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Stewardship Implementation"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.StewardshipImplementation, new { @id = "StewardshipImplementation-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.StewardshipImplementation, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Storage
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Storage"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Storage, new { @id = "Storage-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Storage, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Supplies
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Supplies"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Supplies, new { @id = "Supplies-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Supplies, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Utilities
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Utilities"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Utilities, new { @id = "Utilities-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Utilities, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Freight & Trucking
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Freight & Trucking"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.FreightTrucking, new { @id = "FreightTrucking-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",@class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FreightTrucking, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Marketing
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Marketing"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.Marketing, new { @id = "Marketing-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Marketing, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Interest (Operating)
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Interest (Operating)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.InterestOperating, new { @id = "InterestOperating-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.InterestOperating, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center mb-4 row bodrGren mQuryMargin">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Costs
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Other Costs"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherCosts, new { @id = "OtherCosts-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",@class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherCosts, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Return Over Direct Expense per Acre*@
+                                <div class="align-items-center mb-2 row">
+                                    <div class="col-4 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Total Direct Expense
+                                        </div>
+                                    </div>
+                                    <div class="col-7 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-lg-5 p-0">
+                                                <div class="input-group">
+                                                    @*<span id="TotalDirectExpense"></span>*@
+                                                    @{
+                                                        string clsTDE = "TotalDirectExpense-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId;
+                                                    }
+                                                    @*<input type="text" name="TotalDirectExpense" class="form-control @(clsTDE)">*@
+                                                    @Html.TextBoxFor(x => x.TotalDirectExpense, new {@id="TotalDirectExpense-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler " + clsTGR + " mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                                <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="To make fields editable,
+                                                clear all of the textboxes
+                                                above"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="align-items-center mb-2 row">
+                                    <div class="col-4 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Return Over Direct Expense per Acre
+                                        </div>
+                                    </div>
+                                    <div class="col-7 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-lg-5 p-0">
+                                                <div class="input-group">
+                                                    @{
+                                                        string clsRTDE = "ReturnOverDirectExpenseperAcre-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId;
+                                                    }
+                                                    @Html.TextBoxFor(x => x.ReturnOverDirectExpenseperAcre, new {@id="ReturnOverDirectExpenseperAcre-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler " + clsRTDE + " mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @*end other expenses*@
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-4">
+                        <h2 class="accordion-header" id="headingFor">
+                            <button class="accordion-button collapsed accoBorRadi"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFor"
+                                    aria-expanded="false"
+                                    aria-controls="collapseFor">
+
+                                <span class="w-75" style="display: flex; align-items: center;">
+                                    Overhead Expenses <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Sometimes called “fixed expenses” these are costs incurred even if no crops or livestock are produced.  These expenses are incurred due to ownership of machinery, equipment, buildings and facilities, and land used in production. Depreciation, term interest, taxes, and non-crop insurance are additional overhead expenses Common interest expenses include interest on loans taken to build facilities or purchase equipment and livestock. &#10;
+                                      Depreciation is a noncash expense that recognizes an asset loses value over the production period because of use, age and wear. Depreciation is also needed for asset replacement planning. There are multiple ways to calculate equipment and facility depreciation, but straight-line depreciation is common and simple. &#10;
+                                        Overhead expenses are sometimes associated with multiple enterprises. Allocate overhead expenses to each enterprise. For example, suppose you use a piece of machinery 100 hours a year. Ten of those hours are for your wheat enterprise, while the remaining 90 hours your corn enterprise. To prorate these hours, you would allocate 10% of that machine’s depreciation to your wheat enterprise ($100 of $1000) and 90% to your corn enterprise ($900 of $1000). The same allocation rule goes for facility depreciation, insurance and taxes."></i>
+                                </span>
+                                <span class="TotalOverheadExpenses"> </span>
+                                <img src="~/images/Icon feather-chevron-down.png" alt="">
+                            </button>
+                        </h2>
+                        <div id="collapseFor"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="headingFor"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                @*Total Custom Hire*@
+                                <div class="row align-items-center mb-3 mQuryMargin border-3 border-bottom">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Total Custom Hire
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="OverheadExpensesTotalCustomHire"></span>
+                                                @Html.HiddenFor(x => x.OverheadExpensesTotalCustomHire)
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Driver*@
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Driver
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Driver"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OverheadExpensesDriver, new { @id = "OverheadExpensesDriver-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Equiment
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Equiment"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OverheadExpensesEquipment, new { @id = "OverheadExpensesEquipment-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Custom Application
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Custom Application"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OverheadExpensesCustomApplication, new { @id = "OverheadExpensesCustomApplication-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Other"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OverheadExpensesOther, new { @id = "OverheadExpensesOther-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OverheadExpensesOther, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row align-items-center mb-3 mQuryMargin border-3 border-bottom">
+                                    <div class="col-5 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Other Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-6 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-10 col-8 totalGren">
+                                                <span>$/acre</span>
+                                                <span id="OverheadExpensesTotalOtherOtherExpenses"></span>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Hired Labor
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Hired Labor"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesHiredLabor, new { @id = "OtherExpensesHiredLabor-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesHiredLabor, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Machinery Lease
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Machinery Lease"></i>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesMachineryLease, new { @id = "OtherExpensesMachineryLease-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesMachineryLease, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Building Leases
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Building Leases"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesBuildingLeases, new { @id = "OtherExpensesBuildingLeases-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesBuildingLeases, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Farm Insurance
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Farm Insurance"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesFarmInsurance, new { @id = "OtherExpensesFarmInsurance-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesFarmInsurance, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Utilities
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Utilities"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesUtilities, new { @id = "OtherExpensesUtilities-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesUtilities, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Dues & Professional Fees
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Dues & Professional Fees"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesDuesProfessionalFees, new { @id = "OtherExpensesDuesProfessionalFees-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesDuesProfessionalFees, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Interest
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Interest"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesInterest, new { @id = "OtherExpensesInterest-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesInterest, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Machine/Building Depreciation
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Machine/Building Depreciation"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesMachineBuildingDepreciation, new { @id = "OtherExpensesMachineBuildingDepreciation-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)", @class = "form-control disabler validator mask  small-6-col", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesMachineBuildingDepreciation, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Real Estate Taxes
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Real Estate Taxes"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesRealEstateTaxes, new { @id = "OtherExpensesRealEstateTaxes-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesRealEstateTaxes, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center bodrGren mQuryMargin mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Other Overhead Expenses
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Other Overhead Expenses"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.OtherExpensesOtherOverheadExpenses, new { @id = "OtherExpensesOtherOverheadExpenses-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, onblur="sendInputValue(this)",  @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.OtherExpensesOtherOverheadExpenses, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Total Overhead Expenses*@
+                                <div class="align-items-center row">
+                                    <div class="col-4 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Total Overhead Expenses
+                                        </div>
+                                    </div>
+                                    <div class="col-7 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @*<span id="TotalOverheadExpenses"> </span>*@
+                                                    @{
+                                                        string clsTOE = "TotalOverheadExpenses-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId;
+                                                    }
+                                                    @Html.TextBoxFor(x => x.TotalOverheadExpenses, new { @id="TotalOverheadExpenses-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId,onblur="sendInputValue(this)", @class = "form-control disabler " + clsTGR + " mask", placeholder = "$", type = "text" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                                <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="To make fields editable,
+                                                clear all of the textboxes
+                                                above"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-4">
+                        <h2 class="accordion-header" id="headingFiv">
+                            <button class="accordion-button collapsed accoBorRadi"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFiv"
+                                    aria-expanded="false"
+                                    aria-controls="collapseFiv">
+                                <span class="w-75">Financing</span>
+                                <span class="TotalFinancing"></span>
+                                <img src="~/images/Icon feather-chevron-down.png" alt="">
+                            </button>
+                        </h2>
+                        <div id="collapseFiv"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="headingFiv"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Income Taxes
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Income Taxes"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.FinancingIncomeTaxes, new { @id = "FinancingIncomeTaxes-" + Model.Management_Zone_Id + "-" + Model.Year+ "-" +Model.ZydId, @class = "form-control disabler validator mask small-6-col", placeholder = "$" , type = "text",onblur="sendInputValue(this)"})
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FinancingIncomeTaxes, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Owner Withdrawal
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Owner Withdrawal"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.FinancingOwnerWithdrawal, new { @id = "FinancingOwnerWithdrawal-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId,  @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text",onblur="sendInputValue(this)" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FinancingOwnerWithdrawal, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center row bodrGren mb-4">
+                                    <div class="col-md-4">
+                                        <div class="AccordInnerHead d-flex align-items-center">
+                                            Financing Principal Payment
+                                            <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Financing Principal Paymentl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 InptRgt">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @Html.TextBoxFor(x => x.FinancingPrincipalPayment, new { @id = "FinancingPrincipalPayment-" + Model.Management_Zone_Id + "-" + Model.Year + "-" + Model.ZydId, @class = "form-control disabler validator mask small-6-col", placeholder = "$", type = "text",onblur="sendInputValue(this)" })
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.FinancingPrincipalPayment, "" , new {  @class = "alert-danger" }) <br>
+                                            <div class="col-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Total Financing*@
+                                <div class="align-items-center mQuryMargin mb-2 row">
+                                    <div class="col-4 mb-2">
+                                        <div class="AccordInnerHead totalGren">
+                                            Total Financing
+                                        </div>
+                                    </div>
+                                    <div class="col-7 InptRgt mb-2">
+                                        <div class="row align-items-center">
+                                            <div class="col-2">
+                                                <label class="float-end">$/acre</label>
+                                            </div>
+                                            <div class="col-5 p-0">
+                                                <div class="input-group">
+                                                    @*<input type="number" name="TotalFinancing" value="0" class="form-control">*@
+                                                    @Html.TextBoxFor(x => x.TotalFinancing, new { @id="TotalFinancing-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId,onblur="sendInputValue(this)", @class = "form-control disabler " + clsTGR + " mask", placeholder = "$", type = "text",pattern = "#,##0.00"  })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-4">
+                                                <i class="bi bi-info-circle-fill ms-2 circlefill" data-toggle="tooltip" data-bs-placement="right" title="Enter total expenses here"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <input type="submit" class="btn bg-green" value="Submit" id="MZFinancisubmit" />
+                @if (@ViewBag.UserRole == 1)
+                {
+                    <button type="button" class="btn bg-green" id="MZFinanciPlansnamesubmit"> Save as Financial Plan</button>
+                    <input type="text" id="MZFinanciPlanname" class="mfinanciPlanname" style="display: none;" onkeyup="checkInput()" />
+                    <button type="button" class="btn bg-green MZFinanciPlanssubmitshowhide" style="display: none;" id="MZFinanciPlanssubmit-@(Model.Management_Zone_Id)-@(Model.Year)-@(Model.ZydId)" onclick="savefinanciplans(this)"> Save</button>
+                }
+
+            </div>
+        </div>
+        <div class="col-lg-4">
+           
+           @*  @{
+                if (Model.FieldOptionId == 3 || Model.FieldOptionId == 4)
+                {
+                    <div class="calc-optiondiv-financialedit">
+                        <input type="button" class="btn bg-green calc-optionbtn-financialedit" value="Calculate Option Data" onclick="func_IsValueChangeFinancialDetailsEdit('@("-" + Model.Management_Zone_Id + "-" + Model.Year + "-" +Model.ZydId)')" />
+                        
+                    </div>
+
+                }
+            } *@
+            <div class="RTFormBar GreyBG p-4">
+                <div class="innerPagePara">
+                    <p>Apply Default Financial Plan</p>
+                </div>
+                <div class="col-md-12 row">
+                    <div class="col-md-9">
+                        <select class="col-md form-select valid" aria-label="Default select example" id="financialPlansSelect">
+                            @*<option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>*@
+                            @if (ViewBag.financialPlansData != null)
+                            {
+                                @foreach (var item in ViewBag.financialPlansData)
+                                {
+                                    <option value="@item.FinancialPlansId">@item.PlansName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="bg-green btn" id="applyfinancialplansdetails-@(Model.Management_Zone_Id)-@(Model.Year)-@(Model.ZydId)" onclick="btnapplyfinancialplansdetails(this)">Apply </button>
+                    </div>
+                </div>
+                <div class="bg-green d-grid mt-4 rounded-2">
+                    <a href="#" id="copyButton-@(Model.Management_Zone_Id)-@(Model.Year)-@(Model.ZydId)" onclick="alertcopysamefieldsFunction(this)" class="btn" role="button" data-bs-toggle="button">Copy to same crop in Same Field </a>
+                </div>
+                <span>
+                    * Copy values for current zone/year and apply to ALL zones with same crop
+                </span>
+                <div class="bg-green d-grid mt-4 rounded-2">
+                    <a href="#" id="copyButton-@(Model.Management_Zone_Id)-@(Model.Year)-@(Model.ZydId)" onclick="alertcopysameProducerfieldsFunction(this)" class="btn" role="button" data-bs-toggle="button">Copy to same crop in ALL Fields</a>
+                </div>
+                <span>
+                    * Copy values for current zone/year and apply to Same Producer All Fields with same crop
+                </span>
+            </div>
+        </div>
+    </div>
+
+}

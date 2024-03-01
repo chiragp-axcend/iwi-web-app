@@ -1,0 +1,34 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using InternationalWaterWebApp.Library.Common
+
+<p>Select Zone:</p>
+
+<table class="customtable dataTable mt-4 table table-borderless table-responsive table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Zone</th>
+        </tr>
+    </thead>
+    @if (ViewBag.myfielddetails_financial_tbl_data != null && ViewBag.myfielddetails_financial_tbl_data.Tables.Count > 0 && ViewBag.myfielddetails_financial_tbl_data.Tables[0].Rows.Count > 0)
+    {
+        @foreach (System.Data.DataRow Row in ViewBag.myfielddetails_financial_tbl_data.Tables[0].Rows)
+        {
+            <tr>
+                @* <td><a asp-controller="Common" asp-action="FinancialDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(ViewBag.FieldId))" asp-route-name="@ViewBag.FieldName">@Convert.ToString(Row["year_cropname"])</a></td> *@
+                <td><a href="javascript:;" class="financialDetailsEditcropname" onclick="FinancialDetailsEditcropnamePopUp(@Convert.ToString(Row["id"]),@Convert.ToString(Row["field_option_id"]))">@Convert.ToString(Row["year_cropname"]) </a></td>
+                <td>
+        @(
+        Row["zone_name"] == null || Row["zone_name"] == DBNull.Value ? "" : Convert.ToString(Row["zone_name"])
+        )
+        </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="11">Data not available</td>
+        </tr>
+    }
+</table>

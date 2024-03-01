@@ -1,0 +1,51 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using InternationalWaterWebApp.Library.Common
+
+@{
+    // Access the list of farms from ViewBag
+    List<Farm> farms = ViewBag.Farm;
+    EncryptDecryptData enc = new EncryptDecryptData();
+}
+
+<table class="customtable dataTable mt-4 table table-borderless table-responsive table-striped">
+    <thead>
+        <tr>
+            <td colspan="2"> @if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+                        {
+                            <div class="alert alert-success mt-3" role="alert">
+                                @TempData["Success"]
+                            </div>
+                        }</td>
+            </tr>
+        <tr>
+            <th>Action</th>
+            <th>Farm</th>
+        </tr>
+    </thead>
+    @if (farms != null)
+    {
+        @foreach (var farm in farms)
+        {
+                    <tr>
+                <td>
+                    <a onclick="editFarmName(@farm.FarmId)" id="editfarmbutton_@farm.FarmId">
+                                                               <i class="bi bi-pencil-square f-26"></i> </a>
+                    <button id="savefarmbutton_@farm.FarmId" class="btn bg-green" onclick="saveFarmName (@farm.FarmId)" style="display:none;">Save</button>
+                    <button id="cancelfarmbutton_@farm.FarmId" class="btn btn-outline-dark" onclick="cancelEdit(@farm.FarmId)" style="display:none;">Cancel</button>
+
+                                                               </td>
+                        <td>
+                    <span id="farmName_@farm.FarmId">@(Convert.ToString(farm.FarmName) ?? "")</span>
+                                     <input type="text" class = "form-control form-control-lg w-25" id="editFarmName_@farm.FarmId" style="display:none;" />
+                    <span id="errorEditFarmName_@farm.FarmId" class="error-message"></span>
+                        </td>
+                    </tr>
+        }
+    }
+    else
+    {
+            <tr>
+                <td colspan="11">Data not available</td>
+            </tr>
+    }
+</table>

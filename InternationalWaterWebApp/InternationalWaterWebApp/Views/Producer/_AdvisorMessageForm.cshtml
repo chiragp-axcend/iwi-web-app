@@ -1,0 +1,47 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using InternationalWaterWebApp.Library.Common
+
+@model Email
+@*
+<div class="container mt-5 form-box">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Send Message to your Advisor</h1>
+            <form>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject">
+                </div>
+                <div class="form-group mt-3 ">
+                    <label for="body">Body</label>
+                    <textarea class="form-control" id="textarea" rows="3" placeholder="Enter message to your advisor"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-5">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>*@
+@*<div class="card" style="background-color: #F2F2F2;">*@
+    @*<div class="card-body">*@
+        <div class="p-2">
+            <div class="row col-md-12">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        @*<input type="text" class="form-control" id="Subject">*@
+                        @Html.TextBoxFor(x => x.Subject, new { @id = "Subject", @class = "form-control disabler validator", placeholder = "Subject" })
+                    </div>
+                    <div class="form-group mt-3 ">
+                        <label for="body">Body</label>
+                        @*<textarea class="form-control" id="Body" rows="3" placeholder="Enter message to your advisor"></textarea>*@
+                        @Html.TextAreaFor(x => x.Body, new { @id = "Body", @class = "form-control disabler validator", placeholder = "Enter message to your advisor" })
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                </div>
+            </div>
+
+        </div>
+    @*</div>*@
+@*</div>*@
+

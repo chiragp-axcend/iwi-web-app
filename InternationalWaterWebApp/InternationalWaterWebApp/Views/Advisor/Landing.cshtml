@@ -1,0 +1,161 @@
+﻿@using InternationalWaterWebApp.Library.Common;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewData["Title"] = "Landing Page";
+    EncryptDecryptData enc = new EncryptDecryptData();
+    string userName = HttpContextAccessor.HttpContext.Session.GetString("FirstName");
+}
+
+@if (!string.IsNullOrWhiteSpace(Convert.ToString(TempData["Success"])))
+{
+    <div class="alert alert-success mt-3" role="alert">
+        @TempData["Success"]
+    </div>
+}
+
+<section class="GreyBG rounded-3 py-3">
+    <div class="container-fluid">
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="bg-white br-10 FarmFiled">
+                    <div id="TabBar">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-Producers-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-Producers" type="button" role="tab" aria-controls="pills-Producers"
+                                        aria-selected="true">
+                                    Producers
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-MyFields-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                                        aria-selected="false">
+                                    Fields
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active p-4" id="pills-Producers" role="tabpanel"
+                                 aria-labelledby="pills-Producers-tab">
+                                 <a id="btn_table_opt" class="bg-green btn ms-3" asp-controller="Common" asp-action="ProducersAddEdit" asp-route-id="0">Add Producer</a>
+                                @if (ViewBag.Producer != null && ViewBag.Producer.Tables.Count > 0 && ViewBag.Producer.Tables[0].Rows != null)
+                                {
+                                    <table class="table table-striped table-responsive table-borderless" id="AdvisorLandingProducer">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Field</th>
+                                                @*<th>Zones</th>*@
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (System.Data.DataRow Row in ViewBag.Producer.Tables[0].Rows)
+                                            {
+                                                <tr>
+                                                    @*<td>@Convert.ToString(Row["first_name"]) @Convert.ToString(Row["last_name"])</td>*@
+                                                    <td> <a asp-controller="Advisor" asp-action="Landing" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["producer_id"]))">@Convert.ToString(Row["first_name"]) @Convert.ToString(Row["last_name"])</a></td>
+                                                  
+                                                    <td>@Convert.ToString(Row["num_fields"])</td>
+                                                    @*<td>@Convert.ToString(Row["farm_name"])</td>*@
+                                                    @*<td>@Convert.ToString(Row["Zone_count"])</td>*@
+                                                    <td>@Convert.ToString(Row["email"])</td>
+                                                    <td>@Convert.ToString(Row["phone_number"])</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div>@CommonMethods.GetEnumDescription(InternationalWaterWebApp.Library.ViewModel.ValidationMessages.NoDataFound)</div>
+                                }
+                            </div>
+                            <div class="tab-pane fade p-4" id="pills-profile" role="tabpanel"
+                                 aria-labelledby="pills-MyFields-tab">
+                                @if (ViewBag.Field != null && ViewBag.Field.Tables.Count > 0 && ViewBag.Field.Tables[0].Rows.Count > 0)
+                                {
+                                    <table class="table table-striped table-responsive table-borderless" id="AdvisorLandingFields">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Farm</th>
+                                                <th>Zones</th>
+                                                <th>Producer</th>
+                                                <th>Plans</th>
+                                                <th>Address</th>
+                                                <th>City</th>
+                                                <th>State</th>
+                                                <th>Advisor Plans</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (System.Data.DataRow Row in ViewBag.Field.Tables[0].Rows)
+                                            {
+                                                <tr>
+                                                    <td>@Convert.ToString(Row["field_id"])</td>
+                                                    <td><a asp-controller="Common" asp-action="MyFieldEdit" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["field_id"]))">@Convert.ToString(Row["Field_Name"])</a></td>
+                                                    <td>@Convert.ToString(Row["farm_name"])</td>
+                                                    <td>@Convert.ToString(Row["Zone_count"])</td>
+                                                    <td>@Convert.ToString(Row["Prod_FName"]) @Convert.ToString(Row["Prod_LName"])</td>
+                                                    <td>@Convert.ToString(Row["Plans"])</td>
+                                                    <td>@Convert.ToString(Row["street_address"])</td>
+                                                    <td>@Convert.ToString(Row["city"])</td>
+                                                    <td>@Convert.ToString(Row["state_name"])</td>
+                                                    <td><a asp-controller="Common" asp-action="MyFieldsDetails" asp-route-id="@enc.Encryptdata(Convert.ToString(Row["field_id"]))" asp-route-name="@Row["Field_Name"]">View</a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div>@CommonMethods.GetEnumDescription(InternationalWaterWebApp.Library.ViewModel.ValidationMessages.NoDataFound)</div>
+                                }
+                        </div>
+                    </div>
+                </div>
+            </div>
+           @* <div class="col-lg-4 col-12">
+                <div class="br-10 bg-white p-3 mb-3">
+                    <div class="MessAdvisr">
+                        <div class="Heading">
+                            <h4>My Info</h4>
+                        </div>
+                        <a href="javascript:;" class="MessAdvisrDetail mb-2">
+                            <i class="bi bi-person"></i>
+                            <span>@userName</span>
+                        </a>
+                        <a href="javascript:;" class="MessAdvisrDetail mb-2">
+                            <i class="bi bi-at"></i>
+                            <span>mymail@gmail.com</span>
+                        </a>
+                        <a href="javascript:;" class="MessAdvisrDetail mb-4">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span> (1) 234 567 8900 </span>
+                        </a>*@
+                       @* <div class="d-grid bg-green advsrBTN">
+                            <a href="#" class="btn" role="button" data-bs-toggle="button">Toggle link</a>
+                        </div>*@
+                    @*</div>
+                </div>
+        </div>*@
+        </div>
+    </div>
+    </div>
+</section>
+
+<script>
+    window.onload = function () {
+      
+        if ('@ViewBag.fieldtab' == 1) { // Check the value of the ViewBag field correctly
+            var btn = document.getElementById("pills-MyFields-tab");
+            if (btn) {
+                btn.click();
+            }
+        }
+    };
+</script>

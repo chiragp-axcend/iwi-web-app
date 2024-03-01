@@ -1,0 +1,265 @@
+﻿@using InternationalWaterWebApp.Library.ViewModel
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    int userRole = Convert.ToInt32(HttpContextAccessor.HttpContext.Session.GetString("UserRole"));
+    string userName = HttpContextAccessor.HttpContext.Session.GetString("FirstName");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon.png" />
+    <title>@ViewData["Title"] - International Water</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/InternationalWaterWebApp.styles.css" asp-append-version="true" />
+    @*<link href="~/js/datatable/jquery.datatables.min.css" rel="stylesheet" />*@
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <link href="~/lib/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;700&family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+    @* Common loader... start *@
+     <div id="loading">
+            <div id="loadingcontent">
+                <p id="loadingspinner">
+                    Please wait, Loading Contents...
+                </p>
+            </div>
+        </div>
+    @* Common loader... end *@
+    <section class="mainMargin">
+        <section class="top-Header bg-green rounded-3 mb-2">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+                    @if (userRole == (int)UserTypeEnum.Admin)
+                    {
+                        <a class="HeaderLogo navbar-brand" asp-area="" asp-controller="Admin" asp-action="Landing">
+                            <img src="~/images/header_logo.png" alt="logo">
+                        </a>
+                    }
+                    else if (userRole == (int)UserTypeEnum.Agronomist)
+                    {
+                        <a class="HeaderLogo navbar-brand" asp-area="" asp-controller="Advisor" asp-action="Landing">
+                            <img src="~/images/header_logo.png" alt="logo">
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="HeaderLogo navbar-brand" asp-area="" asp-controller="Producer" asp-action="Landing">
+                            <img src="~/images/header_logo.png" alt="logo">
+                        </a>
+                    }
+                    <button class="navbar-toggler ms-auto p-sm-2 collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-animation">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarColor01" style="z-index: 1;">
+                        <ul class="navbar-nav HeaderMenu ms-5 navbar-nav-scroll">
+                            @if (userRole == (int)UserTypeEnum.Agronomist)
+                            {
+                                <li class="nav-item MenuIconTxt">
+                                    <a class="nav-link active" asp-area="" asp-controller="Advisor" asp-action="Landing" id=nav_producer>
+                                        <img class="LitGreen" src="~/images/farm-house.png" alt="">
+                                        <img class="White" src="~/images/farm-house-white.png" alt=""><span>Producers</span>
+                                    </a>
+                                </li>
+                            }
+                            @if (userRole == (int)UserTypeEnum.Admin)
+                            {
+                                <li class="nav-item MenuIconTxt">
+                                    <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="MyFields" id=nav_field>
+                                        <img class="LitGreen" src="~/images/farm-house.png" alt="">
+                                        <img class="White" src="~/images/farm-house-white.png" alt=""><span>Fields</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (userRole == (int)UserTypeEnum.Producer)
+                            {
+                                 <li class="nav-item MenuIconTxt">
+                                    <a class="nav-link" asp-area="" asp-controller="Producer" asp-action="MyFarms">
+                                        <img class="LitGreen" src="~/images/map.png" alt="">
+                                        <img class="White" src="~/images/map-white.png" alt=""><span>My Farms</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item MenuIconTxt">
+                                    <a class="nav-link" asp-area="" asp-controller="Producer" asp-action="MyFields">
+                                        <img class="LitGreen" src="~/images/map.png" alt="">
+                                        <img class="White" src="~/images/map-white.png" alt=""><span>My Fields</span>
+                                    </a>
+                                </li>
+                            }
+                            else if (userRole == (int)UserTypeEnum.Agronomist)
+                            {
+                                <li class="nav-item MenuIconTxt">
+                                    <a class="nav-link" asp-area="" asp-controller="Advisor" asp-action="Landing" asp-route-field="1" id=nav_field>
+                                        <img class="LitGreen" src="~/images/map.png" alt="">
+                                        <img class="White" src="~/images/map-white.png" alt=""><span>Fields</span>
+                                    </a>
+                                </li>
+                            }
+                            @*@if (userRole == (int)UserTypeEnum.Agronomist || userRole == (int)UserTypeEnum.Producer)*@
+                            @if (userRole == (int)UserTypeEnum.Agronomist)
+                            {
+                                <li class="nav-item MenuIconTxt">
+                                    <a class="nav-link" asp-area="" asp-controller="Common" asp-action="AdvisorPlans">
+                                        <img class="LitGreen" src="~/images/shuttle.png" alt="">
+                                        <img class="White" src="~/images/shuttle-white.png" alt=""><span>Advisor Plans</span>
+                                    </a>
+                                </li>
+                            }
+                            @*<li class="nav-item MenuIconTxt">
+                                <a class="nav-link" asp-area="" asp-controller="Common" asp-action="ChangePassword">
+                                    <img class="LitGreen" src="~/images/shuttle.png" alt="">
+                                    <img class="White" src="~/images/shuttle-white.png" alt=""><span>Change Password</span>
+                                </a>
+                            </li>*@
+                            @*  <li class="nav-item MenuIconTxt">
+                            <a class="nav-link" asp-area="" asp-controller="Common" asp-action="ChangePassword">
+                            <img class="LitGreen" src="~/images/process.png" alt="">
+                            <img class="White" src="~/images/process-white.png" alt=""><span>Change Password</span>
+                            </a>
+                            </li>*@
+                            @*<li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Common" asp-action="Resources">Resources</a>
+                            </li>*@
+                            <li class="nav-item MenuIconTxt">
+                                <a class="nav-link" asp-area="" asp-controller="Common" asp-action="Resources">
+                                    <img class="LitGreen" src="~/images/process.png" alt="">
+                                    <img class="White" src="~/images/process-white.png" alt=""><span>Resources</span>
+                                </a>
+                            </li>
+                            @if (userRole == (int)UserTypeEnum.Admin)
+                            {
+                                <li class="nav-item MenuIconTxt">
+                                    <div class="nav-item dropdown dropdown-hover position-static">
+                                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                                            <img class="LitGreen" src="~/images/map.png" alt="">
+                                            <img class="White" src="~/images/map-white.png" alt=""><span>Administration</span>
+                                        </a>
+                                        <!-- Dropdown menu -->
+                                        <div class="dropdown-menu w-40 mt-0" aria-labelledby="navbarDropdown">
+                                            <div class="container">
+                                                <div class="mega-menu row">
+                                                    <div class="col-md-4">
+                                                        <h5>Manage</h5>
+                                                        <p><span><a asp-area="" asp-controller="Common" asp-action="Advisors">Advisors</a></span></p>
+                                                        <p><span><a asp-area="" asp-controller="Common" asp-action="Producers">Producers</a></span></p>
+                                                        <p><span> <a asp-area="" asp-controller="Admin" asp-action="MyFields">Fields</a></span></p>
+                                                        @*<p><span><a asp-area="" asp-controller="Common" asp-action="Resources">Resources</a></span></p>*@
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <h5>Stewardship Ratings</h5>
+                                                        <p><span><a asp-area="" asp-controller="Admin" asp-action="ManageFieldLocationData">Manage Field Location Data</a></span></p>
+                                                        <p><span><a asp-area="" asp-controller="Admin" asp-action="ExportFieldData">Export Field Data</a></span></p>
+                                                        <p><span><a asp-area="" asp-controller="Admin" asp-action="UploadRusle2Data">Process RUSLE 2.0 Data</a></span></p>
+                                                        <p><span><a asp-area="" asp-controller="Admin" asp-action="CalculateFSRData">Calculate FSR Data</a></span></p>
+                                                        @*<p><span> <a asp-area="" asp-controller="" asp-action="">Input & Publish FSR's</a></span></p>*@
+                                                    </div>
+                                                    @*<div style="width: 30%;">
+                                                        <h5>Economics</h5>
+                                                        <p><span> <a asp-area="" asp-controller="" asp-action="">?</a></span></p>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="UserId ms-xl-auto">
+                        @*<img src="~/images/Oval.png" alt="">*@
+                        <div class="UsrNme">
+                            <span> @userName</span>
+                            
+                           @* <a asp-area="" asp-controller="WebApp" asp-action="Logout" class="ms-3">
+                                <span class="LogOt">Logout</span>
+                            </a>*@
+                        </div>
+                        <div class="custom-dropdown">
+                            <i class="bi bi-gear"></i>
+                            <!-- Dropdown menu -->
+                            <div class="dropdown-menu">
+                                <a class="" asp-area="" asp-controller="Common" asp-action="ChangePassword" style="color: #237842; padding: 7px;">Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="" asp-area="" asp-controller="WebApp" asp-action="Logout" class="ms-3" style="color: #237842; padding: 7px;">Logout</a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </section>
+        @Html.Partial("_CustomModalPopups")
+        @RenderBody()
+    </section>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>*@
+    <script src="~/js/inputmask.js"></script>
+    <script src="~/lib/jquery/dist/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* sweet alert *@
+    @* <script src="~/js/sweetalert.js"></script> *@
+    @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> *@
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/adminCustom.js" asp-append-version="true"></script>
+    <script src="~/js/ProducerCustom.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/chart/chart.plotly.js"></script>
+    @*<script src="~/js/datatable/jquery.datatables.min.js"></script>*@
+    <script src="~/js/chart/custom.chart.plotly.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="~/lib/datatables/datatables.js"></script>
+    <script src="~/lib/datatables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    @*<script src="~/lib/multicheck/datatable-checkbox-init.js"></script>*@
+
+    @*table to excel convert*@
+    <script src="~/js/table2excel.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#outer-tabs").tabs();
+            $(".innertabs").tabs();
+            $("#zone-tabs").tabs();
+        });
+
+        $(document).ready(function () {
+            $('.toggle-btn').click(function () {
+                $(this).siblings('.tab-content').toggle();
+            });
+            $('.toggle-btn-directexpenses').click(function () {
+                $(this).siblings('.tab-content-directexpenses').toggle();
+            });
+            $('.toggle-btn-overheadexpenses').click(function () {
+                $(this).siblings('.tab-content-overheadexpenses').toggle();
+            });
+            $('.toggle-btn-financing').click(function () {
+                $(this).siblings('.tab-content-financing').toggle();
+            });
+            $('.toggle-btn-zone').click(function () {
+                $(this).siblings('.tab-content-zone').toggle();
+            });
+        });
+
+        function resetForm(form) {
+            console.log("Clear form")
+            form.reset();
+        }
+    </script>
+</body>
+</html>
